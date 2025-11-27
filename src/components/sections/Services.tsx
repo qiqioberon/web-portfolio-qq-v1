@@ -1,5 +1,6 @@
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { useEffect, useRef } from 'react';
 import { Palette, Code, Layout, Sparkles } from 'lucide-react';
+import { gsap, ScrollTrigger } from '@/hooks/useGSAP';
 
 const services = [
   {
@@ -25,17 +26,75 @@ const services = [
 ];
 
 const ServiceCard = ({ service, index }: { service: typeof services[0]; index: number }) => {
-  const { ref, isVisible } = useScrollAnimation<HTMLDivElement>({ threshold: 0.2 });
+  const cardRef = useRef<HTMLDivElement>(null);
   const Icon = service.icon;
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardRef.current,
+        { 
+          opacity: 0, 
+          y: 60,
+          rotateX: -15
+        },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 1,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Icon animation on hover
+      const card = cardRef.current;
+      const icon = card?.querySelector('.service-icon');
+      
+      if (card && icon) {
+        card.addEventListener('mouseenter', () => {
+          gsap.to(icon, {
+            scale: 1.1,
+            rotate: 5,
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+          gsap.to(card, {
+            borderColor: 'hsl(var(--primary) / 0.3)',
+            duration: 0.3
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(icon, {
+            scale: 1,
+            rotate: 0,
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+          gsap.to(card, {
+            borderColor: 'hsl(var(--border))',
+            duration: 0.3
+          });
+        });
+      }
+    }, cardRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div
-      ref={ref}
-      className={`group p-8 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-500
-        ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
-      style={{ animationDelay: `${index * 100}ms` }}
+      ref={cardRef}
+      className="group p-8 rounded-2xl bg-card border border-border transition-all duration-500"
+      style={{ opacity: 0, perspective: '1000px' }}
     >
-      <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+      <div className="service-icon w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6">
         <Icon className="w-7 h-7 text-primary" />
       </div>
       <h3 className="text-2xl font-bold mb-4">{service.title}</h3>
@@ -45,23 +104,56 @@ const ServiceCard = ({ service, index }: { service: typeof services[0]; index: n
 };
 
 const Services = () => {
-  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation<HTMLDivElement>();
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      tl.fromTo(
+        labelRef.current,
+        { opacity: 0, x: -30 },
+        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }
+      )
+      .fromTo(
+        titleRef.current,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
+        '-=0.4'
+      )
+      .fromTo(
+        descRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        '-=0.6'
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="services" className="py-32 px-6 bg-secondary/30">
+    <section ref={sectionRef} id="services" className="py-32 px-6 bg-secondary/30">
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
-        <div 
-          ref={headerRef}
-          className={`mb-16 ${headerVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
-        >
-          <span className="text-primary text-sm font-medium tracking-wider uppercase mb-4 block">
+        <div ref={headerRef} className="mb-16">
+          <span ref={labelRef} className="text-primary text-sm font-mono tracking-wider uppercase mb-4 block opacity-0">
             What I Do
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
+          <h2 ref={titleRef} className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 opacity-0">
             Services
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl">
+          <p ref={descRef} className="text-muted-foreground text-lg max-w-2xl opacity-0">
             I help brands and startups create digital experiences that stand out and drive results.
           </p>
         </div>

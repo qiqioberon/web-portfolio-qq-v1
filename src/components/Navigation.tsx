@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { gsap } from '@/hooks/useGSAP';
 
 const navLinks = [
   { name: 'Works', href: '#works' },
@@ -13,35 +14,93 @@ const navLinks = [
 const Navigation = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const logoRef = useRef<HTMLAnchorElement>(null);
+  const linksRef = useRef<HTMLElement>(null);
+  const ctaRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    // Entrance animation
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.5 });
+
+      tl.fromTo(
+        logoRef.current,
+        { opacity: 0, x: -20 },
+        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }
+      )
+      .fromTo(
+        linksRef.current?.children || [],
+        { opacity: 0, y: -20 },
+        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
+        '-=0.4'
+      )
+      .fromTo(
+        ctaRef.current,
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
+        '-=0.3'
+      );
+    }, navRef);
+
+    // Scroll handler
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      ctx.revert();
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
+
+  // Magnetic effect on links
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const link = e.currentTarget;
+    const rect = link.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+
+    gsap.to(link, {
+      x: x * 0.3,
+      y: y * 0.3,
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    gsap.to(e.currentTarget, {
+      x: 0,
+      y: 0,
+      duration: 0.3,
+      ease: 'power2.out'
+    });
+  };
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      ref={navRef}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled ? 'bg-background/80 backdrop-blur-lg border-b border-border' : ''
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a href="#" className="text-2xl font-black">
+        <a ref={logoRef} href="#" className="text-2xl font-black opacity-0">
           Aqil<span className="text-primary">.</span>
         </a>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav ref={linksRef} className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors opacity-0"
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
             >
               {link.name}
             </a>
@@ -49,7 +108,7 @@ const Navigation = () => {
         </nav>
 
         {/* CTA Button */}
-        <Button className="hidden md:inline-flex glow-sm" size="sm">
+        <Button ref={ctaRef} className="hidden md:inline-flex glow-sm opacity-0" size="sm">
           Let's Talk
         </Button>
 

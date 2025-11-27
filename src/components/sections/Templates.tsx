@@ -1,5 +1,6 @@
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
+import { useEffect, useRef } from 'react';
 import { ArrowUpRight, Layers } from 'lucide-react';
+import { gsap, ScrollTrigger } from '@/hooks/useGSAP';
 
 const templates = [
   {
@@ -29,22 +30,84 @@ const templates = [
 ];
 
 const TemplateCard = ({ template, index }: { template: typeof templates[0]; index: number }) => {
-  const { ref, isVisible } = useScrollAnimation<HTMLDivElement>({ threshold: 0.2 });
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        cardRef.current,
+        { 
+          opacity: 0, 
+          y: 80,
+          scale: 0.95
+        },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: cardRef.current,
+            start: 'top 90%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      // Hover animations
+      const card = cardRef.current;
+      const arrow = card?.querySelector('.arrow-icon');
+
+      if (card && arrow) {
+        card.addEventListener('mouseenter', () => {
+          gsap.to(card, {
+            y: -8,
+            borderColor: 'hsl(var(--primary) / 0.3)',
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+          gsap.to(arrow, {
+            x: 4,
+            y: -4,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          gsap.to(card, {
+            y: 0,
+            borderColor: 'hsl(var(--border))',
+            duration: 0.4,
+            ease: 'power2.out'
+          });
+          gsap.to(arrow, {
+            x: 0,
+            y: 0,
+            duration: 0.3,
+            ease: 'power2.out'
+          });
+        });
+      }
+    }, cardRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
     <div
-      ref={ref}
-      className={`group relative p-6 rounded-2xl bg-card border border-border hover:border-primary/30 transition-all duration-500 cursor-pointer card-hover
-        ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
-      style={{ animationDelay: `${index * 100}ms` }}
+      ref={cardRef}
+      className="group relative p-6 rounded-2xl bg-card border border-border transition-all duration-500 cursor-pointer"
+      style={{ opacity: 0 }}
     >
       <div className="flex items-start justify-between mb-4">
         <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center">
           <Layers className="w-6 h-6 text-primary" />
         </div>
-        <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+        <ArrowUpRight className="arrow-icon w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
       </div>
-      <span className="text-xs text-primary font-medium uppercase tracking-wider">{template.type}</span>
+      <span className="text-xs text-primary font-mono uppercase tracking-wider">{template.type}</span>
       <h3 className="text-xl font-bold mt-2 mb-3 group-hover:text-primary transition-colors">
         {template.title}
       </h3>
@@ -54,23 +117,56 @@ const TemplateCard = ({ template, index }: { template: typeof templates[0]; inde
 };
 
 const Templates = () => {
-  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation<HTMLDivElement>();
+  const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const labelRef = useRef<HTMLSpanElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const descRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: headerRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      tl.fromTo(
+        labelRef.current,
+        { opacity: 0, x: -30 },
+        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }
+      )
+      .fromTo(
+        titleRef.current,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
+        '-=0.4'
+      )
+      .fromTo(
+        descRef.current,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' },
+        '-=0.6'
+      );
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <section id="templates" className="py-32 px-6 bg-secondary/30">
+    <section ref={sectionRef} id="templates" className="py-32 px-6 bg-secondary/30">
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
-        <div 
-          ref={headerRef}
-          className={`mb-16 ${headerVisible ? 'animate-fade-in-up' : 'opacity-0'}`}
-        >
-          <span className="text-primary text-sm font-medium tracking-wider uppercase mb-4 block">
+        <div ref={headerRef} className="mb-16">
+          <span ref={labelRef} className="text-primary text-sm font-mono tracking-wider uppercase mb-4 block opacity-0">
             Resources
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black mb-6">
+          <h2 ref={titleRef} className="text-4xl md:text-5xl lg:text-6xl font-black mb-6 opacity-0">
             Templates & Experiments
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl">
+          <p ref={descRef} className="text-muted-foreground text-lg max-w-2xl opacity-0">
             Side projects, templates, and UI experiments I've been working on.
           </p>
         </div>
