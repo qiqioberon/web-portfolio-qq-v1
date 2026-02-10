@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { gsap, ScrollTrigger } from '@/hooks/useGSAP';
+import { gsap } from '@/hooks/useGSAP';
 
 const Hero = () => {
   const sectionRef = useRef<HTMLElement>(null);
@@ -70,26 +70,28 @@ const Hero = () => {
 
       // Parallax on scroll
       gsap.to(headlineRef.current, {
-        y: 150,
+        y: 90,
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
           end: 'bottom top',
-          scrub: true
+          scrub: true,
+          invalidateOnRefresh: true
         }
       });
 
-      // Fade out on scroll
+      // Keep content visible longer and fade only when the section is near exit
       gsap.to([tagRef.current, subtitleRef.current, ctaRef.current], {
-        opacity: 0,
-        y: -50,
+        opacity: 0.35,
+        y: -20,
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: '20% top',
-          end: '50% top',
-          scrub: true
+          start: 'bottom 35%',
+          end: 'bottom top',
+          scrub: true,
+          invalidateOnRefresh: true
         }
       });
 

@@ -11,21 +11,27 @@ import { ScrollTrigger } from '@/hooks/useGSAP';
 
 const Index = () => {
   useEffect(() => {
-    // Refresh ScrollTrigger after page load
-    const timeout = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 100);
+    const refreshScrollTrigger = () => ScrollTrigger.refresh();
+    const timeout = window.setTimeout(refreshScrollTrigger, 100);
+    const raf = window.requestAnimationFrame(refreshScrollTrigger);
 
-    return () => clearTimeout(timeout);
+    document.fonts?.ready.then(refreshScrollTrigger);
+    window.addEventListener('load', refreshScrollTrigger);
+
+    return () => {
+      window.clearTimeout(timeout);
+      window.cancelAnimationFrame(raf);
+      window.removeEventListener('load', refreshScrollTrigger);
+    };
   }, []);
 
   return (
     <main className="min-h-screen bg-background">
       <Navigation />
       <Hero />
+      <About />
       <Works />
       <Services />
-      <About />
       <Templates />
       <Contact />
       <Footer />

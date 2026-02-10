@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Mail, ArrowUpRight, Twitter, Dribbble, Github, Linkedin } from 'lucide-react';
-import { gsap, ScrollTrigger } from '@/hooks/useGSAP';
+import { gsap } from '@/hooks/useGSAP';
 
 const socials = [
   { name: 'Twitter', icon: Twitter, href: '#' },
@@ -19,12 +19,15 @@ const Contact = () => {
   const socialsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const cleanup: Array<() => void> = [];
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: contentRef.current,
           start: 'top 75%',
-          toggleActions: 'play none none reverse'
+          toggleActions: 'play none none none',
+          once: true
         }
       });
 
@@ -61,25 +64,37 @@ const Contact = () => {
       // Email hover animation
       const email = emailRef.current;
       if (email) {
-        email.addEventListener('mouseenter', () => {
+        const handleMouseEnter = () => {
           gsap.to(email, {
             scale: 1.05,
             duration: 0.3,
             ease: 'power2.out'
           });
-        });
-        email.addEventListener('mouseleave', () => {
+        };
+
+        const handleMouseLeave = () => {
           gsap.to(email, {
             scale: 1,
             duration: 0.3,
             ease: 'power2.out'
           });
+        };
+
+        email.addEventListener('mouseenter', handleMouseEnter);
+        email.addEventListener('mouseleave', handleMouseLeave);
+
+        cleanup.push(() => {
+          email.removeEventListener('mouseenter', handleMouseEnter);
+          email.removeEventListener('mouseleave', handleMouseLeave);
         });
       }
 
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      cleanup.forEach((fn) => fn());
+      ctx.revert();
+    };
   }, []);
 
   return (

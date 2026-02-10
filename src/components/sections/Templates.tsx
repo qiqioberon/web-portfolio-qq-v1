@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { ArrowUpRight, Layers } from 'lucide-react';
-import { gsap, ScrollTrigger } from '@/hooks/useGSAP';
+import { gsap } from '@/hooks/useGSAP';
 
 const templates = [
   {
@@ -33,6 +33,8 @@ const TemplateCard = ({ template, index }: { template: typeof templates[0]; inde
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const cleanup: Array<() => void> = [];
+
     const ctx = gsap.context(() => {
       gsap.fromTo(
         cardRef.current,
@@ -46,11 +48,13 @@ const TemplateCard = ({ template, index }: { template: typeof templates[0]; inde
           y: 0,
           scale: 1,
           duration: 0.8,
+          delay: index * 0.05,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: cardRef.current,
             start: 'top 90%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none',
+            once: true
           }
         }
       );
@@ -60,7 +64,7 @@ const TemplateCard = ({ template, index }: { template: typeof templates[0]; inde
       const arrow = card?.querySelector('.arrow-icon');
 
       if (card && arrow) {
-        card.addEventListener('mouseenter', () => {
+        const handleMouseEnter = () => {
           gsap.to(card, {
             y: -8,
             borderColor: 'hsl(var(--primary) / 0.3)',
@@ -73,9 +77,9 @@ const TemplateCard = ({ template, index }: { template: typeof templates[0]; inde
             duration: 0.3,
             ease: 'power2.out'
           });
-        });
+        };
 
-        card.addEventListener('mouseleave', () => {
+        const handleMouseLeave = () => {
           gsap.to(card, {
             y: 0,
             borderColor: 'hsl(var(--border))',
@@ -88,12 +92,23 @@ const TemplateCard = ({ template, index }: { template: typeof templates[0]; inde
             duration: 0.3,
             ease: 'power2.out'
           });
+        };
+
+        card.addEventListener('mouseenter', handleMouseEnter);
+        card.addEventListener('mouseleave', handleMouseLeave);
+
+        cleanup.push(() => {
+          card.removeEventListener('mouseenter', handleMouseEnter);
+          card.removeEventListener('mouseleave', handleMouseLeave);
         });
       }
     }, cardRef);
 
-    return () => ctx.revert();
-  }, []);
+    return () => {
+      cleanup.forEach((fn) => fn());
+      ctx.revert();
+    };
+  }, [index]);
 
   return (
     <div
@@ -129,7 +144,8 @@ const Templates = () => {
         scrollTrigger: {
           trigger: headerRef.current,
           start: 'top 80%',
-          toggleActions: 'play none none reverse'
+          toggleActions: 'play none none none',
+          once: true
         }
       });
 

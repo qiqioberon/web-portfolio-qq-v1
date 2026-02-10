@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { gsap, ScrollTrigger } from '@/hooks/useGSAP';
+import { gsap } from '@/hooks/useGSAP';
 
 interface Project {
   id: number;
@@ -52,6 +52,8 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const cleanup: Array<() => void> = [];
+
     const ctx = gsap.context(() => {
       // Card entrance animation
       gsap.fromTo(
@@ -66,12 +68,14 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
           y: 0,
           scale: 1,
           duration: 1,
+          delay: index * 0.04,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: cardRef.current,
             start: 'top 85%',
             end: 'top 50%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none',
+            once: true
           }
         }
       );
@@ -79,7 +83,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       // Hover animation
       const card = cardRef.current;
       if (card) {
-        card.addEventListener('mouseenter', () => {
+        const handleMouseEnter = () => {
           gsap.to(card, {
             scale: 1.02,
             y: -10,
@@ -94,9 +98,9 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             color: 'hsl(var(--primary))',
             duration: 0.3
           });
-        });
+        };
 
-        card.addEventListener('mouseleave', () => {
+        const handleMouseLeave = () => {
           gsap.to(card, {
             scale: 1,
             y: 0,
@@ -111,12 +115,23 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
             color: 'hsl(var(--foreground))',
             duration: 0.3
           });
+        };
+
+        card.addEventListener('mouseenter', handleMouseEnter);
+        card.addEventListener('mouseleave', handleMouseLeave);
+
+        cleanup.push(() => {
+          card.removeEventListener('mouseenter', handleMouseEnter);
+          card.removeEventListener('mouseleave', handleMouseLeave);
         });
       }
     }, cardRef);
 
-    return () => ctx.revert();
-  }, []);
+    return () => {
+      cleanup.forEach((fn) => fn());
+      ctx.revert();
+    };
+  }, [index]);
 
   return (
     <div
@@ -179,7 +194,8 @@ const Works = () => {
           scrollTrigger: {
             trigger: headerRef.current,
             start: 'top 80%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none',
+            once: true
           }
         }
       );
@@ -201,7 +217,8 @@ const Works = () => {
           scrollTrigger: {
             trigger: headerRef.current,
             start: 'top 75%',
-            toggleActions: 'play none none reverse'
+            toggleActions: 'play none none none',
+            once: true
           }
         }
       );

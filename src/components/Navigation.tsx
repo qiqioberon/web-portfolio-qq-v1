@@ -29,18 +29,18 @@ const Navigation = () => {
         { opacity: 0, x: -20 },
         { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }
       )
-      .fromTo(
-        linksRef.current?.children || [],
-        { opacity: 0, y: -20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
-        '-=0.4'
-      )
-      .fromTo(
-        ctaRef.current,
-        { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
-        '-=0.3'
-      );
+        .fromTo(
+          linksRef.current?.children || [],
+          { opacity: 0, y: -20 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out', stagger: 0.1 },
+          '-=0.4'
+        )
+        .fromTo(
+          ctaRef.current,
+          { opacity: 0, scale: 0.9 },
+          { opacity: 1, scale: 1, duration: 0.6, ease: 'back.out(1.7)' },
+          '-=0.3'
+        );
     }, navRef);
 
     // Scroll handler
@@ -80,16 +80,15 @@ const Navigation = () => {
   };
 
   return (
-    <header 
+    <header
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled ? 'bg-background/80 backdrop-blur-lg border-b border-border' : ''
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'bg-background/80 backdrop-blur-lg border-b border-border' : ''
+        }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <a ref={logoRef} href="#" className="text-2xl font-black opacity-0">
-          Aqil<span className="text-primary">.</span>
+          <img src="/logo/dark.svg" alt="Qiqi's Logo" className="w-8 h-8 inline-block mr-2" />
         </a>
 
         {/* Desktop Navigation */}
