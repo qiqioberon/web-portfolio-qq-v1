@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { gsap } from '@/hooks/useGSAP';
 
 const navLinks = [
-  { name: 'Works', href: '#works' },
-  { name: 'Services', href: '#services' },
-  { name: 'About', href: '#about' },
-  { name: 'Templates', href: '#templates' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Works', href: '/#works' },
+  { name: 'Services', href: '/#services' },
+  { name: 'About', href: '/#about' },
+  { name: 'Templates', href: '/#templates' },
+  { name: 'Contact', href: '/#contact' },
 ];
 
 const Navigation = () => {
@@ -17,7 +17,7 @@ const Navigation = () => {
   const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const linksRef = useRef<HTMLElement>(null);
-  const ctaRef = useRef<HTMLButtonElement>(null);
+  const ctaRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
     // Entrance animation
@@ -87,7 +87,7 @@ const Navigation = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a ref={logoRef} href="#" className="text-2xl font-black opacity-0">
+        <a ref={logoRef} href="/" className="text-2xl font-black opacity-0">
           <img src="/logo/dark.svg" alt="Qiqi's Logo" className="w-8 h-8 inline-block mr-2" />
         </a>
 
@@ -107,9 +107,13 @@ const Navigation = () => {
         </nav>
 
         {/* CTA Button */}
-        <Button ref={ctaRef} className="hidden md:inline-flex glow-sm opacity-0" size="sm">
+        <a
+          ref={ctaRef}
+          href="/#contact"
+          className={buttonVariants({ size: 'sm', className: 'hidden md:inline-flex glow-sm opacity-0' })}
+        >
           Let's Talk
-        </Button>
+        </a>
 
         {/* Mobile Menu Button */}
         <button
@@ -135,9 +139,13 @@ const Navigation = () => {
                 {link.name}
               </a>
             ))}
-            <Button className="mt-4 glow-sm" size="sm">
+            <a
+              href="/#contact"
+              className={buttonVariants({ size: 'sm', className: 'mt-4 glow-sm' })}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
               Let's Talk
-            </Button>
+            </a>
           </nav>
         </div>
       )}
