@@ -43,12 +43,13 @@ const ArchitectureDiagram = ({ project }: { project: ProjectCaseStudy }) => (
     aria-labelledby="architecture-diagram-title"
   >
     <p id="architecture-diagram-title" className="sr-only">
-      Atomics Lite architecture: React and Vite connect to Supabase services, with Vercel Functions for privileged
-      operations.
+      {project.architecture.diagramDescription || `${project.title} architecture diagram.`}
     </p>
     <div className="grid gap-5 lg:grid-cols-[1fr_auto_1.5fr] lg:items-center">
       <div className="rounded-2xl border border-primary/30 bg-primary/10 p-5">
-        <p className="font-mono text-xs uppercase tracking-wider text-primary">Client</p>
+        <p className="font-mono text-xs uppercase tracking-wider text-primary">
+          {project.architecture.clientLabel || "Client"}
+        </p>
         <h3 className="mt-3 text-2xl font-black">{project.architecture.client.title}</h3>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">{project.architecture.client.description}</p>
       </div>
@@ -58,7 +59,9 @@ const ArchitectureDiagram = ({ project }: { project: ProjectCaseStudy }) => (
       <div className="grid gap-4 sm:grid-cols-2">
         {project.architecture.services.map((service) => (
           <article key={service.title} className="rounded-2xl border border-border bg-background/60 p-5">
-            <p className="font-mono text-xs uppercase tracking-wider text-primary">Supabase</p>
+            <p className="font-mono text-xs uppercase tracking-wider text-primary">
+              {project.architecture.serviceLabel || "Service"}
+            </p>
             <h3 className="mt-3 text-xl font-bold">{service.title}</h3>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.description}</p>
           </article>
@@ -68,7 +71,9 @@ const ArchitectureDiagram = ({ project }: { project: ProjectCaseStudy }) => (
 
     <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_auto_1.5fr] lg:items-center">
       <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/5 p-5">
-        <p className="font-mono text-xs uppercase tracking-wider text-primary">Privileged path</p>
+        <p className="font-mono text-xs uppercase tracking-wider text-primary">
+          {project.architecture.privilegedLabel || "Privileged path"}
+        </p>
         <h3 className="mt-3 text-xl font-bold">{project.architecture.privileged.title}</h3>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">{project.architecture.privileged.description}</p>
       </div>
@@ -76,7 +81,7 @@ const ArchitectureDiagram = ({ project }: { project: ProjectCaseStudy }) => (
       <div className="hidden h-px w-16 bg-gradient-to-r from-primary/20 via-primary to-primary/20 lg:block" />
 
       <div className="rounded-2xl border border-border bg-background/60 p-5">
-        <h3 className="text-xl font-bold">Managed backend boundary</h3>
+        <h3 className="text-xl font-bold">{project.architecture.boundaryTitle || "Backend boundary"}</h3>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">{project.architecture.intro}</p>
       </div>
     </div>
@@ -84,6 +89,11 @@ const ArchitectureDiagram = ({ project }: { project: ProjectCaseStudy }) => (
 );
 
 const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => {
+  const noticeClasses =
+    project.disclaimerVariant === "info"
+      ? "border-cyan-300/30 bg-cyan-300/10 text-cyan-50"
+      : "border-amber-300/30 bg-amber-300/10 text-amber-100";
+
   usePageMetadata({
     title: `${project.title} Case Study — Qiqi`,
     description: project.seoDescription,
@@ -162,7 +172,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
           <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.7fr_1.3fr]">
             <div>
               <SectionEyebrow>Overview</SectionEyebrow>
-              <SectionTitle>Prototype workflow, rebuilt for a public demo</SectionTitle>
+              <SectionTitle>{project.sectionTitles.overview}</SectionTitle>
             </div>
             <p className="text-lg leading-8 text-muted-foreground">{project.overview}</p>
           </div>
@@ -172,12 +182,12 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
           <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2">
             <article className="rounded-3xl border border-border bg-card p-8">
               <SectionEyebrow>Problem</SectionEyebrow>
-              <h2 className="mt-3 text-3xl font-black">Private infrastructure stopped being portable</h2>
+              <h2 className="mt-3 text-3xl font-black">{project.sectionTitles.problem}</h2>
               <p className="mt-5 leading-8 text-muted-foreground">{project.problem}</p>
             </article>
             <article className="rounded-3xl border border-primary/30 bg-primary/10 p-8">
               <SectionEyebrow>Solution</SectionEyebrow>
-              <h2 className="mt-3 text-3xl font-black">A managed stack with deterministic demo behavior</h2>
+              <h2 className="mt-3 text-3xl font-black">{project.sectionTitles.solution}</h2>
               <p className="mt-5 leading-8 text-muted-foreground">{project.solution}</p>
             </article>
           </div>
@@ -186,7 +196,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
         <section className="px-6 py-16">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Key Features</SectionEyebrow>
-            <SectionTitle>What the demo covers</SectionTitle>
+            <SectionTitle>{project.sectionTitles.features}</SectionTitle>
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {project.features.map((feature) => (
                 <article key={feature} className="rounded-2xl border border-border bg-card/70 p-5">
@@ -200,7 +210,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
         <section className="px-6 py-16">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Architecture</SectionEyebrow>
-            <SectionTitle>React/Vite frontend, Supabase backend, Vercel privileged boundary</SectionTitle>
+            <SectionTitle>{project.sectionTitles.architecture}</SectionTitle>
             <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">{project.architecture.intro}</p>
             <div className="mt-10">
               <ArchitectureDiagram project={project} />
@@ -221,7 +231,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
         <section className="px-6 py-16">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Gallery</SectionEyebrow>
-            <SectionTitle>Live demo screens</SectionTitle>
+            <SectionTitle>{project.sectionTitles.gallery}</SectionTitle>
             <div className="mt-10 grid gap-6 lg:grid-cols-3">
               {project.gallery.map((image) => (
                 <figure key={image.src} className="overflow-hidden rounded-3xl border border-border bg-card">
@@ -243,7 +253,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
           <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
             <article className="rounded-3xl border border-border bg-card p-8">
               <SectionEyebrow>Migration Challenges</SectionEyebrow>
-              <h2 className="mt-3 text-3xl font-black">What had to change</h2>
+              <h2 className="mt-3 text-3xl font-black">{project.sectionTitles.challenges}</h2>
               <ul className="mt-6 space-y-4 text-muted-foreground">
                 {project.challenges.map((challenge) => (
                   <li key={challenge} className="leading-7">
@@ -254,7 +264,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
             </article>
             <article className="rounded-3xl border border-border bg-card p-8">
               <SectionEyebrow>Lessons Learned</SectionEyebrow>
-              <h2 className="mt-3 text-3xl font-black">What this rebuild clarified</h2>
+              <h2 className="mt-3 text-3xl font-black">{project.sectionTitles.lessons}</h2>
               <ul className="mt-6 space-y-4 text-muted-foreground">
                 {project.lessons.map((lesson) => (
                   <li key={lesson} className="leading-7">
@@ -269,7 +279,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
         <section className="px-6 py-16">
           <div className="mx-auto max-w-7xl rounded-3xl border border-primary/30 bg-primary/10 p-8 md:p-10">
             <SectionEyebrow>Outcome</SectionEyebrow>
-            <h2 className="mt-3 text-3xl font-black">A deployable case study without medical claims</h2>
+            <h2 className="mt-3 text-3xl font-black">{project.sectionTitles.outcome}</h2>
             <ul className="mt-6 grid gap-4 text-muted-foreground md:grid-cols-3">
               {project.outcome.map((item) => (
                 <li key={item} className="leading-7">
@@ -277,8 +287,9 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
                 </li>
               ))}
             </ul>
-            <p className="mt-8 rounded-2xl border border-amber-300/30 bg-amber-300/10 p-5 text-sm leading-7 text-amber-100">
-              {project.disclaimer}
+            <p className={`mt-8 rounded-2xl border p-5 text-sm leading-7 ${noticeClasses}`}>
+              <span className="font-mono text-xs uppercase tracking-wider">{project.disclaimerLabel || "Notice"}</span>
+              <span className="mt-2 block">{project.disclaimer}</span>
             </p>
           </div>
         </section>
