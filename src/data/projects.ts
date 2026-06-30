@@ -45,7 +45,7 @@ export interface ProjectCaseStudy {
   cover: ProjectImage;
   gallery: ProjectImage[];
   liveUrl: string;
-  githubUrl: string;
+  githubUrl?: string;
   overview: string;
   problem: string;
   solution: string;
@@ -350,6 +350,152 @@ export const projects: ProjectCaseStudy[] = [
       "This portfolio demo uses synthetic mock data only. Login sessions, GIGS registrations, admin records, and short links are for demonstration purposes and do not create real ITS Expo accounts, event submissions, or production data.",
     seoDescription:
       "ITS Expo 2024 Frontend Demo is a Next.js, React, TypeScript, Tailwind CSS, and Vercel case study for a public event frontend with mocked backend flows.",
+  },
+  {
+    slug: "ling-chinese-lab",
+    title: "Ling Chinese Lab",
+    summary:
+      "A production profile and landing site for a Mandarin learning service, designed to present programs, mentor credibility, testimonials, and consultation paths through a warm responsive frontend.",
+    role: "Web Designer + Frontend",
+    year: "2026",
+    status: "Live Production Site",
+    tags: ["Vite", "React", "TypeScript", "Tailwind CSS", "shadcn/ui", "Vercel"],
+    cover: {
+      src: "/projects/ling-chinese-lab/home.webp",
+      alt: "Ling Chinese Lab homepage with panda brand illustration, Mandarin learning headline, and WhatsApp consultation CTA.",
+      width: 1440,
+      height: 1000,
+    },
+    gallery: [
+      {
+        src: "/projects/ling-chinese-lab/programs.webp",
+        alt: "Ling Chinese Lab program section comparing simplified and traditional Mandarin tracks with Basic, Medium, and Advance cards.",
+        width: 1440,
+        height: 1000,
+      },
+      {
+        src: "/projects/ling-chinese-lab/teachers.webp",
+        alt: "Ling Chinese Lab teacher preview section showing Laoshi profile cards and certification highlights.",
+        width: 1440,
+        height: 1000,
+      },
+      {
+        src: "/projects/ling-chinese-lab/about.webp",
+        alt: "Ling Chinese Lab about page explaining the learning approach and reasons to study Mandarin.",
+        width: 1440,
+        height: 1000,
+      },
+      {
+        src: "/projects/ling-chinese-lab/testimonials.webp",
+        alt: "Ling Chinese Lab testimonial carousel and footer with WhatsApp, Instagram, and TikTok contact paths.",
+        width: 1440,
+        height: 1000,
+      },
+    ],
+    liveUrl: "https://www.lingchineselab.com/",
+    overview:
+      "Ling Chinese Lab is a production profile website for a Mandarin learning service. The site introduces the brand, explains program levels, presents mentor credibility, shares public testimonials, and routes interested visitors toward WhatsApp and social channels for consultation.",
+    problem:
+      "The business needed a credible public web presence that could communicate its learning offer clearly without requiring a complex backend. The main challenge was combining a friendly education brand, mentor proof points, program details, testimonials, and conversion-focused contact paths into a responsive site that stays easy to maintain.",
+    solution:
+      "The site was built as a Vite and React single-page app with React Router pages, reusable landing sections, Tailwind CSS styling, shadcn/ui primitives, structured in-code content modules, and static media assets. Vercel hosts the production build on a custom domain, while WhatsApp, Instagram, and TikTok remain the external channels for consultation and follow-up.",
+    features: [
+      "Warm landing page with panda brand assets, bilingual visual cues, and clear consultation CTA.",
+      "Responsive layout for desktop and mobile visitors.",
+      "Program section covering Basic, Medium, and Advance learning paths.",
+      "Simplified and Traditional Mandarin comparison cards for visitor orientation.",
+      "Teacher preview and about-page mentor profiles with school and certification context.",
+      "Public testimonial carousel grouped by general, teacher-focused, and Taiwan-specialist feedback.",
+      "WhatsApp-first conversion flow for price, schedule, and program questions.",
+      "Instagram and TikTok links for social proof and ongoing content discovery.",
+      "Static content modules that keep program, teacher, testimonial, and statistic data maintainable without a backend.",
+    ],
+    architecture: {
+      intro:
+        "The production site is a static Vite build served by Vercel. React components and React Router handle the public pages, local TypeScript data modules provide structured content, static assets render the brand/media layer, and external social links handle consultation and community traffic.",
+      clientLabel: "Frontend",
+      serviceLabel: "Content & channels",
+      privilegedLabel: "Hosting boundary",
+      boundaryTitle: "Static production boundary",
+      diagramDescription:
+        "Ling Chinese Lab architecture: a Vite and React frontend uses local content modules and static assets, links out to WhatsApp and social channels, and is hosted on Vercel.",
+      client: {
+        title: "Vite + React SPA",
+        description:
+          "Renders the homepage, about page, responsive sections, program cards, teacher previews, testimonials, and CTA interactions.",
+      },
+      services: [
+        {
+          title: "React Router pages",
+          description: "Separates the landing page, about page, and fallback route inside the client app.",
+        },
+        {
+          title: "Local content modules",
+          description: "Stores programs, teachers, statistics, and testimonials as maintainable TypeScript data.",
+        },
+        {
+          title: "Static media assets",
+          description: "Serves panda illustrations, logos, school marks, teacher images, social icons, and short video assets.",
+        },
+        {
+          title: "WhatsApp + social links",
+          description: "Routes visitors to consultation and discovery channels without collecting form submissions in the site.",
+        },
+      ],
+      privileged: {
+        title: "Vercel custom-domain hosting",
+        description:
+          "Serves the static build and production domain without requiring a separate application backend.",
+      },
+    },
+    stack: [
+      "Vite",
+      "React",
+      "TypeScript",
+      "React Router",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Radix UI primitives",
+      "Lucide React",
+      "Vercel",
+      "Static content modules",
+      "Static media assets",
+    ],
+    challenges: [
+      "Balancing a playful education brand with a credible service profile that parents, students, and adult learners can understand quickly.",
+      "Keeping the landing page conversion-focused while still giving enough context about programs, mentors, and learning paths.",
+      "Managing many visual assets, certificates, teacher profiles, and social media elements without introducing backend complexity.",
+      "Making public sections responsive across mobile and desktop while preserving the soft visual identity of the brand.",
+      "Designing the site around external consultation channels instead of a custom form system, reducing operational overhead for the business.",
+    ],
+    outcome: [
+      "Ling Chinese Lab now has a live production website on its own domain for visitors to learn about the service and contact the team.",
+      "The site communicates the learning programs, mentor credibility, and consultation paths through a maintainable frontend codebase.",
+      "The implementation demonstrates how a service business can use a focused static frontend before investing in a more complex backend or CMS.",
+    ],
+    lessons: [
+      "For a service landing site, clarity of offer and contact path matters more than adding backend complexity early.",
+      "Structured local content can be enough for a production site when the update workflow is controlled and the content model is simple.",
+      "Brand-heavy pages need responsive testing around real assets, not placeholder blocks, because logos, illustrations, and cards define the layout.",
+      "External social and chat channels should be treated as part of the architecture when they own the real conversion flow.",
+    ],
+    sectionTitles: {
+      overview: "A production landing site for Mandarin learning",
+      problem: "Credibility and conversion without backend overhead",
+      solution: "A static React site with structured content and social CTAs",
+      features: "What the production site covers",
+      architecture: "Vite/React frontend, local content, and Vercel hosting",
+      gallery: "Live production screens",
+      challenges: "What shaped the frontend implementation",
+      lessons: "What this build clarified",
+      outcome: "A focused production site for a service business",
+    },
+    disclaimerLabel: "Production site note",
+    disclaimerVariant: "info",
+    disclaimer:
+      "This case study describes the public frontend and conversion flow only. Consultation, scheduling, pricing, and follow-up happen through Ling Chinese Lab's external communication channels, not through a custom backend in this portfolio case study.",
+    seoDescription:
+      "Ling Chinese Lab is a Vite, React, TypeScript, Tailwind CSS, shadcn/ui, and Vercel case study for a production Mandarin learning service website.",
   },
 ];
 

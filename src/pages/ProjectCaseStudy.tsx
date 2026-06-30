@@ -139,17 +139,19 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
                       <ExternalLink className="h-4 w-4" aria-hidden="true" />
                     </a>
                   </Button>
-                  <Button asChild size="lg" variant="outline">
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Open GitHub repository for ${project.title} in a new tab`}
-                    >
-                      GitHub
-                      <Github className="h-4 w-4" aria-hidden="true" />
-                    </a>
-                  </Button>
+                  {project.githubUrl ? (
+                    <Button asChild size="lg" variant="outline">
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Open GitHub repository for ${project.title} in a new tab`}
+                      >
+                        GitHub
+                        <Github className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    </Button>
+                  ) : null}
                 </div>
               </div>
 
