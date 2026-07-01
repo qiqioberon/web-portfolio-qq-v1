@@ -76,6 +76,373 @@ export interface ProjectCaseStudy {
 
 export const projects: ProjectCaseStudy[] = [
   {
+    slug: "asteria-learn-hub",
+    title: "Asteria Learn Hub",
+    summary:
+      "A production learning ecosystem for Asteria Academy that combines a public education website, student authentication, and two browser-based Blockly workspaces: a software lab for interactive projects and a hardware lab for Arduino Uno and ESP32 programming.",
+    role: "Full-stack & Learning Platform Developer",
+    year: "2025–2026",
+    status: "Live Production Site",
+    tags: ["React", "TypeScript", "Blockly", "Web Serial", "Arduino", "ESP32", "EdTech"],
+    cover: {
+      src: "/projects/asteria-learn-hub/home.webp",
+      alt: "Asteria Academy homepage introducing coding, STEM, AI, and robotics programs for children.",
+      width: 1440,
+      height: 1000,
+    },
+    gallery: [
+      {
+        src: "/projects/asteria-learn-hub/home.webp",
+        alt: "Asteria Academy homepage with its education proposition, program actions, learner count, and event carousel.",
+        width: 1440,
+        height: 1000,
+        title: "Education platform landing page",
+        description:
+          "The homepage positions Asteria as a project-based learning platform for coding, STEM, AI, and robotics while giving parents, students, and partners clear entry points.",
+        features: [
+          "Program, free-learning, parent registration, collaboration, and Asteria Lab calls to action.",
+          "Responsive event carousel, learner proof points, partner visibility, and light/dark theme support.",
+          "Shared navigation and footer patterns across the public experience.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/about.webp",
+        alt: "Asteria Academy about page explaining the organization's vision, mission, values, and team background.",
+        width: 1440,
+        height: 1000,
+        title: "About, mission, and team",
+        description:
+          "The company profile translates Asteria's educational direction into a structured story covering its vision, mission, values, and multidisciplinary team.",
+        features: [
+          "Dedicated organization profile with consistent branded illustration and typography.",
+          "Team and institutional background presented for parent and partner trust.",
+          "Reusable marketing shell shared with the remaining public pages.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/programs.webp",
+        alt: "Asteria Academy program page presenting coding, artificial intelligence, robotics, and STEM learning tracks.",
+        width: 1440,
+        height: 1000,
+        title: "Programs and curriculum paths",
+        description:
+          "The program catalog makes the learning offer easier to compare across age groups and disciplines, connecting curriculum information to enrollment actions.",
+        features: [
+          "Coding, AI and machine learning, robotics, and STEM program coverage.",
+          "Age-appropriate curriculum positioning and parent-focused decision support.",
+          "Direct progression from program discovery into consultation or registration.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/resources.webp",
+        alt: "Asteria Academy resources page with educational materials and learning content.",
+        width: 1440,
+        height: 1000,
+        title: "Learning resources",
+        description:
+          "A dedicated resource area extends the platform beyond course promotion and gives families a place to discover educational material and supporting content.",
+        features: [
+          "Centralized learning-resource discovery.",
+          "Card-based content hierarchy designed for scanning and expansion.",
+          "Consistent pathways back to programs and the learning platform.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/shop.webp",
+        alt: "Asteria Academy shop showing STEM, robotics, electronics, and programmable learning kits.",
+        width: 1440,
+        height: 1000,
+        title: "STEM and robotics shop",
+        description:
+          "The shop connects curriculum with physical learning kits, presenting equipment for early STEM, electronics, robotics, programming, and maker activities.",
+        features: [
+          "Catalog presentation for grade-based STEM material and hardware kits.",
+          "Product imagery, category context, and purchase-oriented calls to action.",
+          "A unified brand experience between education services and physical products.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/collaboration.webp",
+        alt: "Asteria Academy collaboration page inviting schools, communities, and organizations to partner on education programs.",
+        width: 1440,
+        height: 1000,
+        title: "Partnership and collaboration",
+        description:
+          "A purpose-built collaboration page supports school partnerships, community programs, CSR initiatives, and other institutional opportunities.",
+        features: [
+          "Partner-oriented messaging separate from parent and student conversion flows.",
+          "Clear collaboration categories and contact actions.",
+          "Evidence-led presentation of Asteria's educational ecosystem.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/contact.webp",
+        alt: "Asteria Academy contact page with contact information and inquiry form.",
+        width: 1440,
+        height: 1000,
+        title: "Contact and consultation",
+        description:
+          "The contact experience gives parents and partners a direct route to ask questions, request consultation, or continue the enrollment conversation.",
+        features: [
+          "Structured inquiry form with accessible labels and clear completion actions.",
+          "Visible email, phone, and organization contact context.",
+          "Responsive layout aligned with the rest of the marketing site.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/login.webp",
+        alt: "Asteria Academy student sign-in page with email, password, and Google authentication options.",
+        width: 1440,
+        height: 1000,
+        title: "Student authentication",
+        description:
+          "The account gateway protects student workspaces while keeping email/password and Google sign-in inside the same branded experience.",
+        features: [
+          "Token-based account session integrated with the Asteria API.",
+          "Email/password and Google identity entry points.",
+          "Authenticated routing into the dashboard and Asteria Lab.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/register.webp",
+        alt: "Asteria Academy registration page for creating a student account.",
+        width: 1440,
+        height: 1000,
+        title: "Account registration",
+        description:
+          "New learners can create an account without leaving the platform, using a registration state that shares validation and visual language with sign-in.",
+        features: [
+          "Name, email, password, and confirmation workflow.",
+          "Client-side validation, feedback states, and API-backed registration.",
+          "Fast transition between registration and existing-account sign-in.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/scratch-software.webp",
+        alt: "Asteria Lab software workspace with Blockly categories, programming canvas, game canvas, generated code, logs, chat, sprites, and backgrounds.",
+        width: 1440,
+        height: 1000,
+        title: "Asteria Lab — software workspace",
+        description:
+          "The software mode turns Blockly programs into interactive browser projects. Learners combine visual blocks, sprites, backgrounds, runtime controls, generated JavaScript, logs, and an AI-assisted workspace in one interface.",
+        features: [
+          "Custom Motion, Looks, Sound, Events, Control, Sensing, Operators, Variables, and My Blocks toolboxes.",
+          "Sprite and background asset management with a live game canvas and synchronized runtime state.",
+          "Run/stop controls, generated JavaScript, console logs, AI chat surface, and portable .ap1 project files.",
+        ],
+      },
+      {
+        src: "/projects/asteria-learn-hub/scratch-hardware.webp",
+        alt: "Asteria IoT Lab hardware workspace with Arduino blocks, board controls, C++ code, serial monitor, compiler controls, and flashing logs.",
+        width: 1440,
+        height: 1000,
+        title: "Asteria IoT Lab — hardware workspace",
+        description:
+          "Hardware mode converts board-aware visual blocks into Arduino C++, sends the sketch to a compiler service, and flashes supported boards directly from a compatible browser through Web Serial.",
+        features: [
+          "Arduino Uno and ESP32 profiles with board-aware pins, options, and incompatible-block handling.",
+          "Pin, serial, sensor, data, control, operator, variable, list, and custom block categories.",
+          "Generated C++, Web Serial connection, remote compilation, AVR/ESP32 flashing, serial monitor, logs, and portable IoT project files.",
+        ],
+      },
+    ],
+    liveUrl: "https://www.asteriaacademy.id/",
+    githubUrl: "https://github.com/Asteria-Academy/asteria-learn-hub",
+    overview:
+      "Asteria Learn Hub is the digital product layer of Asteria Academy. The project brings public program discovery, organizational storytelling, learning resources, physical STEM products, partnership acquisition, student accounts, and hands-on programming into one React application. Its defining capability is Asteria Lab: a dual-mode Blockly environment where children can build software projects in the browser or generate, compile, and flash programs for Arduino Uno and ESP32 hardware.",
+    problem:
+      "Asteria needed more than a conventional education landing page. Parents and partners needed clear information and conversion paths, while students needed a safe, approachable bridge from visual programming concepts to real interactive software and physical electronics. Supporting both audiences in one product introduced different navigation, authentication, runtime, persistence, hardware compatibility, and deployment requirements.",
+    solution:
+      "I implemented a responsive React and TypeScript platform with reusable public-page components, account flows, and protected learning routes. The software editor extends Blockly with a sprite-oriented runtime, JavaScript generation, project import/export, asset management, logs, and multiple output panels. The hardware editor uses board profiles to generate Arduino C++, calls a dedicated compiler service, and uses Web Serial plus separate AVR and ESP32 flashers to program connected boards from the browser.",
+    features: [
+      "Responsive public website for programs, resources, shop, partnerships, contact, and organization information.",
+      "Student registration, email/password login, Google sign-in, token sessions, dashboard, and protected lab routes.",
+      "Dual Asteria Lab modes for browser software projects and Arduino/ESP32 hardware projects.",
+      "Custom Blockly categories, fields, generators, themes, board profiles, and context-aware toolbox behavior.",
+      "Sprite runtime with motion, looks, sound, events, sensing, clones, variables, custom blocks, and backgrounds.",
+      "Live canvas, generated JavaScript/C++, logs, serial monitor, and AI chat work surfaces.",
+      "Local workspace recovery plus typed .ap1 project export/import for software and IoT projects.",
+      "Authenticated asset library and uploads for sprites and project backgrounds.",
+      "Arduino Uno and ESP32 compilation with board options and incompatible-block safeguards.",
+      "Browser-to-device Web Serial connection, AVR flashing, ESP32 flashing, progress reporting, and cleanup.",
+      "Dark/light theming and responsive layouts across marketing and learning interfaces.",
+      "Production deployment on custom web, API, and compiler domains.",
+    ],
+    architecture: {
+      title: "Platform architecture",
+      intro:
+        "The browser application coordinates public content, authenticated account and asset APIs, client-side Blockly runtimes, and a separate compiler boundary. Hardware access stays permission-based in the browser through Web Serial.",
+      clientLabel: "Experience layer",
+      serviceLabel: "Platform capability",
+      privilegedLabel: "Device boundary",
+      boundaryTitle: "Service and hardware boundaries",
+      diagramDescription:
+        "Asteria Learn Hub architecture: the React client connects to account and asset APIs, Blockly software and IoT runtimes, an Arduino compiler, and permission-gated Web Serial devices.",
+      client: {
+        title: "React learning platform",
+        description:
+          "Vite, React Router, TypeScript, Tailwind CSS, shadcn/ui, TanStack Query, and Zustand power the public site, account flows, dashboard, and both lab modes.",
+      },
+      services: [
+        {
+          title: "Account API",
+          description:
+            "Registration, email and Google login, token validation, protected routing, and student identity are handled through the Asteria API.",
+        },
+        {
+          title: "Asset API",
+          description:
+            "Authenticated asset discovery and uploads provide reusable sprites and backgrounds for student projects.",
+        },
+        {
+          title: "Software runtime",
+          description:
+            "Blockly generates JavaScript that runs against a synchronized sprite, event, canvas, sound, and logging engine in the browser.",
+        },
+        {
+          title: "IoT generator",
+          description:
+            "Board-aware Blockly blocks generate Arduino C++ for Uno and ESP32 profiles with compatible pins and configuration options.",
+        },
+        {
+          title: "Compiler service",
+          description:
+            "A dedicated service invokes the Arduino toolchain and returns AVR or ESP32 firmware artifacts for browser-side flashing.",
+        },
+        {
+          title: "Project persistence",
+          description:
+            "Local recovery and versioned .ap1 exports preserve workspace blocks, sprites, assets, UI state, and board configuration.",
+        },
+      ],
+      privileged: {
+        title: "Web Serial and connected boards",
+        description:
+          "Explicit browser permission gates serial monitoring and firmware transfer to Arduino Uno or ESP32 devices; no device access occurs without user selection.",
+      },
+    },
+    additionalArchitectures: [
+      {
+        title: "Learning workspace pipeline",
+        intro:
+          "Both modes share the visual-programming interaction model while producing different targets: an in-browser JavaScript runtime for software and compiled firmware for physical boards.",
+        clientLabel: "Learner input",
+        serviceLabel: "Transformation",
+        privilegedLabel: "Output target",
+        boundaryTitle: "Two execution paths",
+        diagramDescription:
+          "Blockly blocks flow either to JavaScript and a browser canvas or to Arduino C++, remote compilation, and a serial-connected board.",
+        client: {
+          title: "Custom Blockly workspace",
+          description:
+            "Learners assemble typed, themed visual blocks using continuous toolboxes, custom fields, variables, procedures, and project-specific categories.",
+        },
+        services: [
+          {
+            title: "Software path",
+            description:
+              "Blocks generate JavaScript, synchronize sprite state, and execute inside the game canvas with code and log inspection.",
+          },
+          {
+            title: "Hardware path",
+            description:
+              "Blocks generate Arduino C++, validate board compatibility, and package board-specific compile options.",
+          },
+          {
+            title: "Authoring support",
+            description:
+              "Save/load, local recovery, assets, backgrounds, code previews, logs, and assistant surfaces support iterative learning.",
+          },
+          {
+            title: "Runtime feedback",
+            description:
+              "Canvas state, compiler output, flash progress, device status, and serial data make execution observable to the learner.",
+          },
+        ],
+        privileged: {
+          title: "Canvas or physical device",
+          description:
+            "Software projects run in the browser; hardware projects cross the permission boundary only when the learner connects and flashes a board.",
+        },
+      },
+    ],
+    stack: [
+      "React 18",
+      "TypeScript",
+      "Vite",
+      "React Router",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "TanStack Query",
+      "Zustand",
+      "Blockly",
+      "JavaScript Generator",
+      "Arduino C++",
+      "Web Serial API",
+      "esptool-js",
+      "Firebase Google Auth",
+      "Express",
+      "Arduino CLI",
+    ],
+    technologyGroups: [
+      {
+        title: "Web application",
+        description: "Public pages, account experience, dashboard, and protected learning routes.",
+        items: ["React 18", "TypeScript", "Vite", "React Router", "Tailwind CSS", "shadcn/ui", "Motion"],
+      },
+      {
+        title: "State, data, and identity",
+        description: "Server state, editor state, account sessions, and reusable learning assets.",
+        items: ["TanStack Query", "Zustand", "Axios", "Token Auth", "Firebase Google Auth", "Asteria API"],
+      },
+      {
+        title: "Visual programming",
+        description: "Custom blocks, fields, generators, toolboxes, themes, and project serialization.",
+        items: ["Blockly 12", "JavaScript Generator", "Custom Runtime", ".ap1 Projects", "AI SDK UI"],
+      },
+      {
+        title: "Hardware toolchain",
+        description: "Board-aware code generation, compilation, flashing, and serial communication.",
+        items: ["Arduino C++", "Arduino CLI", "Web Serial API", "esptool-js", "AVR Flasher", "Express"],
+      },
+    ],
+    challenges: [
+      "Keeping Blockly workspace serialization, Zustand sprite state, uploaded assets, generated code, and the live canvas synchronized without creating destructive update loops.",
+      "Designing one visual-programming product for two execution models: immediate JavaScript in the browser and asynchronous compile-and-flash workflows for physical boards.",
+      "Representing Uno and ESP32 pin capabilities, board options, and incompatible blocks clearly enough to prevent invalid programs before compilation.",
+      "Managing serial-port ownership, monitor disconnects, compiler errors, firmware formats, flash progress, and cleanup across browser and device boundaries.",
+      "Preserving a friendly child-oriented interface while exposing professional concepts such as generated code, logs, procedures, variables, sensors, and board configuration.",
+    ],
+    outcome: [
+      "A live custom-domain education platform that serves parents, students, schools, and collaboration partners in one coherent product.",
+      "A browser-based software lab where learners can build, run, inspect, save, and reopen sprite-driven Blockly projects.",
+      "A hardware lab that progresses from visual blocks to Arduino C++, remote compilation, Web Serial flashing, and live serial monitoring.",
+    ],
+    lessons: [
+      "Visual programming still requires strict domain modeling; custom blocks are most reliable when runtime, serialization, and generated-code contracts are designed together.",
+      "Hardware UX must make state explicit. Connection, compilation, flashing, monitoring, and recovery each need distinct feedback and guarded transitions.",
+      "Portable project files need version and project-type metadata so incompatible software and IoT workspaces fail safely instead of corrupting learner work.",
+      "The public education journey and the technical learning workspace can share one brand while keeping their information architecture and interaction density appropriately different.",
+    ],
+    sectionTitles: {
+      overview: "One platform from discovery to hands-on creation",
+      problem: "Bridging education marketing, software, and physical computing",
+      solution: "A dual-mode visual programming ecosystem",
+      features: "Public platform and Asteria Lab capabilities",
+      architecture: "Browser, service, runtime, and device boundaries",
+      gallery: "Public website and both Blockly workspaces",
+      challenges: "Building across browser and hardware constraints",
+      lessons: "What the platform clarified",
+      outcome: "A live end-to-end learning product",
+    },
+    disclaimerLabel: "Screenshot note",
+    disclaimerVariant: "info",
+    disclaimer:
+      "Public-page screenshots were captured from the live site at a consistent desktop viewport. The authenticated Software and Hardware Lab screenshots were rendered locally from the same Asteria Learn Hub source with a temporary preview identity, so no production account, learner data, or connected device was used.",
+    seoDescription:
+      "Case study of Asteria Learn Hub, a live React and Blockly education platform with public program pages, student accounts, a browser software lab, and Arduino Uno/ESP32 programming through Web Serial.",
+  },
+  {
     slug: "brp-marketplace",
     title: "BRP Marketplace",
     summary:
