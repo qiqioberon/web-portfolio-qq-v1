@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import Footer from "@/components/sections/Footer";
 import { Button } from "@/components/ui/button";
-import { getProjectBySlug, type ProjectCaseStudy } from "@/data/projects";
+import { getProjectBySlug, type ProjectArchitecture, type ProjectCaseStudy } from "@/data/projects";
 import { usePageMetadata } from "@/hooks/usePageMetadata";
 import NotFound from "./NotFound";
 
@@ -37,32 +37,41 @@ const ProjectHeader = () => (
   </header>
 );
 
-const ArchitectureDiagram = ({ project }: { project: ProjectCaseStudy }) => (
+const ArchitectureDiagram = ({
+  architecture,
+  projectTitle,
+  diagramIndex,
+}: {
+  architecture: ProjectArchitecture;
+  projectTitle: string;
+  diagramIndex: number;
+}) => (
   <div
     className="rounded-3xl border border-border bg-card/60 p-5 shadow-2xl shadow-primary/5 md:p-8"
-    aria-labelledby="architecture-diagram-title"
+    aria-labelledby={`architecture-diagram-title-${diagramIndex}`}
   >
-    <p id="architecture-diagram-title" className="sr-only">
-      {project.architecture.diagramDescription || `${project.title} architecture diagram.`}
+    {architecture.title ? <h3 className="mb-6 text-2xl font-black">{architecture.title}</h3> : null}
+    <p id={`architecture-diagram-title-${diagramIndex}`} className="sr-only">
+      {architecture.diagramDescription || `${projectTitle} architecture diagram.`}
     </p>
     <div className="grid gap-5 lg:grid-cols-[1fr_auto_1.5fr] lg:items-center">
       <div className="rounded-2xl border border-primary/30 bg-primary/10 p-5">
         <p className="font-mono text-xs uppercase tracking-wider text-primary">
-          {project.architecture.clientLabel || "Client"}
+          {architecture.clientLabel || "Client"}
         </p>
-        <h3 className="mt-3 text-2xl font-black">{project.architecture.client.title}</h3>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">{project.architecture.client.description}</p>
+        <h4 className="mt-3 text-2xl font-black">{architecture.client.title}</h4>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">{architecture.client.description}</p>
       </div>
 
       <div className="hidden h-px w-16 bg-gradient-to-r from-primary/20 via-primary to-primary/20 lg:block" />
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {project.architecture.services.map((service) => (
+        {architecture.services.map((service) => (
           <article key={service.title} className="rounded-2xl border border-border bg-background/60 p-5">
             <p className="font-mono text-xs uppercase tracking-wider text-primary">
-              {project.architecture.serviceLabel || "Service"}
+              {architecture.serviceLabel || "Service"}
             </p>
-            <h3 className="mt-3 text-xl font-bold">{service.title}</h3>
+            <h4 className="mt-3 text-xl font-bold">{service.title}</h4>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">{service.description}</p>
           </article>
         ))}
@@ -72,17 +81,17 @@ const ArchitectureDiagram = ({ project }: { project: ProjectCaseStudy }) => (
     <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_auto_1.5fr] lg:items-center">
       <div className="rounded-2xl border border-cyan-300/20 bg-cyan-300/5 p-5">
         <p className="font-mono text-xs uppercase tracking-wider text-primary">
-          {project.architecture.privilegedLabel || "Privileged path"}
+          {architecture.privilegedLabel || "Privileged path"}
         </p>
-        <h3 className="mt-3 text-xl font-bold">{project.architecture.privileged.title}</h3>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">{project.architecture.privileged.description}</p>
+        <h4 className="mt-3 text-xl font-bold">{architecture.privileged.title}</h4>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">{architecture.privileged.description}</p>
       </div>
 
       <div className="hidden h-px w-16 bg-gradient-to-r from-primary/20 via-primary to-primary/20 lg:block" />
 
       <div className="rounded-2xl border border-border bg-background/60 p-5">
-        <h3 className="text-xl font-bold">{project.architecture.boundaryTitle || "Backend boundary"}</h3>
-        <p className="mt-3 text-sm leading-6 text-muted-foreground">{project.architecture.intro}</p>
+        <h4 className="text-xl font-bold">{architecture.boundaryTitle || "Backend boundary"}</h4>
+        <p className="mt-3 text-sm leading-6 text-muted-foreground">{architecture.intro}</p>
       </div>
     </div>
   </div>
@@ -214,18 +223,51 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
             <SectionEyebrow>Architecture</SectionEyebrow>
             <SectionTitle>{project.sectionTitles.architecture}</SectionTitle>
             <p className="mt-5 max-w-3xl leading-8 text-muted-foreground">{project.architecture.intro}</p>
-            <div className="mt-10">
-              <ArchitectureDiagram project={project} />
+            <div className="mt-10 space-y-8">
+              {[project.architecture, ...(project.additionalArchitectures || [])].map((architecture, index) => (
+                <ArchitectureDiagram
+                  key={architecture.title || index}
+                  architecture={architecture}
+                  projectTitle={project.title}
+                  diagramIndex={index}
+                />
+              ))}
             </div>
             <div className="mt-10">
               <h3 className="text-2xl font-black">Tech stack</h3>
-              <ul className="mt-5 flex flex-wrap gap-2" aria-label="Technology stack">
-                {project.stack.map((item) => (
-                  <li key={item} className="rounded-full bg-secondary px-3 py-1.5 font-mono text-xs text-secondary-foreground">
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              {project.technologyGroups ? (
+                <div className="mt-6 grid gap-5 md:grid-cols-2">
+                  {project.technologyGroups.map((group) => (
+                    <article key={group.title} className="rounded-2xl border border-border bg-card/70 p-5">
+                      <h4 className="text-lg font-bold">{group.title}</h4>
+                      {group.description ? (
+                        <p className="mt-2 text-sm leading-6 text-muted-foreground">{group.description}</p>
+                      ) : null}
+                      <ul className="mt-4 flex flex-wrap gap-2" aria-label={`${group.title} technologies`}>
+                        {group.items.map((item) => (
+                          <li
+                            key={item}
+                            className="rounded-full bg-secondary px-3 py-1.5 font-mono text-xs text-secondary-foreground"
+                          >
+                            {item}
+                          </li>
+                        ))}
+                      </ul>
+                    </article>
+                  ))}
+                </div>
+              ) : (
+                <ul className="mt-5 flex flex-wrap gap-2" aria-label="Technology stack">
+                  {project.stack.map((item) => (
+                    <li
+                      key={item}
+                      className="rounded-full bg-secondary px-3 py-1.5 font-mono text-xs text-secondary-foreground"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </section>
@@ -234,20 +276,61 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Gallery</SectionEyebrow>
             <SectionTitle>{project.sectionTitles.gallery}</SectionTitle>
-            <div className="mt-10 grid gap-6 lg:grid-cols-3">
-              {project.gallery.map((image) => (
-                <figure key={image.src} className="overflow-hidden rounded-3xl border border-border bg-card">
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    width={image.width}
-                    height={image.height}
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
-                </figure>
-              ))}
-            </div>
+            {project.gallery.some((image) => image.title || image.description || image.features) ? (
+              <div className="mt-10 space-y-8">
+                {project.gallery.map((image, index) => (
+                  <figure
+                    key={image.src}
+                    className="grid overflow-hidden rounded-3xl border border-border bg-card lg:grid-cols-[1.45fr_0.85fr]"
+                  >
+                    <div className={index % 2 === 1 ? "lg:order-2" : undefined}>
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        width={image.width}
+                        height={image.height}
+                        loading="lazy"
+                        className="h-auto w-full border-b border-border object-cover lg:h-full lg:border-b-0 lg:object-contain"
+                      />
+                    </div>
+                    <figcaption className="flex flex-col justify-center p-6 md:p-8">
+                      <p className="font-mono text-xs uppercase tracking-wider text-primary">
+                        Screen {String(index + 1).padStart(2, "0")}
+                      </p>
+                      {image.title ? <h3 className="mt-3 text-2xl font-black">{image.title}</h3> : null}
+                      {image.description ? (
+                        <p className="mt-4 leading-7 text-muted-foreground">{image.description}</p>
+                      ) : null}
+                      {image.features?.length ? (
+                        <ul className="mt-5 space-y-3 text-sm text-muted-foreground">
+                          {image.features.map((feature) => (
+                            <li key={feature} className="flex gap-3 leading-6">
+                              <span className="mt-2 h-1.5 w-1.5 flex-none rounded-full bg-primary" aria-hidden="true" />
+                              <span>{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            ) : (
+              <div className="mt-10 grid gap-6 lg:grid-cols-3">
+                {project.gallery.map((image) => (
+                  <figure key={image.src} className="overflow-hidden rounded-3xl border border-border bg-card">
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                  </figure>
+                ))}
+              </div>
+            )}
           </div>
         </section>
 

@@ -3,6 +3,9 @@ export interface ProjectImage {
   alt: string;
   width: number;
   height: number;
+  title?: string;
+  description?: string;
+  features?: string[];
 }
 
 export interface ArchitectureNode {
@@ -11,6 +14,7 @@ export interface ArchitectureNode {
 }
 
 export interface ProjectArchitecture {
+  title?: string;
   intro: string;
   clientLabel?: string;
   serviceLabel?: string;
@@ -20,6 +24,12 @@ export interface ProjectArchitecture {
   client: ArchitectureNode;
   services: ArchitectureNode[];
   privileged: ArchitectureNode;
+}
+
+export interface TechnologyGroup {
+  title: string;
+  description?: string;
+  items: string[];
 }
 
 export interface ProjectSectionTitles {
@@ -51,7 +61,9 @@ export interface ProjectCaseStudy {
   solution: string;
   features: string[];
   architecture: ProjectArchitecture;
+  additionalArchitectures?: ProjectArchitecture[];
   stack: string[];
+  technologyGroups?: TechnologyGroup[];
   challenges: string[];
   outcome: string[];
   lessons: string[];
@@ -63,6 +75,443 @@ export interface ProjectCaseStudy {
 }
 
 export const projects: ProjectCaseStudy[] = [
+  {
+    slug: "brp-marketplace",
+    title: "BRP Marketplace",
+    summary:
+      "A full-stack commerce platform for PT. Bumi Rekayasa Persada, covering product discovery, checkout, payments, shipping, realtime support, inventory, orders, customers, reporting, and company operations. The public link is a frontend-only demo with synthetic mock data because the original server is currently offline.",
+    role: "Full-stack Developer",
+    year: "2025–2026",
+    status: "Live Frontend Demo",
+    tags: ["Next.js", "TypeScript", "Bun", "Hono", "PostgreSQL", "Realtime", "Full-stack"],
+    cover: {
+      src: "/projects/brp-marketplace/storefront-catalog.webp",
+      alt: "BRP Marketplace synthetic demo storefront showing catalog filters and product cards.",
+      width: 1440,
+      height: 1000,
+    },
+    gallery: [
+      {
+        src: "/projects/brp-marketplace/storefront-catalog.webp",
+        alt: "BRP Marketplace synthetic storefront catalog with search, product limit, advanced filters, and product cards.",
+        width: 1440,
+        height: 1000,
+        title: "Storefront and product catalog",
+        description:
+          "The customer storefront introduces the agricultural product line and turns the catalog into the main purchase entry point. The live demo returns deterministic products from a same-origin mock API.",
+        features: [
+          "Debounced product search, page-size control, pagination, and advanced filtering by type, packaging, and price.",
+          "Product cards surface category, variant pricing, imagery, and a direct path to product details.",
+          "Authenticated cart count and customer profile controls remain visible across the shopping flow.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/product-detail.webp",
+        alt: "BRP Marketplace synthetic product detail with image gallery, packaging variants, stock, price, and quantity controls.",
+        width: 1440,
+        height: 1000,
+        title: "Product detail and variants",
+        description:
+          "Each product expands into a detailed purchasing view where customers can compare packaging variants before adding a specific SKU and quantity to the cart.",
+        features: [
+          "Primary and variant image gallery with an enlarged preview.",
+          "Packaging, weight, price, stock, and quantity controls for every product variant.",
+          "Composition, benefits, usage instructions, storage guidance, and expiry information.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/cart.webp",
+        alt: "BRP Marketplace synthetic shopping cart with an item, quantity controls, total, and checkout button.",
+        width: 1440,
+        height: 1000,
+        title: "Shopping cart",
+        description:
+          "The cart keeps product variants and quantities synchronized with the customer session while calculating the purchase subtotal before checkout.",
+        features: [
+          "Increment, decrement, remove, and clear-cart operations.",
+          "Variant-aware pricing and total item calculation.",
+          "Protected transition into the checkout workflow.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/checkout.webp",
+        alt: "BRP Marketplace synthetic checkout showing customer information, address fields, delivery method, PPN, and order summary.",
+        width: 1440,
+        height: 1000,
+        title: "Checkout and shipping selection",
+        description:
+          "Checkout combines customer identity, fulfillment method, Indonesian address hierarchy, tax, shipping, and cart totals into one validated order flow.",
+        features: [
+          "Delivery or manual pickup modes with conditional form behavior.",
+          "Cascading province, city, district, and sub-district selectors with automatic postal code handling.",
+          "Shipping options, PPN calculation, order summary, and validated order creation.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/sign-in.webp",
+        alt: "BRP Marketplace sign-in page with regular credentials and synthetic Demo User and Demo Admin shortcuts.",
+        width: 1440,
+        height: 1000,
+        title: "Authentication and demo roles",
+        description:
+          "The original application supports registration, email verification, login, profile management, and password recovery. The portfolio build adds explicit one-click roles so reviewers never need a real BRP account.",
+        features: [
+          "JWT-backed authentication and role authorization in the original Bun API.",
+          "Registration verification, forgot-password, reset-token, and profile update flows.",
+          "Cookie-based Demo User and Demo Admin shortcuts backed only by synthetic identities.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/transaction-history.webp",
+        alt: "BRP Marketplace synthetic transaction history with date, fulfillment method, status, and stock-issue filters.",
+        width: 1440,
+        height: 1000,
+        title: "Customer transaction history",
+        description:
+          "Customers can review current and previous orders without leaving the marketplace account experience.",
+        features: [
+          "Filtering by date range, delivery method, order status, and stock issues.",
+          "Paginated order cards with product, price, fulfillment method, and status context.",
+          "Direct navigation from each record to its operational detail view.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/transaction-detail.webp",
+        alt: "BRP Marketplace synthetic order detail with status timeline, shipping tracking, delivery address, payment summary, and product items.",
+        width: 1440,
+        height: 1000,
+        title: "Order detail, payment, and tracking",
+        description:
+          "A single order view explains what happens after checkout: payment state, fulfillment progress, shipment events, purchased items, tax, delivery cost, and cancellation conditions.",
+        features: [
+          "Separate status timelines for delivery and manual fulfillment.",
+          "Midtrans payment request and refund handling in the original system; deterministic payment messaging in the demo.",
+          "RajaOngkir waybill tracking in production and clearly labeled synthetic tracking events in the public demo.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/admin-dashboard.webp",
+        alt: "BRP Marketplace synthetic admin dashboard with KPI cards, best-selling products, and recent orders.",
+        width: 1440,
+        height: 1000,
+        title: "Admin operations dashboard",
+        description:
+          "The admin landing page compresses daily commerce health into an actionable view for staff responsible for products, orders, and customers.",
+        features: [
+          "Daily orders, monthly sales, product count, and active-customer KPIs.",
+          "Best-selling product ranking and recent-order queue.",
+          "Quick access to order detail and stock-issue resolution workflows.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/admin-products.webp",
+        alt: "BRP Marketplace synthetic admin product table with search, type filter, advanced filters, and product actions.",
+        width: 1440,
+        height: 1000,
+        title: "Product and inventory management",
+        description:
+          "Administrators manage the catalog as related product, type, packaging, and variant records instead of a single flat inventory table.",
+        features: [
+          "Create, inspect, update, soft-delete, search, and filter products.",
+          "Manage product types, packaging definitions, variant images, weights, prices, and stock adjustments.",
+          "Crop and optimize uploaded product and variant images before storage.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/admin-orders.webp",
+        alt: "BRP Marketplace synthetic admin order table with search, date, method, status, stock issue, and order actions.",
+        width: 1440,
+        height: 1000,
+        title: "Order management",
+        description:
+          "The order workspace supports both delivery and manual transactions, with different status transitions and operational actions for each method.",
+        features: [
+          "Search and filtering by ID, customer, date, fulfillment method, status, and stock issue.",
+          "Update statuses, add manual shipping costs, assign receipts, cancel orders, and resolve unavailable stock.",
+          "Export selected operational tables for a chosen date range.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/admin-chat.webp",
+        alt: "BRP Marketplace synthetic admin chat showing a customer conversation, message history, and composer.",
+        width: 1440,
+        height: 1000,
+        title: "Realtime customer support",
+        description:
+          "A shared chat model connects the storefront widget to an admin inbox, keeping support context inside the transaction platform.",
+        features: [
+          "Conversation search, unread totals, pagination, presence, and typing indicators.",
+          "Text messages plus image, video, and file attachments.",
+          "Socket.IO delivery in the original backend; deterministic HTTP-backed messages in the public demo.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/admin-customers.webp",
+        alt: "BRP Marketplace synthetic admin customer table with search, status filter, order totals, and customer actions.",
+        width: 1440,
+        height: 1000,
+        title: "Customer management",
+        description:
+          "Customer records give administrators a concise account-level view while preserving role-based access to private operations.",
+        features: [
+          "Search by name or email and filter by customer status.",
+          "Account identity, join date, activity state, and total-order overview.",
+          "Protected customer detail access for administrator roles.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/admin-reports.webp",
+        alt: "BRP Marketplace synthetic sales report with KPI cards, monthly trend chart, product distribution, recent transactions, and export controls.",
+        width: 1440,
+        height: 1000,
+        title: "Sales reporting and exports",
+        description:
+          "Reporting transforms transaction records into a management view with period-aware metrics and portable operational exports.",
+        features: [
+          "Revenue, order, product-sold, and active-customer KPIs with period comparisons.",
+          "Monthly revenue trend and best-selling product distribution charts.",
+          "Configurable month range and CSV/ZIP export generated by the original backend.",
+        ],
+      },
+      {
+        src: "/projects/brp-marketplace/admin-settings.webp",
+        alt: "BRP Marketplace synthetic company settings showing identity, address, PPN, and NPWP configuration.",
+        width: 1440,
+        height: 1000,
+        title: "Company and tax settings",
+        description:
+          "Operational settings keep company identity and tax values configurable so checkout, invoices, and public contact details share one source of truth.",
+        features: [
+          "Company name, logo, email, phone number, and Indonesian address hierarchy.",
+          "Editable PPN percentage used by checkout and transaction totals.",
+          "NPWP configuration and administrator-only updates.",
+        ],
+      },
+    ],
+    liveUrl: "https://brp-marketplace-fe-demo.vercel.app/",
+    overview:
+      "BRP Marketplace was built as an end-to-end commerce and operations platform for PT. Bumi Rekayasa Persada. I worked across the customer storefront, administrator workflows, API design, relational data model, authentication, realtime chat, payment and shipping integrations, background email delivery, reporting, and containerized deployment. The production application originally ran at shop.bumirp.co.id/dashboard. Because that server is currently offline, this case study links to a separate portfolio-safe frontend reconstruction with synthetic accounts, products, transactions, and messages.",
+    problem:
+      "The business needed more than a product landing page: customers required a clear way to compare fertilizer variants, calculate delivery, place and track orders, and contact support, while staff needed reliable controls for inventory, payment state, shipping, stock exceptions, customers, reports, company identity, and tax. The original deployment later became unavailable when its server stopped, which also made a normal portfolio walkthrough impossible.",
+    solution:
+      "I implemented a role-aware Next.js interface backed by a Bun and Hono service layer. Prisma and PostgreSQL model catalog, cart, transaction, company, and chat data; Redis supports temporary auth state and cached shipping lookups; Socket.IO handles presence and typing; Kafka decouples transactional email; Midtrans handles payment lifecycle operations; and RajaOngkir supplies Indonesian destination, cost, and waybill data. For portfolio review, I preserved the frontend contracts and replaced production services with same-origin mock handlers, deterministic fixtures, demo-role cookies, and explicit synthetic-data messaging on Vercel.",
+    features: [
+      "Customer storefront with searchable, filterable, paginated products and packaging variants.",
+      "Variant-aware cart, stock checks, delivery/manual checkout, PPN, and shipping calculation.",
+      "Customer transaction history, detail timelines, payment state, cancellation, and shipment tracking.",
+      "Registration, email verification, login, JWT sessions, password reset, profile updates, and USER/ADMIN authorization.",
+      "Admin dashboard with sales KPIs, top products, recent orders, and operational alerts.",
+      "Product, product-type, packaging, variant, stock, price, and image management.",
+      "Order status workflows, manual shipping cost, receipts, cancellation/refund, and stock-issue resolution.",
+      "Realtime customer/admin chat with presence, typing, unread state, and attachments.",
+      "Customer directory, company profile, logo, address, PPN, and NPWP settings.",
+      "Revenue and product analytics with date filtering and CSV/ZIP exports.",
+      "Midtrans payment/refund and RajaOngkir address, rate, and waybill integrations in the original system.",
+      "Portfolio-safe frontend demo with synthetic fixtures and no production side effects.",
+    ],
+    architecture: {
+      title: "Original production architecture",
+      intro:
+        "The production system separated the Next.js client from a Bun runtime that served Hono REST endpoints and Socket.IO. Stateful services and third-party integrations remained behind authenticated, role-aware backend boundaries.",
+      clientLabel: "Frontend",
+      serviceLabel: "Backend capability",
+      privilegedLabel: "Runtime boundary",
+      boundaryTitle: "Production service boundary",
+      diagramDescription:
+        "Original BRP Marketplace architecture: Next.js customer and admin interfaces connect to Bun and Hono REST services, Socket.IO, PostgreSQL through Prisma, Redis, Kafka email jobs, file processing, Midtrans, and RajaOngkir.",
+      client: {
+        title: "Next.js App Router UI",
+        description:
+          "Renders customer catalog, checkout, transactions, support chat, and role-protected administration with React Query and Zustand state.",
+      },
+      services: [
+        {
+          title: "Bun + Hono REST API",
+          description:
+            "Owns validation, authentication, role checks, catalog, cart, checkout, transaction, reporting, and company operations.",
+        },
+        {
+          title: "Prisma + PostgreSQL",
+          description:
+            "Stores users, products, variants, packaging, carts, transactions, tax configuration, company details, rooms, messages, and attachments.",
+        },
+        {
+          title: "Redis",
+          description:
+            "Supports verification and reset tokens, rate limiting, and cached RajaOngkir destination lookups.",
+        },
+        {
+          title: "Socket.IO",
+          description:
+            "Provides authenticated presence and typing signals for customer and administrator support sessions.",
+        },
+        {
+          title: "Kafka + Nodemailer",
+          description:
+            "Moves verification, invoice, cancellation, and shipping email work out of request handling.",
+        },
+        {
+          title: "Midtrans + RajaOngkir",
+          description:
+            "Handles payment creation/status/refund and Indonesian destination, delivery cost, and waybill workflows.",
+        },
+      ],
+      privileged: {
+        title: "Bun and Docker Compose deployment",
+        description:
+          "Runs the API, PostgreSQL, Redis, and Kafka with persistent uploads, invoices, exports, logs, and environment-scoped secrets.",
+      },
+    },
+    additionalArchitectures: [
+      {
+        title: "Public portfolio demo architecture",
+        intro:
+          "The public demo deliberately stops at the frontend boundary. It keeps the screen flows and client request contracts reviewable while replacing private infrastructure and external side effects with deterministic synthetic responses.",
+        clientLabel: "Demo frontend",
+        serviceLabel: "Demo capability",
+        privilegedLabel: "Disabled boundary",
+        boundaryTitle: "Portfolio-safe demo boundary",
+        diagramDescription:
+          "BRP Marketplace public demo architecture: Next.js screens call a same-origin mock route handler with synthetic fixtures and cookie-based demo roles on Vercel; production integrations are disabled.",
+        client: {
+          title: "Next.js customer + admin UI",
+          description:
+            "Preserves catalog, cart, checkout, transactions, chat, products, orders, customers, reports, and settings for browser review.",
+        },
+        services: [
+          {
+            title: "Same-origin /api/mock",
+            description:
+              "Implements the frontend's expected endpoint shapes through a Next.js catch-all route handler.",
+          },
+          {
+            title: "Synthetic fixtures",
+            description:
+              "Returns deterministic demo users, products, carts, transactions, tracking events, analytics, and messages.",
+          },
+          {
+            title: "Demo role cookies",
+            description:
+              "Unlocks USER and ADMIN screens without collecting credentials or creating production accounts.",
+          },
+          {
+            title: "Vercel deployment",
+            description:
+              "Hosts the frontend and mock route together so reviewers do not need the original offline server.",
+          },
+        ],
+        privileged: {
+          title: "No production side effects",
+          description:
+            "The demo does not run the Bun backend, persist orders, charge payments, request live shipping rates, send email, or connect to Socket.IO.",
+        },
+      },
+    ],
+    stack: [
+      "Next.js App Router",
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "TanStack Query",
+      "Zustand",
+      "Bun",
+      "Hono",
+      "Prisma",
+      "PostgreSQL",
+      "Redis",
+      "Socket.IO",
+      "Kafka",
+      "Docker Compose",
+      "Midtrans",
+      "RajaOngkir",
+      "Vercel",
+    ],
+    technologyGroups: [
+      {
+        title: "Frontend application",
+        description: "Customer and administrator experiences built from a shared typed UI and request layer.",
+        items: [
+          "Next.js App Router",
+          "React",
+          "TypeScript",
+          "Tailwind CSS",
+          "TanStack Query",
+          "Zustand",
+          "Axios",
+          "React Hook Form",
+          "Zod",
+          "Radix UI",
+          "Recharts",
+        ],
+      },
+      {
+        title: "Original backend",
+        description: "Authenticated business logic, persistence, realtime support, background jobs, and generated files.",
+        items: [
+          "Bun",
+          "Hono REST API",
+          "Prisma",
+          "PostgreSQL",
+          "JWT + RBAC",
+          "Redis",
+          "Socket.IO",
+          "Kafka",
+          "Nodemailer",
+          "Sharp",
+          "PDFKit",
+          "CSV + ZIP",
+          "Docker Compose",
+        ],
+      },
+      {
+        title: "Production integrations",
+        description: "External services used by the original application, not by the public demo.",
+        items: ["Midtrans Snap", "Midtrans refunds", "RajaOngkir destinations", "Shipping rates", "Waybill tracking"],
+      },
+      {
+        title: "Public demo layer",
+        description: "A portfolio-safe replacement for the currently unavailable production server.",
+        items: ["Next.js Route Handler", "Synthetic fixtures", "Demo role cookies", "Mock payment state", "Mock tracking", "Vercel"],
+      },
+    ],
+    challenges: [
+      "Designing one domain model that supports catalog variants, packaging, inventory, carts, delivery orders, manual orders, tax, stock exceptions, and reporting.",
+      "Keeping USER and ADMIN authorization enforced at the backend service layer rather than relying only on protected frontend routes.",
+      "Coordinating payment notifications, cancellation, refunds, stock reservation, shipping status, and customer-facing timelines without producing contradictory states.",
+      "Integrating Indonesian destination and shipping data while caching stable lookups and retaining a mock tracking path for development.",
+      "Combining HTTP chat history with authenticated Socket.IO presence and typing signals while maintaining unread state for both roles.",
+      "Making the project reviewable after the original server went offline without exposing company data or pretending that mocked services were production integrations.",
+    ],
+    outcome: [
+      "Delivered an end-to-end marketplace and operational admin system spanning customer purchase flows and internal commerce management.",
+      "Established a typed Bun/Hono service architecture with relational persistence, realtime support, background email delivery, and external payment/shipping integrations.",
+      "Created a standalone public frontend demo that preserves the product story with 14 reviewable synthetic screens while clearly documenting its limitations.",
+    ],
+    lessons: [
+      "Commerce status design needs explicit transitions for payment, fulfillment, stock exceptions, cancellation, and refund failure before UI work begins.",
+      "Role checks belong beside backend operations even when the frontend already hides administrator routes.",
+      "Realtime UX is easier to reason about when durable message history remains HTTP/database-backed and sockets carry only timely events.",
+      "A credible portfolio demo should preserve request contracts and workflows while labeling every replacement for production infrastructure.",
+      "Operational settings such as company identity, PPN, NPWP, and shipping origin are part of the product architecture, not incidental admin fields.",
+    ],
+    sectionTitles: {
+      overview: "A commerce platform spanning customers and operations",
+      problem: "Sales, fulfillment, and support were one connected workflow",
+      solution: "A typed Next.js and Bun platform with clear service boundaries",
+      features: "Customer, administrator, and backend capabilities",
+      architecture: "Original full-stack system and public demo boundary",
+      gallery: "Fourteen customer and administrator screens",
+      challenges: "What required full-stack coordination",
+      lessons: "What the production build and demo clarified",
+      outcome: "A complete platform with a reviewable synthetic demo",
+    },
+    disclaimerLabel: "Project and demo context",
+    disclaimerVariant: "info",
+    disclaimer:
+      "I built the BRP Marketplace deployed at shop.bumirp.co.id/dashboard as a full-stack developer; that original deployment is currently unavailable because its server is offline. The Live Demo is a frontend-only reconstruction backed by synthetic mock responses. It does not run the Bun backend, persist orders, charge payments, request live shipping rates, send transactional email, or expose production data. The corporate website at www.bumirp.co.id is owned by PT. Bumi Rekayasa Persada and was not created by me.",
+    seoDescription:
+      "BRP Marketplace is a full-stack Next.js, TypeScript, Bun, Hono, Prisma, PostgreSQL, Redis, Socket.IO, Kafka, Midtrans, and RajaOngkir commerce case study with a public synthetic frontend demo.",
+  },
   {
     slug: "atomics-lite",
     title: "Atomics Lite",
