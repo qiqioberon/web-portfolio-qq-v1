@@ -128,7 +128,7 @@ const Hero = () => {
 				{/* Tag */}
 				<div ref={tagRef} className="mb-8 opacity-0">
 					<span className="inline-block px-4 py-2 rounded-full border border-border bg-card/50 text-sm text-muted-foreground font-mono tracking-wider uppercase">
-						Graphic Designer & Frontend Developer
+						Graphic Designer & Software Engineer
 					</span>
 				</div>
 
@@ -153,7 +153,7 @@ const Hero = () => {
 					ref={subtitleRef}
 					className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed opacity-0 font-mono"
 				>
-					I'm Aqil — a freelance Graphic Designer and frontend developer
+					I'm Aqil — a freelance Graphic Designer and Software Engineer
 					passionate about creating immersive digital experiences that captivate
 					and convert.
 				</p>
