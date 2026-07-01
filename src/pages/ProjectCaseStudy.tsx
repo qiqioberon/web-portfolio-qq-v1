@@ -136,7 +136,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
                   ))}
                 </dl>
 
-                <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                   <Button asChild size="lg" className="glow-sm">
                     <a
                       href={project.liveUrl}
@@ -161,6 +161,19 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
                       </a>
                     </Button>
                   ) : null}
+                  {project.externalLinks?.map((link) => (
+                    <Button asChild size="lg" variant="outline" key={link.url}>
+                      <a
+                        href={link.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Open ${link.label} for ${project.title} in a new tab`}
+                      >
+                        {link.label}
+                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    </Button>
+                  ))}
                 </div>
               </div>
 
@@ -217,6 +230,24 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
             </div>
           </div>
         </section>
+
+        {project.metrics?.length ? (
+          <section className="px-6 py-16">
+            <div className="mx-auto max-w-7xl">
+              <SectionEyebrow>Research Metrics</SectionEyebrow>
+              <SectionTitle>{project.metricsTitle || "Measured outcomes"}</SectionTitle>
+              <dl className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {project.metrics.map((metric) => (
+                  <div key={metric.label} className="rounded-2xl border border-border bg-card/70 p-6">
+                    <dt className="font-mono text-xs uppercase tracking-wider text-primary">{metric.label}</dt>
+                    <dd className="mt-3 text-3xl font-black tracking-tight text-foreground">{metric.value}</dd>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">{metric.description}</p>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </section>
+        ) : null}
 
         <section className="px-6 py-16">
           <div className="mx-auto max-w-7xl">

@@ -32,6 +32,17 @@ export interface TechnologyGroup {
   items: string[];
 }
 
+export interface ProjectMetric {
+  label: string;
+  value: string;
+  description: string;
+}
+
+export interface ProjectExternalLink {
+  label: string;
+  url: string;
+}
+
 export interface ProjectSectionTitles {
   overview: string;
   problem: string;
@@ -56,6 +67,7 @@ export interface ProjectCaseStudy {
   gallery: ProjectImage[];
   liveUrl: string;
   githubUrl?: string;
+  externalLinks?: ProjectExternalLink[];
   overview: string;
   problem: string;
   solution: string;
@@ -64,6 +76,8 @@ export interface ProjectCaseStudy {
   additionalArchitectures?: ProjectArchitecture[];
   stack: string[];
   technologyGroups?: TechnologyGroup[];
+  metricsTitle?: string;
+  metrics?: ProjectMetric[];
   challenges: string[];
   outcome: string[];
   lessons: string[];
@@ -75,6 +89,373 @@ export interface ProjectCaseStudy {
 }
 
 export const projects: ProjectCaseStudy[] = [
+  {
+    slug: "big-five-voice-ai",
+    title: "Big Five Voice AI",
+    summary:
+      "An end-to-end machine-learning research project and live web demo for estimating apparent Big Five personality traits from 15 seconds of speech, covering leakage-aware dataset design, pretrained speech representations, parameter-efficient fine-tuning, model packaging, and production inference on Vercel and Hugging Face.",
+    role: "Machine Learning Researcher & Full-stack Developer",
+    year: "2026",
+    status: "Live Research Demo",
+    tags: ["PyTorch", "WavLM", "HuBERT", "wav2vec 2.0", "LoRA", "Hugging Face", "Next.js", "Vercel"],
+    cover: {
+      src: "/projects/big-five-voice-ai/landing.webp",
+      alt: "Big Five Voice AI landing page inviting users to discover apparent personality traits from a voice recording.",
+      width: 1440,
+      height: 1000,
+    },
+    gallery: [
+      {
+        src: "/projects/big-five-voice-ai/landing.webp",
+        alt: "Dark themed TA Personality landing page with a voice analysis headline, demo actions, privacy note, and three-step workflow.",
+        width: 1440,
+        height: 1000,
+        title: "Research translated into a public demo",
+        description:
+          "The production landing page turns a multi-stage speech research pipeline into a clear product proposition: provide 15 seconds of audio, choose a model, and inspect five continuous OCEAN trait estimates.",
+        features: [
+          "English and Indonesian localization with light and dark themes.",
+          "Explicit experimental-use, audio-duration, privacy, and decision-safety messaging.",
+          "Direct navigation from research context to the interactive prediction workspace.",
+        ],
+      },
+      {
+        src: "/projects/big-five-voice-ai/models-section.webp",
+        alt: "Model overview comparing fine-tuned HuBERT and WavLM checkpoints with eGeMAPS and frozen SSL Ridge baselines.",
+        width: 1440,
+        height: 1000,
+        title: "Model families exposed transparently",
+        description:
+          "The interface does not hide the experimental alternatives behind a single opaque score. It explains the fine-tuned checkpoints and lets reviewers compare them with the complete Ridge baseline family.",
+        features: [
+          "Fine-tuned HuBERT and WavLM checkpoints adapted with LoRA.",
+          "Baseline options based on eGeMAPS, wav2vec 2.0, HuBERT, and WavLM representations.",
+          "Plain-language explanation of all five Big Five dimensions.",
+        ],
+      },
+      {
+        src: "/projects/big-five-voice-ai/demo.webp",
+        alt: "Voice Personality Analysis demo with audio upload and recording, model selectors, result panel, Big Five explanation, and disclaimers.",
+        width: 1440,
+        height: 1000,
+        title: "Interactive inference workspace",
+        description:
+          "The demo accepts an uploaded clip or an in-browser microphone recording, enforces the 15-second input contract, discovers the available models from the inference service, and renders the resulting trait profile.",
+        features: [
+          "Drag-and-drop upload, microphone capture, playback, validation, and client-side trimming.",
+          "Dynamic fine-tuned and baseline model manifests served through same-origin Next.js APIs.",
+          "Trait visualization, latency feedback, local result recovery, and shareable result links.",
+        ],
+      },
+      {
+        src: "/projects/big-five-voice-ai/research-flow.png",
+        alt: "Research workflow from the dataset and audio extraction through preprocessing, strict split, representation scenarios, and final evaluation.",
+        width: 2688,
+        height: 1536,
+        title: "End-to-end research workflow",
+        description:
+          "The study begins with videos from ChaLearn First Impressions V2, extracts and standardizes their audio, builds both official and speaker-independent evaluation paths, then compares representations before adapting the selected backbone.",
+        features: [
+          "Traceable transition from raw video to model-ready audio manifests.",
+          "Official split retained for comparability; strict split used for realistic speaker generalization.",
+          "A locked test set is kept outside feature and hyperparameter selection.",
+        ],
+      },
+      {
+        src: "/projects/big-five-voice-ai/preprocessing.png",
+        alt: "Audio preprocessing workflow covering extraction, mono conversion, 16 kHz resampling, fixed duration, voice activity detection, and quality-control manifests.",
+        width: 2432,
+        height: 2240,
+        title: "Audio standardization and quality control",
+        description:
+          "Every clip is normalized to the same signal contract before representation learning. Silero VAD identifies clips dominated by silence or noise, followed by targeted re-extraction and tuned re-checks for recoverable samples.",
+        features: [
+          "Mono, 16 kHz PCM audio trimmed or zero-padded to 15 seconds.",
+          "Speech coverage threshold with a tuned VAD pass for quiet or difficult clips.",
+          "9,974 clean clips retained from 10,000 after 16 recoveries and 26 final removals.",
+        ],
+      },
+      {
+        src: "/projects/big-five-voice-ai/strict-split.png",
+        alt: "Strict speaker-independent split procedure grouping related clips and stratifying groups before train, validation, and test assignment.",
+        width: 2432,
+        height: 1856,
+        title: "Leakage-aware strict split",
+        description:
+          "YouTube-derived clips can share the same source speaker across samples. The strict protocol groups clips by channel-derived identity and assigns each group to exactly one subset, preventing identity leakage between training and evaluation.",
+        features: [
+          "3,054 clean groups split at approximately 60/20/20.",
+          "Gender and ethnicity stratification selected for stable demographic balance.",
+          "5,936 training, 1,999 validation, and 2,039 test clips with zero group overlap.",
+        ],
+      },
+      {
+        src: "/projects/big-five-voice-ai/model-scenarios.png",
+        alt: "Representation comparison showing eGeMAPS handcrafted features and embeddings from wav2vec 2.0, HuBERT, and WavLM feeding standardized Ridge regression.",
+        width: 2176,
+        height: 3168,
+        title: "Controlled representation benchmark",
+        description:
+          "The baseline study isolates representation quality by keeping the downstream estimator consistent. Handcrafted acoustic descriptors and frozen self-supervised speech embeddings are standardized and evaluated with the same multi-output Ridge protocol.",
+        features: [
+          "88-dimensional eGeMAPS functionals extracted with OpenSMILE.",
+          "768-dimensional mean-pooled embeddings from wav2vec 2.0, HuBERT, and WavLM.",
+          "Validation-only alpha sweep followed by one locked test evaluation using MAE, RMSE, R², and 1−MAE.",
+        ],
+      },
+      {
+        src: "/projects/big-five-voice-ai/lora-fine-tuning.png",
+        alt: "WavLM fine-tuning workflow with a frozen backbone, LoRA adapters, Big Five regression head, hyperparameter search, fixed-seed runs, and exported checkpoints.",
+        width: 3104,
+        height: 2400,
+        title: "Parameter-efficient WavLM adaptation",
+        description:
+          "WavLM was selected from the strict baseline study and adapted without updating the full backbone. LoRA modules and a five-output regression head reduce the trainable parameter budget while preserving a repeatable evaluation process.",
+        features: [
+          "LoRA adapters target the attention q_proj and v_proj modules.",
+          "Two-stage search over learning rate and rank, followed by fixed-seed final runs.",
+          "Best thesis configuration: learning rate 2×10⁻⁴, rank 4, and up to 20 epochs.",
+        ],
+      },
+    ],
+    liveUrl: "https://deploy-tugas-akhir.vercel.app/",
+    githubUrl: "https://github.com/qiqioberon/tugas-akhir-qq",
+    externalLinks: [
+      {
+        label: "HF Space",
+        url: "https://huggingface.co/spaces/QiqiOberon/personality-with-audio-demo",
+      },
+      {
+        label: "Model Hub",
+        url: "https://huggingface.co/QiqiOberon/ta-personality-models",
+      },
+    ],
+    overview:
+      "Big Five Voice AI is the production-facing result of my undergraduate thesis on audio-only apparent personality estimation. The work spans dataset auditing, signal preprocessing, leakage-aware evaluation, handcrafted acoustic features, frozen self-supervised speech representations, Ridge regression, LoRA adaptation, experiment tracking, model packaging, and a bilingual web application. The system estimates continuous Openness, Conscientiousness, Extraversion, Agreeableness, and Neuroticism scores from a short speech sample; it measures perceived personality cues in the recording rather than a speaker's clinical or self-reported identity.",
+    problem:
+      "Voice carries prosodic and paralinguistic cues, but evaluating personality estimation from speech is difficult because recording conditions vary, labels are subjective observer impressions, and multiple clips from the same online source can leak speaker identity across splits. A convincing result therefore needed more than a high headline score: the data contract, group separation, model-selection boundary, reproducibility, and production preprocessing all had to remain explicit and consistent.",
+    solution:
+      "I built a traceable audio-only pipeline around ChaLearn First Impressions V2. It standardizes and quality-checks 10,000 short clips, forms a speaker-disjoint strict split, benchmarks eGeMAPS against frozen wav2vec 2.0, HuBERT, and WavLM embeddings with the same Ridge regressor, then adapts the selected WavLM backbone with LoRA. The deployable artifacts are hosted on Hugging Face; a Gradio Space performs preprocessing and inference, while a Next.js application on Vercel provides a safer, localized product interface and same-origin API boundary.",
+    features: [
+      "Audio-only multivariate regression for the five continuous Big Five apparent-personality traits.",
+      "Reproducible 15-second, mono, 16 kHz audio preprocessing with traceable manifests.",
+      "Silero VAD quality control, targeted channel-aware re-extraction, and final sample auditing.",
+      "Speaker-independent group split with demographic stratification and formal overlap checks.",
+      "Controlled eGeMAPS, wav2vec 2.0, HuBERT, and WavLM representation benchmark.",
+      "Validation-only Ridge alpha sweep with StandardScaler and multi-output regression artifacts.",
+      "MAE, RMSE, R², 1−MAE, per-trait, distribution, and naive-baseline diagnostics.",
+      "Parameter-efficient WavLM adaptation with LoRA on q_proj/v_proj and a five-output head.",
+      "Hyperparameter tuning plus fixed-seed final runs, checkpoint selection, and exported metrics.",
+      "Hugging Face model repository containing scalers, Ridge models, metadata, and LoRA checkpoints.",
+      "Gradio inference service that discovers available artifacts and caches downloaded model components.",
+      "Next.js demo with recording/upload, model selection, visual results, localization, and safety disclaimers.",
+    ],
+    metricsTitle: "Research outcomes reported in the final thesis",
+    metrics: [
+      {
+        label: "Clean dataset",
+        value: "9,974",
+        description: "Usable clips retained from 10,000 after VAD quality control and targeted re-extraction.",
+      },
+      {
+        label: "Speaker overlap",
+        value: "0",
+        description: "Shared group IDs across train, validation, and test in the strict speaker-independent split.",
+      },
+      {
+        label: "Best strict MAE",
+        value: "0.1013",
+        description: "Mean five-trait test MAE reported for the selected frozen WavLM plus Ridge baseline.",
+      },
+      {
+        label: "Best strict R²",
+        value: "0.2877",
+        description: "Mean five-trait test R² reported for the selected frozen WavLM plus Ridge baseline.",
+      },
+    ],
+    architecture: {
+      title: "Research and model-selection pipeline",
+      intro:
+        "The experimental boundary prevents the locked strict test set from influencing representation choice, Ridge regularization, or LoRA tuning. Every stage exports manifests, metadata, predictions, metrics, and plots so results can be traced back to the exact data and configuration.",
+      clientLabel: "Research input",
+      serviceLabel: "Pipeline stage",
+      privilegedLabel: "Evaluation boundary",
+      boundaryTitle: "Leakage-aware experiment boundary",
+      diagramDescription:
+        "ChaLearn videos become standardized audio and speaker-independent splits, then flow through representation benchmarks, Ridge selection, WavLM LoRA adaptation, and locked final evaluation.",
+      client: {
+        title: "ChaLearn First Impressions V2",
+        description:
+          "10,000 roughly 15-second video clips with observer-rated continuous Big Five labels form the single controlled dataset for the audio-only study.",
+      },
+      services: [
+        {
+          title: "Audio extraction and QC",
+          description:
+            "FFmpeg, SoundFile, librosa, and Silero VAD produce consistent mono 16 kHz clips and remove samples with insufficient speech.",
+        },
+        {
+          title: "Strict group split",
+          description:
+            "Channel-derived group IDs and gender/ethnicity stratification create disjoint train, validation, and test subsets.",
+        },
+        {
+          title: "Representation benchmark",
+          description:
+            "eGeMAPS functionals and frozen wav2vec 2.0, HuBERT, and WavLM embeddings are compared under an identical downstream protocol.",
+        },
+        {
+          title: "Ridge model selection",
+          description:
+            "Standardized features feed multi-output Ridge models; validation MAE selects alpha before one final test evaluation.",
+        },
+        {
+          title: "WavLM + LoRA",
+          description:
+            "A frozen WavLM backbone receives q/v attention adapters and a five-output regression head tuned on strict train/validation data.",
+        },
+        {
+          title: "Diagnostics and artifacts",
+          description:
+            "Per-trait predictions, error metrics, R² diagnostics, loss curves, metadata, scalers, and checkpoints are exported for review.",
+        },
+      ],
+      privileged: {
+        title: "Locked strict test set",
+        description:
+          "The 2,039-clip test partition remains outside model and hyperparameter selection, preserving an honest generalization estimate for unseen speaker groups.",
+      },
+    },
+    additionalArchitectures: [
+      {
+        title: "Production inference architecture",
+        intro:
+          "The web product separates presentation, request orchestration, model serving, and artifact storage. This keeps large Python and PyTorch dependencies out of Vercel while preserving a stable same-origin API for the browser.",
+        clientLabel: "Product client",
+        serviceLabel: "Deployment capability",
+        privilegedLabel: "Request boundary",
+        boundaryTitle: "Vercel-to-Hugging Face inference boundary",
+        diagramDescription:
+          "A Next.js application on Vercel forwards validated model and audio requests to a Gradio Hugging Face Space, which downloads model artifacts from the Hugging Face Hub and returns five trait scores.",
+        client: {
+          title: "Next.js 14 demo on Vercel",
+          description:
+            "The React interface handles recording, upload, 15-second validation, localization, model selection, charting, local result recovery, and user-facing safeguards.",
+        },
+        services: [
+          {
+            title: "Same-origin API routes",
+            description:
+              "Node.js handlers validate multipart inputs, expose the model manifest, proxy predictions, and allow an extended inference timeout.",
+          },
+          {
+            title: "Gradio client orchestration",
+            description:
+              "A cached server-side client connects to the Space, coerces response formats, retries transient failures once, and enforces a five-minute timeout.",
+          },
+          {
+            title: "Hugging Face Space",
+            description:
+              "Python inference reproduces mono 16 kHz trimming, extracts eGeMAPS or SSL representations, and executes Ridge or LoRA checkpoints.",
+          },
+          {
+            title: "Hugging Face Model Hub",
+            description:
+              "Versioned metadata, StandardScaler/Ridge artifacts, and fine-tuned HuBERT/WavLM checkpoints are discovered and downloaded on demand.",
+          },
+          {
+            title: "Dynamic model manifest",
+            description:
+              "The Space scans the model repository so newly packaged baselines or fine-tuned checkpoints can appear without hardcoding the frontend list.",
+          },
+          {
+            title: "Result presentation",
+            description:
+              "Five finite trait scores return to the browser for visualization, explanation, local persistence, and optional result-link sharing.",
+          },
+        ],
+        privileged: {
+          title: "Ephemeral audio request",
+          description:
+            "Audio is submitted only when the user explicitly requests inference; the application implements no user account or application database for recordings.",
+        },
+      },
+    ],
+    stack: [
+      "Python",
+      "PyTorch",
+      "Transformers",
+      "PEFT",
+      "Optuna",
+      "OpenSMILE",
+      "Silero VAD",
+      "scikit-learn",
+      "Gradio",
+      "Hugging Face Hub",
+      "Next.js 14",
+      "TypeScript",
+      "Vercel",
+    ],
+    technologyGroups: [
+      {
+        title: "Research and training",
+        description: "Experiment design, representation learning, tuning, reproducibility, and diagnostics.",
+        items: ["Python", "Jupyter", "PyTorch", "Transformers", "PEFT", "Optuna", "Pandas", "NumPy"],
+      },
+      {
+        title: "Audio and dataset pipeline",
+        description: "Signal extraction, standardization, speech quality control, and grouped dataset construction.",
+        items: ["FFmpeg", "librosa", "SoundFile", "Silero VAD", "OpenSMILE", "eGeMAPS", "scikit-learn"],
+      },
+      {
+        title: "Models and evaluation",
+        description: "Handcrafted and self-supervised representations under controlled regression and adaptation protocols.",
+        items: ["wav2vec 2.0", "HuBERT", "WavLM", "Ridge Regression", "LoRA", "MAE", "RMSE", "R²"],
+      },
+      {
+        title: "Serving and product",
+        description: "Model artifact hosting, Python inference, web orchestration, and interactive result presentation.",
+        items: ["Gradio", "Hugging Face Spaces", "Hugging Face Hub", "Next.js 14", "TypeScript", "Recharts", "Vercel"],
+      },
+    ],
+    challenges: [
+      "Preventing speaker-identity leakage in a dataset where multiple clips can originate from the same YouTube channel or source speaker.",
+      "Recovering quiet or phase-cancelled recordings without weakening a reproducible quality-control rule for the remaining dataset.",
+      "Keeping the comparison fair across an 88-dimensional handcrafted descriptor set and three 768-dimensional pretrained speech representations.",
+      "Running repeated Transformer experiments under limited compute while retaining fixed seeds, saved histories, and a locked test protocol.",
+      "Accepting that additional model flexibility was not automatically better: the final LoRA model improved Extraversion but slightly reduced aggregate performance.",
+      "Reproducing training-time audio and model configuration inside a cold-start-prone hosted inference service with checkpoints hundreds of megabytes in size.",
+    ],
+    outcome: [
+      "A validated 9,974-clip research dataset and speaker-disjoint evaluation protocol with reusable manifests and quality-control evidence.",
+      "Evidence that frozen self-supervised speech embeddings outperform eGeMAPS, with WavLM selected as the strongest and most stable strict-split baseline.",
+      "A live bilingual research demo connecting Vercel, Hugging Face Spaces, and a versioned model repository across multiple baseline and fine-tuned variants.",
+    ],
+    lessons: [
+      "Data partitioning is part of the model: a speaker-disjoint split provides a more credible claim than a stronger metric produced by identity leakage.",
+      "Frozen pretrained representations plus a regularized linear head can outperform parameter-efficient fine-tuning when labels and compute are limited.",
+      "MAE must be read alongside R²; a small absolute error can coexist with weak explanation of target variance when labels are narrowly distributed.",
+      "Training and serving must share the same sample-rate, channel, duration, pooling, scaler, label order, and checkpoint metadata contracts.",
+      "Separating web orchestration, inference compute, and model artifacts makes a heavy research stack deployable without hiding its experimental limitations.",
+    ],
+    sectionTitles: {
+      overview: "From undergraduate research to a live speech-AI system",
+      problem: "Estimating perceived personality without leaking speaker identity",
+      solution: "A controlled research pipeline with production parity",
+      features: "Dataset, modeling, evaluation, and deployment capabilities",
+      architecture: "Research and production system boundaries",
+      gallery: "Live product and original research artifacts",
+      challenges: "Scientific and engineering constraints",
+      lessons: "What the experiments demonstrated",
+      outcome: "A reproducible study with a reviewer-ready deployment",
+    },
+    disclaimerLabel: "Research and responsible-use notice",
+    disclaimerVariant: "info",
+    disclaimer:
+      "This system estimates apparent personality cues perceived from a short recording; it does not recover a person's clinical condition, identity, or self-reported personality. Predictions are probabilistic research outputs and must not be used for medical, clinical, employment, admissions, or other high-impact decisions. Public screenshots show the live interface without uploading audio or generating a synthetic result.",
+    seoDescription:
+      "Case study of Big Five Voice AI: a leakage-aware audio personality estimation thesis comparing eGeMAPS, wav2vec 2.0, HuBERT, WavLM, Ridge regression, and LoRA, deployed with Next.js, Vercel, Gradio, and Hugging Face.",
+  },
   {
     slug: "asteria-learn-hub",
     title: "Asteria Learn Hub",
