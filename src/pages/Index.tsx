@@ -4,7 +4,6 @@ import Hero from "@/components/sections/Hero";
 import Works from "@/components/sections/Works";
 import Services from "@/components/sections/Services";
 import About from "@/components/sections/About";
-import Templates from "@/components/sections/Templates";
 import Contact from "@/components/sections/Contact";
 import Footer from "@/components/sections/Footer";
 import { ScrollTrigger } from "@/hooks/useGSAP";
@@ -43,7 +42,6 @@ const Index = () => {
 			<About />
 			<Works />
 			<Services />
-			<Templates />
 			<Contact />
 			<Footer />
 		</main>

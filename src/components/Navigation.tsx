@@ -7,7 +7,6 @@ const navLinks = [
   { name: 'Works', href: '/#works' },
   { name: 'Services', href: '/#services' },
   { name: 'About', href: '/#about' },
-  { name: 'Templates', href: '/#templates' },
   { name: 'Contact', href: '/#contact' },
 ];
 
@@ -112,7 +111,7 @@ const Navigation = () => {
           href="/#contact"
           className={buttonVariants({ size: 'sm', className: 'hidden md:inline-flex glow-sm opacity-0' })}
         >
-          Let's Talk
+          Discuss a Project
         </a>
 
         {/* Mobile Menu Button */}
@@ -144,7 +143,7 @@ const Navigation = () => {
               className={buttonVariants({ size: 'sm', className: 'mt-4 glow-sm' })}
               onClick={() => setIsMobileMenuOpen(false)}
             >
-              Let's Talk
+              Discuss a Project
             </a>
           </nav>
         </div>

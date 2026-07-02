@@ -301,15 +301,10 @@ export const projects: ProjectCaseStudy[] = [
       },
     ],
     liveUrl: "https://codingfantasy.asteriaacademy.id/",
-    githubUrl: "https://github.com/Asteria-Academy/coding-fantasy-mobile",
     externalLinks: [
       {
         label: "Google Play",
         url: "https://play.google.com/store/apps/details?id=com.codingfantasy.mobile",
-      },
-      {
-        label: "Website Repository",
-        url: "https://github.com/qiqioberon/coding-fantasy-chronicle",
       },
     ],
     overview:
@@ -1360,7 +1355,6 @@ export const projects: ProjectCaseStudy[] = [
       },
     ],
     liveUrl: "https://www.asteriaacademy.id/",
-    githubUrl: "https://github.com/Asteria-Academy/asteria-learn-hub",
     overview:
       "Asteria Learn Hub is the digital product layer of Asteria Academy. The project brings public program discovery, organizational storytelling, learning resources, physical STEM products, partnership acquisition, student accounts, and hands-on programming into one React application. Its defining capability is Asteria Lab: a dual-mode Blockly environment where children can build software projects in the browser or generate, compile, and flash programs for Arduino Uno and ESP32 hardware.",
     problem:

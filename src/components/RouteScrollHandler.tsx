@@ -50,7 +50,15 @@ const RouteScrollHandler = () => {
               window.requestAnimationFrame(() => {
                 const headerOffset = 96;
                 const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-                window.scrollTo({ top: Math.max(top, 0), left: 0, behavior: "auto" });
+                const root = document.documentElement;
+                const previousScrollBehavior = root.style.scrollBehavior;
+
+                // `behavior: "auto"` still follows the global CSS smooth-scroll
+                // setting. Temporarily disable it so ScrollTrigger refreshes cannot
+                // interrupt hash navigation before it reaches the target.
+                root.style.scrollBehavior = "auto";
+                window.scrollTo({ top: Math.max(top, 0), left: 0 });
+                root.style.scrollBehavior = previousScrollBehavior;
                 ScrollTrigger.refresh();
                 timeouts.push(window.setTimeout(() => ScrollTrigger.refresh(), 250));
               }),
