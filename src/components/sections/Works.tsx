@@ -31,24 +31,15 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
       gsap.fromTo(
         cardRef.current,
         {
-          opacity: 0,
-          y: 100,
-          scale: 0.96,
+          y: 32,
+          scale: 0.98,
         },
         {
-          opacity: 1,
           y: 0,
           scale: 1,
-          duration: 1,
+          duration: 0.65,
           delay: index * 0.04,
           ease: "power3.out",
-          scrollTrigger: {
-            trigger: cardRef.current,
-            start: "top 85%",
-            end: "top 50%",
-            toggleActions: "play none none none",
-            once: true,
-          },
         },
       );
 
@@ -125,7 +116,6 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
       to={`/projects/${project.slug}`}
       aria-label={`Read the ${project.title} case study`}
       className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-      style={{ opacity: 0 }}
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-muted">
         <img
