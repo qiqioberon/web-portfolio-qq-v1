@@ -43,6 +43,14 @@ export interface ProjectExternalLink {
   url: string;
 }
 
+export type ProjectCategory = "product-engineering" | "data-ai";
+
+export interface ProjectInsight {
+  title: string;
+  finding: string;
+  implication: string;
+}
+
 export interface ProjectSectionTitles {
   overview: string;
   problem: string;
@@ -58,6 +66,7 @@ export interface ProjectSectionTitles {
 export interface ProjectCaseStudy {
   slug: string;
   title: string;
+  category: ProjectCategory;
   summary: string;
   role: string;
   year: string;
@@ -78,6 +87,8 @@ export interface ProjectCaseStudy {
   technologyGroups?: TechnologyGroup[];
   metricsTitle?: string;
   metrics?: ProjectMetric[];
+  insightsTitle?: string;
+  insights?: ProjectInsight[];
   challenges: string[];
   outcome: string[];
   lessons: string[];
@@ -92,6 +103,7 @@ export const projects: ProjectCaseStudy[] = [
   {
     slug: "coding-fantasy",
     title: "Coding Fantasy",
+    category: "product-engineering",
     summary:
       "A production learning-game ecosystem that turns Natural Language Processing lessons into a fantasy RPG, combining a Flutter mobile app, Supabase-backed progression and commerce, Google Play distribution, and a public React website for product discovery, privacy, and account deletion.",
     role: "Mobile & Full-stack Developer",
@@ -490,6 +502,7 @@ export const projects: ProjectCaseStudy[] = [
   {
     slug: "big-five-voice-ai",
     title: "Big Five Voice AI",
+    category: "data-ai",
     summary:
       "An end-to-end machine-learning research project and live web demo for estimating apparent Big Five personality traits from 15 seconds of speech, covering leakage-aware dataset design, pretrained speech representations, parameter-efficient fine-tuning, model packaging, and production inference on Vercel and Hugging Face.",
     role: "Machine Learning Researcher & Full-stack Developer",
@@ -855,8 +868,329 @@ export const projects: ProjectCaseStudy[] = [
       "Case study of Big Five Voice AI: a leakage-aware audio personality estimation thesis comparing eGeMAPS, wav2vec 2.0, HuBERT, WavLM, Ridge regression, and LoRA, deployed with Next.js, Vercel, Gradio, and Hugging Face.",
   },
   {
+    slug: "indonesia-stunting-analytics",
+    title: "Indonesia Stunting Analytics",
+    category: "data-ai",
+    summary:
+      "An interactive public-health analytics dashboard created for COMPFEST 17, transforming national, provincial, and city-level stunting data into forecasts, regional priorities, human-development findings, and an evidence-led intervention playbook.",
+    role: "Data Analyst & Tableau Developer",
+    year: "2025",
+    status: "Live Tableau Dashboard",
+    tags: ["SQL", "Tableau", "Data Analytics", "Forecasting", "Geospatial Analysis", "Public Health"],
+    cover: {
+      src: "/projects/indonesia-stunting-analytics/overview.webp",
+      alt: "Indonesia Stunting Analytics overview dashboard comparing national stunting prevalence, HDI, life expectancy, and policy targets through 2045.",
+      width: 1425,
+      height: 1127,
+    },
+    gallery: [
+      {
+        src: "/projects/indonesia-stunting-analytics/hook.webp",
+        alt: "Editorial collage of Indonesian reporting about missed stunting targets, regional inequality, economic losses, and child-development risks.",
+        width: 1425,
+        height: 1127,
+        title: "Hook: why stunting still demands attention",
+        description:
+          "The opening view frames the analysis with public reporting on missed reduction targets, uneven human development, long-term economic costs, and the concentration of severe outcomes in central and eastern Indonesia.",
+        features: [
+          "Editorial problem framing before the analytical dashboards begin.",
+          "Connects prevalence to human development, infant health, and economic consequences.",
+          "Creates a narrative bridge from public headlines to measurable questions.",
+        ],
+      },
+      {
+        src: "/projects/indonesia-stunting-analytics/overview.webp",
+        alt: "Overview dashboard showing Indonesia's 2024 stunting prevalence, 2029 and 2045 targets, HDI gap, life-expectancy gap, and a 2013 to 2024 indicator trend chart.",
+        width: 1425,
+        height: 1127,
+        title: "Overview: baseline, targets, and development context",
+        description:
+          "The overview aligns the 2024 prevalence baseline with national targets and shows how stunting reduction moved alongside HDI and life expectancy from 2013 to 2024.",
+        features: [
+          "Indicator legend highlights stunting, HDI, or life expectancy in the shared trend view.",
+          "Year range filtering supports focused historical inspection.",
+          "Target cards make the remaining 2029 and 2045 gaps explicit.",
+        ],
+      },
+      {
+        src: "/projects/indonesia-stunting-analytics/national-trend.webp",
+        alt: "National Trend dashboard with actual stunting data, linear and exponential projections to 2029, under-two and under-five prevalence, and annual reductions.",
+        width: 1425,
+        height: 1127,
+        title: "National trend and target scenarios",
+        description:
+          "Actual results are extended with linear and exponential scenarios to test whether the 14.2% RPJMN target can be reached and how much annual progress is required.",
+        features: [
+          "Actual, linear, and exponential series can be highlighted independently.",
+          "Under-two and under-five prevalence are compared across 2020–2024.",
+          "Annual reduction bars expose the 2022–2023 slowdown and 2023–2024 recovery.",
+        ],
+      },
+      {
+        src: "/projects/indonesia-stunting-analytics/regions-stunting.webp",
+        alt: "Indonesia choropleth map of 2024 stunting prevalence with year controls and top-five and bottom-five provincial rankings.",
+        width: 1425,
+        height: 1127,
+        title: "Regional priority map: stunting prevalence",
+        description:
+          "The provincial map and rankings identify persistent high-prevalence clusters while preserving the ability to compare each year from 2020 to 2024.",
+        features: [
+          "Interactive year filter updates the choropleth and provincial rankings.",
+          "Top and bottom lists make geographic inequality immediately comparable.",
+          "A dashboard action switches between stunting and life-expectancy views.",
+        ],
+      },
+      {
+        src: "/projects/indonesia-stunting-analytics/regions-life-expectancy.webp",
+        alt: "Indonesia life-expectancy choropleth for 2024 with top and bottom provincial rankings and a year selector.",
+        width: 1425,
+        height: 1127,
+        title: "Regional priority map: life expectancy",
+        description:
+          "The alternate map shows where low life expectancy overlaps with high stunting and highlights stable high-performing and underserved regional clusters.",
+        features: [
+          "Year-by-year comparison covers 2020–2024.",
+          "Top-five and bottom-five rankings complement the geographic view.",
+          "Narrative annotations distinguish persistent patterns from one-year results.",
+        ],
+      },
+      {
+        src: "/projects/indonesia-stunting-analytics/drivers.webp",
+        alt: "Drivers dashboard with a 2020 to 2024 correlation matrix, projected HDI and life expectancy, health risks, and treatment-cost estimates.",
+        width: 1425,
+        height: 1127,
+        title: "Drivers, correlations, and downstream costs",
+        description:
+          "A correlation matrix connects prevalence with HDI, life expectancy, schooling, and inequality, while separate panels communicate the health and economic stakes of delayed action.",
+        features: [
+          "Correlation heatmap covers six development and prevalence variables.",
+          "Scenario chart links the 2029 prevalence target to HDI and life-expectancy trajectories.",
+          "Treatment-cost bars translate long-term disease risk into an economic frame.",
+        ],
+      },
+      {
+        src: "/projects/indonesia-stunting-analytics/action.webp",
+        alt: "Action dashboard with a provincial treemap, case studies from Bali, Riau Islands, and West Java, selection criteria, and first-1000-days intervention priorities.",
+        width: 1425,
+        height: 1127,
+        title: "Action: provincial practices and intervention priorities",
+        description:
+          "The final view moves from diagnosis to execution by comparing provincial practices and defining the capabilities needed to adapt successful interventions elsewhere.",
+        features: [
+          "Treemap summarizes the 2024 provincial distribution.",
+          "Case studies cover Bali, the Riau Islands, and West Java.",
+          "Recommendations focus on leadership, data infrastructure, resources, communities, and the first 1,000 days of life.",
+        ],
+      },
+    ],
+    liveUrl:
+      "https://public.tableau.com/app/profile/muhammad.aqil.farrukh1653/viz/Dashboard_JMK48_sql_COMPFEST17/Hook?publish=yes",
+    overview:
+      "Indonesia Stunting Analytics was created by team JMK48.sql as an entry for the COMPFEST 17 Data Analytics Dash competition organized by the Faculty of Computer Science, Universitas Indonesia. The entry did not place among the winners, but it remains a complete analytical product: it combines a harmonized multilevel dataset, exploratory analysis, target scenarios, geographic prioritization, and an actionable public-health narrative in a live Tableau experience.",
+    problem:
+      "Indonesia's national stunting rate has fallen, but a national average hides slower recent momentum and large provincial disparities. Competition reviewers needed more than a descriptive chart: the analysis had to connect national targets, regional urgency, human-development indicators, health consequences, and practical interventions in one traceable story.",
+    solution:
+      "Public data from SSGI/Riskesdas, BPS/UNDP, and WHO was harmonized into a single eight-column analytical table spanning national, provincial, and city/regency levels. SQL-style preparation and Tableau calculated fields drive trends, rankings, forecasts, and map states; a Hyper extract packages the data for publication; and editorial background assets, annotations, filters, legends, and dashboard actions turn the analysis into a guided report on Tableau Public.",
+    features: [
+      "Seven report states covering problem framing, overview, national trend, two regional maps, drivers, and action.",
+      "A 6,771-row integrated dataset across national, provincial, and city/regency levels.",
+      "National stunting, HDI, and life-expectancy trends for 2013–2024.",
+      "Linear and exponential prevalence scenarios compared with the 2029 and 2045 policy targets.",
+      "Annual reduction analysis highlighting acceleration, stagnation, and recovery periods.",
+      "Year-filtered provincial choropleths with top-five and bottom-five rankings.",
+      "A dashboard action for switching between stunting and life-expectancy regional views.",
+      "A 2020–2024 correlation matrix covering prevalence and human-development variables.",
+      "Health-risk framing and treatment-cost estimates for major chronic conditions.",
+      "Provincial case studies and an intervention framework focused on the first 1,000 days of life.",
+    ],
+    metricsTitle: "Analysis scope and deliverables",
+    metrics: [
+      {
+        label: "Integrated records",
+        value: "6,771",
+        description: "Rows consolidated into the final national, provincial, and city/regency analytical table.",
+      },
+      {
+        label: "Historical coverage",
+        value: "2013–2024",
+        description: "Twelve years of national indicators, with regional coverage used where the source data supports it.",
+      },
+      {
+        label: "Local areas",
+        value: "514",
+        description: "Unique city and regency labels represented in the prepared dataset.",
+      },
+      {
+        label: "Dashboard states",
+        value: "7",
+        description: "The hook, overview, trend, two regional views, drivers, and action report states.",
+      },
+    ],
+    insightsTitle: "Evidence, findings, and policy implications",
+    insights: [
+      {
+        title: "The national target remains achievable—but pace matters",
+        finding:
+          "Prevalence fell from 27.7% in 2019 to 19.8% in 2024. Reaching 14.2% by 2029 leaves a 5.6-point gap and requires an average reduction of at least about 1.12 percentage points per year.",
+        implication:
+          "Linear and exponential scenarios provide a pace benchmark; recent improvement must be sustained rather than treated as a one-off result.",
+      },
+      {
+        title: "Recent progress has been uneven",
+        finding:
+          "The largest annual reduction was 2.8 points in 2021–2022, followed by near-stagnation of 0.1 point in 2022–2023 and a 1.7-point recovery in 2023–2024.",
+        implication:
+          "Program evaluation should distinguish durable acceleration from temporary rebounds and investigate what changed between these periods.",
+      },
+      {
+        title: "Stunting tracks broader human-development conditions",
+        finding:
+          "The 2020–2024 matrix shows strong negative associations between prevalence and HDI, life expectancy, and expected years of schooling, while under-two and under-five prevalence move almost identically.",
+        implication:
+          "Intervention design should connect nutrition with education, health access, and household conditions, while treating correlation as evidence for investigation—not proof of causation.",
+      },
+      {
+        title: "Regional inequality determines where action is most urgent",
+        finding:
+          "For 2024, Nusa Tenggara Timur reached 37%, Sulawesi Barat 35.4%, Papua Barat Daya 30.5%, Nusa Tenggara Barat 29.8%, and Aceh 28.6%, while Bali was 8.7%.",
+        implication:
+          "National programs need geographically targeted delivery, especially across persistent eastern clusters, alongside replication of practices from stable high-performing provinces.",
+      },
+      {
+        title: "Delayed prevention carries measurable health costs",
+        finding:
+          "The report cites 2020 treatment costs of Rp10.3 trillion for cardiovascular disease, Rp3.5 trillion for cancer, Rp2.5 trillion for stroke, and Rp2.3 trillion for kidney failure.",
+        implication:
+          "Upstream nutrition and prevention can be framed as both a health investment and a way to reduce long-term system costs.",
+      },
+      {
+        title: "The action framework starts before birth",
+        finding:
+          "The recommended pathway begins before marriage, continues through pregnancy, and prioritizes the first 1,000 days, supported by budgets, people, leadership, data infrastructure, communities, and cross-sector participation.",
+        implication:
+          "Provincial selection and funding should consider delivery capacity as well as prevalence, then adapt proven practices from Bali, the Riau Islands, and West Java.",
+      },
+    ],
+    architecture: {
+      title: "Competition analytics and publication pipeline",
+      intro:
+        "The workflow separates source harmonization from the published visual layer. A compact analytical table feeds Tableau calculations and extracts, while the final dashboard combines interactive marks with editorial framing for a guided review experience.",
+      clientLabel: "Published experience",
+      serviceLabel: "Analysis pipeline",
+      privilegedLabel: "Publication boundary",
+      boundaryTitle: "Public analytical reporting boundary",
+      diagramDescription:
+        "Indonesia Stunting Analytics pipeline: public health and development sources are cleaned and harmonized into final_all.csv, packaged in a Tableau Hyper extract, transformed through calculated fields and visual models, and published as an interactive Tableau Public report.",
+      client: {
+        title: "Tableau Public dashboard",
+        description:
+          "Presents the guided story, filters, legends, forecasts, rankings, maps, evidence, and action recommendations to public reviewers.",
+      },
+      services: [
+        {
+          title: "Public source datasets",
+          description: "SSGI/Riskesdas, BPS/UNDP, and WHO provide prevalence and human-development context.",
+        },
+        {
+          title: "SQL and data harmonization",
+          description: "Standardizes geography, year, measurement fields, and national/provincial/city level labels.",
+        },
+        {
+          title: "final_all.csv + Hyper extract",
+          description: "Packages 6,771 prepared records into a portable analytical source for Tableau.",
+        },
+        {
+          title: "Tableau analytical layer",
+          description: "Calculated fields, projections, ranking logic, filters, maps, and actions power the report states.",
+        },
+      ],
+      privileged: {
+        title: "Tableau Public publication",
+        description:
+          "Hosts the read-only interactive report while keeping the local workbook and prepared dataset outside this portfolio.",
+      },
+    },
+    stack: [
+      "SQL",
+      "CSV",
+      "Data Cleaning",
+      "Data Harmonization",
+      "Tableau Desktop",
+      "Tableau Public",
+      "Tableau Hyper Extract",
+      "Calculated Fields",
+      "Linear Projection",
+      "Exponential Projection",
+      "Correlation Analysis",
+      "Mapbox",
+      "OpenStreetMap",
+      "Choropleth Maps",
+      "Dashboard Actions",
+      "Data Storytelling",
+    ],
+    technologyGroups: [
+      {
+        title: "Data preparation and analysis",
+        description: "The structured workflow used to unify levels, indicators, geographies, and time coverage.",
+        items: ["SQL", "CSV", "Data Cleaning", "Data Harmonization", "Correlation Analysis"],
+      },
+      {
+        title: "Business intelligence",
+        description: "The analytical and publication layer behind the interactive report.",
+        items: ["Tableau Desktop", "Tableau Public", "Hyper Extract", "Calculated Fields", "Filters", "Dashboard Actions"],
+      },
+      {
+        title: "Forecasting and spatial analysis",
+        description: "Methods used to compare target scenarios and expose regional inequality.",
+        items: ["Linear Projection", "Exponential Projection", "Choropleth Maps", "Mapbox", "OpenStreetMap", "Rankings"],
+      },
+      {
+        title: "Communication and evidence",
+        description: "Editorial techniques and public sources that make the analysis reviewable.",
+        items: ["Data Storytelling", "Annotations", "SSGI/Riskesdas", "BPS/UNDP", "WHO"],
+      },
+    ],
+    challenges: [
+      "Combining national, provincial, and city/regency observations with different coverage and missing-value patterns into one stable schema.",
+      "Separating observed values from scenario projections so policy targets were not presented as guaranteed forecasts.",
+      "Making seven dense report states readable within a consistent visual system under competition time constraints.",
+      "Balancing interactive maps and filters with explicit annotations so the central conclusions remained visible without exploration.",
+      "Turning correlation and cost evidence into responsible recommendations without making causal or clinical claims.",
+    ],
+    outcome: [
+      "The competition entry became a publicly accessible Tableau report that reviewers can explore without the original workbook or local dataset.",
+      "The final narrative links national performance, regional inequality, development indicators, downstream costs, and implementation capacity instead of presenting isolated charts.",
+      "Although the entry did not win COMPFEST 17, it demonstrates an end-to-end analytics workflow from data preparation to decision-oriented storytelling.",
+    ],
+    lessons: [
+      "Competition dashboards are stronger when every view answers a distinct decision question and the navigation follows the reasoning sequence.",
+      "A national average needs regional rankings and maps to reveal who is being left behind.",
+      "Forecast scenarios should state their required pace and assumptions rather than appearing as unconditional predictions.",
+      "Correlation findings become more useful when paired with limitations and a concrete path for follow-up analysis.",
+      "Recommendations should account for delivery capacity—leadership, people, data, funding, and community structure—not prevalence alone.",
+    ],
+    sectionTitles: {
+      overview: "A competition dashboard built around a national health decision",
+      problem: "National progress concealed slower momentum and regional inequality",
+      solution: "A harmonized dataset and a seven-part analytical narrative",
+      features: "What the interactive report covers",
+      architecture: "From public data to Tableau Public",
+      gallery: "Seven report states from urgency to action",
+      challenges: "What shaped the competition analysis",
+      lessons: "What the dashboard process clarified",
+      outcome: "A non-winning entry with a complete analytical product story",
+    },
+    disclaimerLabel: "Analytical interpretation notice",
+    disclaimerVariant: "info",
+    disclaimer:
+      "This case study summarizes a 2025 competition analysis built from public-source snapshots. Linear and exponential values are scenarios, not guaranteed forecasts. Correlations do not establish causation, and the dashboard is an educational analytical artifact rather than clinical, epidemiological, or official policy guidance. The local workbook and prepared dataset are not published through this portfolio.",
+    seoDescription:
+      "Indonesia Stunting Analytics is a COMPFEST 17 SQL and Tableau case study covering national trends, forecasts, regional maps, development correlations, health costs, and intervention priorities.",
+  },
+  {
     slug: "asteria-learn-hub",
     title: "Asteria Learn Hub",
+    category: "product-engineering",
     summary:
       "A production learning ecosystem for Asteria Academy that combines a public education website, student authentication, and two browser-based Blockly workspaces: a software lab for interactive projects and a hardware lab for Arduino Uno and ESP32 programming.",
     role: "Full-stack & Learning Platform Developer",
@@ -1224,6 +1558,7 @@ export const projects: ProjectCaseStudy[] = [
   {
     slug: "brp-marketplace",
     title: "BRP Marketplace",
+    category: "product-engineering",
     summary:
       "A full-stack commerce platform for PT. Bumi Rekayasa Persada, covering product discovery, checkout, payments, shipping, realtime support, inventory, orders, customers, reporting, and company operations. The public link is a frontend-only demo with synthetic mock data because the original server is currently offline.",
     role: "Full-stack Developer",
@@ -1661,6 +1996,7 @@ export const projects: ProjectCaseStudy[] = [
   {
     slug: "atomics-lite",
     title: "Atomics Lite",
+    category: "product-engineering",
     summary:
       "A portfolio-safe reconstruction of a crossmatch record workflow for synthetic demo data, image review, collaboration, statistics, and reporting.",
     role: "Full-stack Developer",
@@ -1803,6 +2139,7 @@ export const projects: ProjectCaseStudy[] = [
   {
     slug: "its-expo-2024",
     title: "ITS Expo 2024 Frontend Demo",
+    category: "product-engineering",
     summary:
       "A public demo version of the ITS Expo 2024 frontend, preserving the event website experience, GIGS registration flow, admin review screens, and link shortener with a Vercel-hosted mock backend.",
     role: "Frontend Developer",
@@ -1949,6 +2286,7 @@ export const projects: ProjectCaseStudy[] = [
   {
     slug: "ling-chinese-lab",
     title: "Ling Chinese Lab",
+    category: "product-engineering",
     summary:
       "A production profile and landing site for a Mandarin learning service, designed to present programs, mentor credibility, testimonials, and consultation paths through a warm responsive frontend.",
     role: "Web Designer + Frontend",

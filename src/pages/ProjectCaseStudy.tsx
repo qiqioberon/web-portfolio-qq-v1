@@ -249,6 +249,35 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
           </section>
         ) : null}
 
+        {project.insights?.length ? (
+          <section className="px-6 py-16">
+            <div className="mx-auto max-w-7xl">
+              <SectionEyebrow>Key Insights</SectionEyebrow>
+              <SectionTitle>{project.insightsTitle || "Evidence and implications"}</SectionTitle>
+              <div className="mt-10 grid gap-5 lg:grid-cols-2">
+                {project.insights.map((insight, index) => (
+                  <article key={insight.title} className="rounded-3xl border border-border bg-card p-6 md:p-8">
+                    <p className="font-mono text-xs uppercase tracking-wider text-primary">
+                      Finding {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <h3 className="mt-3 text-2xl font-black leading-tight">{insight.title}</h3>
+                    <div className="mt-6 space-y-5 text-sm leading-7 text-muted-foreground md:text-base">
+                      <div>
+                        <p className="font-mono text-xs uppercase tracking-wider text-foreground">Evidence</p>
+                        <p className="mt-2">{insight.finding}</p>
+                      </div>
+                      <div className="border-t border-border pt-5">
+                        <p className="font-mono text-xs uppercase tracking-wider text-foreground">Implication</p>
+                        <p className="mt-2">{insight.implication}</p>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </section>
+        ) : null}
+
         <section className="px-6 py-16">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Architecture</SectionEyebrow>

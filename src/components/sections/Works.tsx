@@ -2,7 +2,24 @@ import { useEffect, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { gsap } from "@/hooks/useGSAP";
-import { projects, type ProjectCaseStudy } from "@/data/projects";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { projects, type ProjectCaseStudy, type ProjectCategory } from "@/data/projects";
+
+type WorkFilter = "all" | ProjectCategory;
+
+const categoryLabels: Record<ProjectCategory, string> = {
+  "product-engineering": "Product & Engineering",
+  "data-ai": "Data & AI",
+};
+
+const workFilters: Array<{ value: WorkFilter; label: string }> = [
+  { value: "all", label: "All Work" },
+  { value: "product-engineering", label: "Product & Engineering" },
+  { value: "data-ai", label: "Data & AI" },
+];
+
+const getProjectsForFilter = (filter: WorkFilter) =>
+  filter === "all" ? projects : projects.filter((project) => project.category === filter);
 
 const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: number }) => {
   const cardRef = useRef<HTMLAnchorElement>(null);
@@ -107,10 +124,10 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
       ref={cardRef}
       to={`/projects/${project.slug}`}
       aria-label={`Read the ${project.title} case study`}
-      className="group relative grid overflow-hidden rounded-3xl border border-border bg-card text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background lg:grid-cols-[1.35fr_0.95fr]"
+      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       style={{ opacity: 0 }}
     >
-      <div className="relative min-h-[280px] overflow-hidden bg-muted md:min-h-[420px]">
+      <div className="relative aspect-[16/10] overflow-hidden bg-muted">
         <img
           src={project.cover.src}
           alt={project.cover.alt}
@@ -119,14 +136,21 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
           loading="lazy"
           className="card-image h-full w-full object-cover transition-transform"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:to-background/80" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/75 via-transparent to-transparent" />
+        <span className="absolute left-5 top-5 rounded-full border border-white/15 bg-background/80 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-foreground backdrop-blur-md">
+          {categoryLabels[project.category]}
+        </span>
       </div>
 
-      <div className="relative flex flex-col justify-between gap-10 p-6 md:p-10">
+      <div className="relative flex flex-1 flex-col p-6 md:p-7">
         <div>
-          <span className="text-primary text-sm font-mono tracking-wider uppercase">Featured Case Study</span>
-          <div className="mt-5 flex items-start justify-between gap-6">
-            <h3 className="card-title text-3xl font-black tracking-tight transition-colors md:text-5xl">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-xs uppercase tracking-wider text-muted-foreground">
+            <span>{project.year}</span>
+            <span className="h-1 w-1 rounded-full bg-primary" aria-hidden="true" />
+            <span>{project.status}</span>
+          </div>
+          <div className="mt-4 flex items-start justify-between gap-5">
+            <h3 className="card-title text-2xl font-black tracking-tight transition-colors md:text-3xl">
               {project.title}
             </h3>
             <ArrowUpRight
@@ -134,15 +158,31 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
               aria-hidden="true"
             />
           </div>
-          <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground md:text-lg">{project.summary}</p>
+          <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground md:text-base md:leading-7">
+            {project.summary}
+          </p>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag) => (
-            <span key={tag} className="rounded-full bg-secondary px-3 py-1.5 font-mono text-xs text-secondary-foreground">
-              {tag}
-            </span>
-          ))}
+        <div className="mt-auto pt-7">
+          <div className="flex flex-wrap gap-2">
+            {project.tags.slice(0, 4).map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-secondary px-3 py-1.5 font-mono text-[11px] text-secondary-foreground"
+              >
+                {tag}
+              </span>
+            ))}
+            {project.tags.length > 4 ? (
+              <span className="rounded-full border border-border px-3 py-1.5 font-mono text-[11px] text-muted-foreground">
+                +{project.tags.length - 4}
+              </span>
+            ) : null}
+          </div>
+          <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
+            View case study
+            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+          </span>
         </div>
       </div>
 
@@ -210,15 +250,49 @@ const Works = () => {
             Featured Work
           </span>
           <h2 ref={titleRef} className="text-4xl md:text-5xl lg:text-6xl font-black">
-            Selected Projects
+            Projects by Discipline
           </h2>
+          <p className="mt-5 max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
+            Product engineering, applied AI, and data stories—organized for faster browsing without hiding the full case studies.
+          </p>
         </div>
 
-        <div className="grid gap-6">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.slug} project={project} index={index} />
-          ))}
-        </div>
+        <Tabs defaultValue="all">
+          <TabsList
+            className="h-auto w-full justify-start gap-2 overflow-x-auto rounded-none bg-transparent p-1"
+            aria-label="Filter portfolio projects by discipline"
+          >
+            {workFilters.map((filter) => (
+              <TabsTrigger
+                key={filter.value}
+                value={filter.value}
+                className="gap-2 rounded-full border border-border bg-card px-4 py-2.5 font-mono text-xs uppercase tracking-wider data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+              >
+                {filter.label}
+                <span
+                  className="rounded-full bg-background/70 px-2 py-0.5 text-[10px] text-foreground"
+                  aria-label={`${getProjectsForFilter(filter.value).length} projects`}
+                >
+                  {getProjectsForFilter(filter.value).length}
+                </span>
+              </TabsTrigger>
+            ))}
+          </TabsList>
+
+          {workFilters.map((filter) => {
+            const filteredProjects = getProjectsForFilter(filter.value);
+
+            return (
+              <TabsContent key={filter.value} value={filter.value} className="mt-8">
+                <div className="grid gap-6 md:grid-cols-2">
+                  {filteredProjects.map((project, index) => (
+                    <ProjectCard key={project.slug} project={project} index={index} />
+                  ))}
+                </div>
+              </TabsContent>
+            );
+          })}
+        </Tabs>
       </div>
     </section>
   );
