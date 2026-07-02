@@ -90,6 +90,404 @@ export interface ProjectCaseStudy {
 
 export const projects: ProjectCaseStudy[] = [
   {
+    slug: "coding-fantasy",
+    title: "Coding Fantasy",
+    summary:
+      "A production learning-game ecosystem that turns Natural Language Processing lessons into a fantasy RPG, combining a Flutter mobile app, Supabase-backed progression and commerce, Google Play distribution, and a public React website for product discovery, privacy, and account deletion.",
+    role: "Mobile & Full-stack Developer",
+    year: "2026",
+    status: "Live Product Ecosystem",
+    tags: ["Flutter", "Dart", "Supabase", "Google Play", "React", "TypeScript", "Vercel"],
+    cover: {
+      src: "/projects/coding-fantasy/website-home.webp",
+      alt: "Coding Fantasy official website hero with the fantasy castle logo, Master the Code Rule the Kingdom headline, and Google Play call to action.",
+      width: 1440,
+      height: 1000,
+    },
+    gallery: [
+      {
+        src: "/projects/coding-fantasy/website-home.webp",
+        alt: "Coding Fantasy official website hero in English with product branding and links to Google Play and the privacy policy.",
+        width: 1440,
+        height: 1000,
+        title: "Official product website",
+        description:
+          "The bilingual public entry point introduces Coding Fantasy as a story-driven coding adventure and routes visitors to the Android release and legal information.",
+        features: [
+          "Responsive Vite and React marketing experience hosted on Vercel.",
+          "English and Indonesian language controls shared across public pages.",
+          "Direct product, privacy, and account-management navigation outside the mobile app.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/website-features-gallery.webp",
+        alt: "Coding Fantasy website feature cards for syntax, boss battles, quests, story learning, and badges above the mobile screenshot gallery.",
+        width: 1440,
+        height: 1000,
+        title: "Feature and gameplay showcase",
+        description:
+          "The landing page translates the app's learning loop into reviewer-friendly product language and previews the real Android interface.",
+        features: [
+          "Explains the relationship between lessons, quests, boss encounters, and rewards.",
+          "Uses real application captures rather than conceptual mockups.",
+          "Keeps the mobile product discoverable without requiring installation first.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/website-privacy-policy.webp",
+        alt: "Coding Fantasy public privacy policy describing account, gameplay, purchase, storage, and deletion data practices.",
+        width: 1440,
+        height: 1000,
+        title: "Public privacy and data disclosure",
+        description:
+          "The companion website documents how authentication, gameplay progress, leaderboard information, and purchase claims are handled across the app and backend.",
+        features: [
+          "Covers Google Sign-In, Supabase storage, gameplay records, and in-app purchases.",
+          "Explains retention, security, third-party services, and deletion behavior.",
+          "Available publicly in both English and Indonesian.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/website-delete-account.webp",
+        alt: "Coding Fantasy signed-out delete-account page explaining permanent deletion and offering Google sign-in and manual support.",
+        width: 1440,
+        height: 1000,
+        title: "Account review and deletion outside the app",
+        description:
+          "Players can open the deletion route without launching the mobile app, then authenticate with the same Google account before reviewing and permanently removing their data.",
+        features: [
+          "Authenticated summary covers profile, level, EXP, coins, badges, completed content, and daily quests.",
+          "Explicit consent and typed confirmation reduce accidental deletion.",
+          "A Supabase Edge Function removes related gameplay records and the auth account, with email support as a fallback.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-google-sign-in.webp",
+        alt: "Coding Fantasy Android sign-in screen with fantasy castle artwork and a Sign in with Google button.",
+        width: 738,
+        height: 1600,
+        title: "Google-authenticated player entry",
+        description:
+          "The Android experience starts with Google Sign-In, creating a protected Supabase session that connects the player to their persistent profile and progress.",
+        features: [
+          "Native Google Sign-In backed by Supabase Auth.",
+          "Route guards keep authenticated and signed-out flows separated.",
+          "Account identity is shared with the web-based deletion flow.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-home-hub.webp",
+        alt: "Coding Fantasy mobile home hub showing Start Quest, character, progress, settings, leaderboard, level, EXP, and coin controls.",
+        width: 738,
+        height: 1600,
+        title: "Player home and progression hub",
+        description:
+          "The home screen centralizes the core learning journey and makes player progression, currency, customization, settings, and social ranking immediately accessible.",
+        features: [
+          "Level, EXP, and coin state are visible throughout the main loop.",
+          "Quick access to quests, character customization, progress, and leaderboard.",
+          "Profile avatar and account settings connect local UI state to the Supabase profile.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-ai-quest-map.webp",
+        alt: "Coding Fantasy AI Quest Map showing Natural Language Processing as playable and Computer Vision as locked future content.",
+        width: 738,
+        height: 1600,
+        title: "AI Quest Map",
+        description:
+          "The topic map frames AI education as a branching fantasy campaign. Natural Language Processing is the shipped learning path, while Computer Vision is clearly presented as locked future content.",
+        features: [
+          "NLP campaign is the currently implemented learning topic.",
+          "Locked-state design communicates future expansion without overstating shipped scope.",
+          "Player level, EXP, and coins remain visible across navigation.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-nlp-level-map.webp",
+        alt: "Coding Fantasy NLP level map with a tokenization lesson, daily quest, zoom controls, quiz node, and mini-boss path.",
+        width: 738,
+        height: 1600,
+        title: "Progressive NLP level map",
+        description:
+          "A zoomable quest path sequences story lessons, quizzes, and boss encounters so learners unlock concepts gradually instead of navigating a conventional course list.",
+        features: [
+          "Level nodes expose prerequisites, completion state, and the next available activity.",
+          "Daily quest status is integrated into the campaign view.",
+          "Story, quiz, mini-boss, and final-boss routes share one progression model.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-story-lesson.webp",
+        alt: "Coding Fantasy localized story lesson with a fantasy character, page progress, navigation arrows, and Indonesian narrative text.",
+        width: 738,
+        height: 1600,
+        title: "Story-driven learning",
+        description:
+          "Localized narrative content introduces NLP concepts through characters, scenes, choices, and challenges before the learner reaches an assessment.",
+        features: [
+          "English and Indonesian story assets are loaded from structured local content.",
+          "Page progress, replay behavior, and return-to-map navigation preserve lesson context.",
+          "First completion is connected to server-backed EXP rewards.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-quiz-battle.webp",
+        alt: "Coding Fantasy quiz battle asking an Indonesian tokenization question with four multiple-choice answers.",
+        width: 738,
+        height: 1600,
+        title: "Quiz battles and reward rules",
+        description:
+          "Knowledge checks reuse the fantasy encounter language while tracking pass state, perfect completions, repeat attempts, and reward eligibility.",
+        features: [
+          "Localized question repositories support English and Indonesian.",
+          "Result screens feed level-map completion and skill-tree badge state.",
+          "Server-side reward claims prevent duplicate first-pass grants and enforce repeat limits.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-skill-tree-badges.webp",
+        alt: "Coding Fantasy NLP skill tree with connected achievement nodes and a badge collection showing three of six badges unlocked.",
+        width: 738,
+        height: 1600,
+        title: "Skill tree and badge collection",
+        description:
+          "This screen is the achievement layer—not a generic progress chart. Completed stories and quizzes unlock connected NLP skill nodes and collectible badges.",
+        features: [
+          "Remote badge snapshots hydrate the local skill-tree state.",
+          "Locked and unlocked nodes make prerequisite relationships visible.",
+          "Badge collection provides a durable mastery signal beyond raw EXP.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-character-outfits.webp",
+        alt: "Coding Fantasy character customization screen with an equipped hero and locked outfits priced in coins.",
+        width: 738,
+        height: 1600,
+        title: "Character customization",
+        description:
+          "Earned and purchased coins feed a cosmetic progression loop where players unlock and equip outfits while keeping learning rewards meaningful.",
+        features: [
+          "Outfit ownership and the equipped character are persisted with the player profile.",
+          "Locked cards communicate coin cost before confirmation.",
+          "Cosmetic progression personalizes the learning journey without changing lesson outcomes.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-coin-shop.webp",
+        alt: "Coding Fantasy coin shop with Google Play in-app purchase packages from 100 to 4000 coins and Indonesian Rupiah prices.",
+        width: 738,
+        height: 1600,
+        title: "Google Play commerce",
+        description:
+          "The Android shop sells consumable coin packages through Google Play Billing, with verification and balance mutation kept outside the client.",
+        features: [
+          "Google Play purchase tokens are sent to Supabase Edge Functions for verification.",
+          "Google Play Developer API responses are translated into atomic, idempotent coin claims.",
+          "A separate non-consumable product unlocks paid level content without granting duplicate entitlements.",
+        ],
+      },
+    ],
+    liveUrl: "https://codingfantasy.asteriaacademy.id/",
+    githubUrl: "https://github.com/Asteria-Academy/coding-fantasy-mobile",
+    externalLinks: [
+      {
+        label: "Google Play",
+        url: "https://play.google.com/store/apps/details?id=com.codingfantasy.mobile",
+      },
+      {
+        label: "Website Repository",
+        url: "https://github.com/qiqioberon/coding-fantasy-chronicle",
+      },
+    ],
+    overview:
+      "Coding Fantasy is a live Android educational game and public web ecosystem for learning Natural Language Processing through a fantasy RPG structure. Players follow localized stories, complete quizzes, fight bosses, earn progression rewards, customize a character, and compare progress on a leaderboard. A companion website makes the product, privacy policy, and account-deletion controls accessible without requiring the app.",
+    problem:
+      "Introductory AI material is often presented as disconnected theory, while a production learning game also needs reliable identity, progression, rewards, purchases, localization, and user-data controls. The product needed to make NLP approachable without reducing the experience to static reading, and it had to preserve player state safely across the Android client, Supabase, Google services, and a public account-management surface.",
+    solution:
+      "The product was built as a Flutter monolith containing the application, localized learning content, Android release configuration, tests, Supabase migrations, and serverless functions. Flutter owns the fantasy interface and learning loop; Supabase Auth, PostgreSQL, RLS, RPCs, and Edge Functions protect persistent state and privileged mutations; Google Play provides distribution and billing; and a separate Vite/React site on Vercel handles discovery, policy disclosure, account review, and deletion.",
+    features: [
+      "Google Sign-In through Supabase Auth with protected signed-in and signed-out routes.",
+      "AI Quest Map with a production NLP path and visibly locked Computer Vision expansion path.",
+      "Localized, story-driven NLP lessons with structured content, replay, choices, and challenges.",
+      "Zoomable level progression connecting lessons, quizzes, mini bosses, and a final boss.",
+      "Quiz result handling with pass state, perfect-completion badges, repeat rules, and reward eligibility.",
+      "Boss encounters with localized content and server-backed EXP and coin rewards.",
+      "Persistent player level, EXP, coins, node completion, story, quiz, and boss progress.",
+      "Daily quests that combine story and quiz objectives with a claimable reward.",
+      "Skill-tree prerequisites, remote badge unlocks, and a dedicated badge collection.",
+      "Leaderboard entries backed by Supabase profile and progression data.",
+      "Editable username, Google avatar, character outfit ownership, and equipped-character state.",
+      "Google Play Billing for consumable coin packs and a non-consumable paid level unlock.",
+      "Persistent English/Indonesian language preferences plus scene-specific music and sound controls.",
+      "Public bilingual privacy and account-deletion pages that work independently of the Android app.",
+    ],
+    architecture: {
+      title: "Mobile learning and progression",
+      intro:
+        "The Flutter client combines localized content and game state with authenticated Supabase services. Readable learning content stays close to the application, while durable identity, progression, rewards, and rankings are synchronized through protected database operations.",
+      clientLabel: "Mobile experience",
+      serviceLabel: "Learning & state services",
+      privilegedLabel: "Persistent boundary",
+      boundaryTitle: "Authenticated progression boundary",
+      diagramDescription:
+        "Coding Fantasy mobile architecture: Flutter screens load localized story, quiz, and boss content, coordinate local preferences and audio, and synchronize authenticated progression through Supabase Auth, PostgreSQL, RLS, and RPC functions.",
+      client: {
+        title: "Flutter Android application",
+        description:
+          "Renders authentication, home, quest maps, stories, quizzes, bosses, skill tree, leaderboard, character, and shop experiences from a single Dart codebase.",
+      },
+      services: [
+        {
+          title: "Localized learning content",
+          description: "Structured English and Indonesian story, quiz, and boss assets drive the NLP campaign.",
+        },
+        {
+          title: "Local state & preferences",
+          description: "Coordinates navigation, cached progress, language, tutorial state, audio scenes, and settings.",
+        },
+        {
+          title: "Supabase Auth",
+          description: "Connects native Google Sign-In to a protected player identity and profile.",
+        },
+        {
+          title: "PostgreSQL + RPC",
+          description: "Persists progress and applies atomic reward, badge, daily quest, and leaderboard operations.",
+        },
+      ],
+      privileged: {
+        title: "Supabase RLS production data",
+        description:
+          "Profiles, reward claims, completions, badges, purchases, and leaderboard state are protected by authenticated access policies and server-side mutations.",
+      },
+    },
+    additionalArchitectures: [
+      {
+        title: "Commerce and public account management",
+        intro:
+          "Privileged purchase and deletion operations stay outside the mobile UI. Google Play validates transactions, while the public website gives users an app-independent path to inspect and delete their account.",
+        clientLabel: "Public clients",
+        serviceLabel: "Verification & account services",
+        privilegedLabel: "Server-side boundary",
+        boundaryTitle: "Commerce and deletion trust boundary",
+        diagramDescription:
+          "Coding Fantasy commerce and account architecture: Flutter starts Google Play purchases and submits tokens to Supabase verification functions, while the Vercel-hosted React website uses Google OAuth, account-summary queries, explicit confirmation, and a deletion Edge Function.",
+        client: {
+          title: "Android shop + React companion site",
+          description:
+            "The app starts product purchases; the public website presents privacy content and an authenticated account-review and deletion workflow.",
+        },
+        services: [
+          {
+            title: "Google Play Billing",
+            description: "Handles coin products and the non-consumable paid level entitlement on Android.",
+          },
+          {
+            title: "Purchase verification Edge Functions",
+            description: "Validate tokens against the Google Play Developer API before invoking idempotent grants.",
+          },
+          {
+            title: "Google OAuth + account summary",
+            description: "Lets users authenticate on the public site and review profile and gameplay records before deletion.",
+          },
+          {
+            title: "Delete-account confirmation",
+            description: "Requires explicit consent and typed confirmation, with manual support available if sign-in fails.",
+          },
+        ],
+        privileged: {
+          title: "Verified mutation functions",
+          description:
+            "Supabase functions perform trusted purchase grants and remove related gameplay records plus the authentication account after authorization.",
+        },
+      },
+    ],
+    stack: [
+      "Flutter",
+      "Dart",
+      "Material",
+      "SharedPreferences",
+      "audioplayers",
+      "Supabase Auth",
+      "PostgreSQL",
+      "Row Level Security",
+      "PostgreSQL RPC",
+      "Supabase Edge Functions",
+      "Google Sign-In",
+      "Google Play Billing",
+      "Google Play Developer API",
+      "Android App Bundle",
+      "Vite",
+      "React",
+      "TypeScript",
+      "React Router",
+      "Tailwind CSS",
+      "shadcn/ui",
+      "Framer Motion",
+      "Vercel",
+    ],
+    technologyGroups: [
+      {
+        title: "Mobile application",
+        description: "Cross-platform application code, device preferences, and the audio-driven fantasy interface.",
+        items: ["Flutter", "Dart", "Material", "SharedPreferences", "audioplayers"],
+      },
+      {
+        title: "Backend and data",
+        description: "Authenticated persistence and trusted mutations for progression, rewards, and accounts.",
+        items: ["Supabase Auth", "PostgreSQL", "RLS", "RPC", "Edge Functions", "SQL"],
+      },
+      {
+        title: "Android platform",
+        description: "Identity, production distribution, purchases, and server-side entitlement verification.",
+        items: ["Google Sign-In", "Google Play Billing", "Google Play Developer API", "Android App Bundle"],
+      },
+      {
+        title: "Public web experience",
+        description: "Marketing, policy disclosure, and account controls deployed independently of the app.",
+        items: ["Vite", "React", "TypeScript", "React Router", "Tailwind CSS", "shadcn/ui", "Framer Motion", "Vercel"],
+      },
+    ],
+    challenges: [
+      "Keeping story, quiz, boss, badge, daily quest, and level-map state consistent across local interaction and remote persistence.",
+      "Preventing duplicated first-completion rewards and purchase grants when network retries or repeated claims occur.",
+      "Verifying Google Play purchase tokens on trusted infrastructure instead of accepting client-reported balances or entitlements.",
+      "Designing English and Indonesian content, UI labels, and audio settings as persistent product preferences rather than one-off screen translations.",
+      "Providing a complete account-deletion path outside the Android app while still verifying ownership of the Google-authenticated account.",
+      "Presenting future AI topics as locked expansion content without implying they are already playable.",
+    ],
+    outcome: [
+      "Coding Fantasy is distributed as a live Android product on Google Play with a production website on its own subdomain.",
+      "The product combines narrative learning, assessments, boss encounters, progression, customization, ranking, and commerce in one coherent mobile loop.",
+      "Supabase migrations and Edge Functions make identity, rewards, purchases, and deletion auditable alongside the Flutter source in one mobile monorepo.",
+      "Players can read the privacy policy and initiate authenticated account review and deletion without opening or reinstalling the app.",
+    ],
+    lessons: [
+      "A learning game needs one progression model shared by content, assessment, rewards, and navigation; parallel local counters quickly become inconsistent.",
+      "Reward and purchase systems should treat retries as normal and make server-side operations idempotent from the beginning.",
+      "Localization works best when content repositories, settings, and tests all use the same locale boundary.",
+      "Account deletion is a product workflow, not only a policy paragraph: users need discovery, authentication, review, confirmation, completion, and support states.",
+      "A companion website can carry compliance and account-management responsibilities while also improving product credibility for reviewers and players.",
+    ],
+    sectionTitles: {
+      overview: "A fantasy RPG built around a real NLP learning loop",
+      problem: "Turning course material into a reliable production game",
+      solution: "Flutter, Supabase, Google Play, and a public account portal",
+      features: "What the live ecosystem covers",
+      architecture: "Mobile progression, verified commerce, and account control",
+      gallery: "Official website and real Android product screens",
+      challenges: "What made the ecosystem production-grade",
+      lessons: "What this product clarified",
+      outcome: "A live educational game with an auditable backend and public trust surface",
+    },
+    disclaimerLabel: "Current product scope",
+    disclaimerVariant: "info",
+    disclaimer:
+      "Natural Language Processing is the currently implemented learning campaign; Computer Vision is shown as locked future content. The public privacy and deletion workflow supports Google Play account-deletion and data-safety requirements, but this case study does not claim independent legal certification. In-app purchases are processed through Google Play.",
+    seoDescription:
+      "Coding Fantasy is a live Flutter, Dart, Supabase, Google Play, React, TypeScript, and Vercel case study for a story-driven NLP learning game with verified purchases and public account deletion.",
+  },
+  {
     slug: "big-five-voice-ai",
     title: "Big Five Voice AI",
     summary:
