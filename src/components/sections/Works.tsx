@@ -25,7 +25,9 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
   const cardRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
-    const cleanup: Array<() => void> = [];
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -40,74 +42,12 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
           duration: 0.65,
           delay: index * 0.04,
           ease: "power3.out",
+          clearProps: "transform",
         },
       );
-
-      const card = cardRef.current;
-
-      if (card) {
-        const activateCard = () => {
-          gsap.to(card, {
-            scale: 1.01,
-            y: -8,
-            duration: 0.4,
-            ease: "power2.out",
-          });
-          gsap.to(card.querySelector(".card-overlay"), {
-            opacity: 1,
-            duration: 0.3,
-          });
-          gsap.to(card.querySelector(".card-title"), {
-            color: "hsl(var(--primary))",
-            duration: 0.3,
-          });
-          gsap.to(card.querySelector(".card-image"), {
-            scale: 1.04,
-            duration: 0.7,
-            ease: "power2.out",
-          });
-        };
-
-        const deactivateCard = () => {
-          gsap.to(card, {
-            scale: 1,
-            y: 0,
-            duration: 0.4,
-            ease: "power2.out",
-          });
-          gsap.to(card.querySelector(".card-overlay"), {
-            opacity: 0,
-            duration: 0.3,
-          });
-          gsap.to(card.querySelector(".card-title"), {
-            color: "hsl(var(--foreground))",
-            duration: 0.3,
-          });
-          gsap.to(card.querySelector(".card-image"), {
-            scale: 1,
-            duration: 0.7,
-            ease: "power2.out",
-          });
-        };
-
-        card.addEventListener("mouseenter", activateCard);
-        card.addEventListener("mouseleave", deactivateCard);
-        card.addEventListener("focus", activateCard);
-        card.addEventListener("blur", deactivateCard);
-
-        cleanup.push(() => {
-          card.removeEventListener("mouseenter", activateCard);
-          card.removeEventListener("mouseleave", deactivateCard);
-          card.removeEventListener("focus", activateCard);
-          card.removeEventListener("blur", deactivateCard);
-        });
-      }
     }, cardRef);
 
-    return () => {
-      cleanup.forEach((fn) => fn());
-      ctx.revert();
-    };
+    return () => ctx.revert();
   }, [index]);
 
   return (
@@ -115,7 +55,7 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
       ref={cardRef}
       to={`/projects/${project.slug}`}
       aria-label={`Read the ${project.title} case study`}
-      className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card text-left outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+      className="group relative flex h-full transform-gpu flex-col overflow-hidden rounded-3xl border border-border bg-card text-left outline-none transition-[transform,border-color,box-shadow] duration-300 ease-out hover:-translate-y-2 hover:scale-[1.01] focus-visible:-translate-y-2 focus-visible:scale-[1.01] focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-muted">
         <img
@@ -124,7 +64,7 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
           width={project.cover.width}
           height={project.cover.height}
           loading="lazy"
-          className="card-image h-full w-full object-cover transition-transform"
+          className="card-image h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] group-focus-visible:scale-[1.04]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background/75 via-transparent to-transparent" />
         <span className="absolute left-5 top-5 rounded-full border border-white/15 bg-background/80 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-foreground backdrop-blur-md">
@@ -140,11 +80,11 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
             <span>{project.status}</span>
           </div>
           <div className="mt-4 flex items-start justify-between gap-5">
-            <h3 className="card-title text-2xl font-black tracking-tight transition-colors md:text-3xl">
+            <h3 className="card-title text-2xl font-black tracking-tight transition-colors duration-300 group-hover:text-primary group-focus-visible:text-primary md:text-3xl">
               {project.title}
             </h3>
             <ArrowUpRight
-              className="mt-2 h-6 w-6 flex-shrink-0 text-muted-foreground transition-colors group-hover:text-primary"
+              className="mt-2 h-6 w-6 flex-shrink-0 text-muted-foreground transition-colors group-hover:text-primary group-focus-visible:text-primary"
               aria-hidden="true"
             />
           </div>
@@ -169,14 +109,14 @@ const ProjectCard = ({ project, index }: { project: ProjectCaseStudy; index: num
               </span>
             ) : null}
           </div>
-          <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-colors group-hover:text-primary">
+          <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-foreground transition-colors group-hover:text-primary group-focus-visible:text-primary">
             View case study
             <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
           </span>
         </div>
       </div>
 
-      <div className="card-overlay pointer-events-none absolute inset-0 bg-primary/5 opacity-0" />
+      <div className="card-overlay pointer-events-none absolute inset-0 bg-primary/5 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100" />
     </Link>
   );
 };
