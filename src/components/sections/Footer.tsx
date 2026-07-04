@@ -1,5 +1,6 @@
 const footerLinks = [
   { name: "Works", href: "/#works" },
+  { name: "Design", href: "/#design" },
   { name: "Services", href: "/#services" },
   { name: "About", href: "/#about" },
   { name: "Contact", href: "/#contact" },

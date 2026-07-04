@@ -5,6 +5,7 @@ import { gsap } from '@/hooks/useGSAP';
 
 const navLinks = [
   { name: 'Works', href: '/#works' },
+  { name: 'Design', href: '/#design' },
   { name: 'Services', href: '/#services' },
   { name: 'About', href: '/#about' },
   { name: 'Contact', href: '/#contact' },
@@ -91,7 +92,7 @@ const Navigation = () => {
         </a>
 
         {/* Desktop Navigation */}
-        <nav ref={linksRef} className="hidden md:flex items-center gap-8">
+        <nav ref={linksRef} className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => (
             <a
               key={link.name}

@@ -7,6 +7,7 @@ import RouteScrollHandler from "./components/RouteScrollHandler";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ProjectCaseStudy from "./pages/ProjectCaseStudy";
+import DesignCaseStudy from "./pages/DesignCaseStudy";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/projects/:slug" element={<ProjectCaseStudy />} />
+          <Route path="/design/:slug" element={<DesignCaseStudy />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
