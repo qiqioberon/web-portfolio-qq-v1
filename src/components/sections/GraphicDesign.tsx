@@ -91,12 +91,22 @@ const GraphicDesign = () => {
 
               <div className="relative min-h-[22rem] overflow-hidden bg-[#121827] p-5 md:p-8 lg:min-h-[34rem]">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(214,0,148,0.22),transparent_58%)]" />
-                <div className="relative grid h-full grid-cols-3 items-center gap-3 md:gap-5">
+                <div
+                  className={
+                    project.coverLayout === "landscape-grid"
+                      ? "relative grid h-full grid-cols-2 content-center gap-3 md:gap-5"
+                      : "relative grid h-full grid-cols-3 items-center gap-3 md:gap-5"
+                  }
+                >
                   {project.coverImages.map((image, index) => (
                     <div
                       key={image.src}
                       className={`overflow-hidden rounded-2xl border border-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-[1.025] group-focus-visible:scale-[1.025] ${
-                        index === 1 ? "-translate-y-5" : "translate-y-5"
+                        project.coverLayout === "square-triptych"
+                          ? index === 1
+                            ? "-translate-y-5"
+                            : "translate-y-5"
+                          : ""
                       }`}
                     >
                       <img
@@ -105,7 +115,11 @@ const GraphicDesign = () => {
                         width={image.width}
                         height={image.height}
                         loading="lazy"
-                        className="aspect-square h-full w-full object-cover"
+                        className={
+                          project.coverLayout === "landscape-grid"
+                            ? "aspect-video h-full w-full object-cover"
+                            : "aspect-square h-full w-full object-cover"
+                        }
                       />
                     </div>
                   ))}

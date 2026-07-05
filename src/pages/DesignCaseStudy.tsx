@@ -152,7 +152,24 @@ const DesignCollectionGallery = ({
     );
   }
 
-  const isMosaic = collection.id === "winner-announcement";
+  if (collection.layout === "landscape") {
+    return (
+      <div className="mt-10 grid gap-4 md:grid-cols-2 md:gap-6">
+        {collection.images.map((image) => (
+          <GalleryImageButton
+            key={image.src}
+            image={image}
+            index={getImageIndex(image)}
+            onOpen={onOpen}
+            className="aspect-video"
+            imageClassName="object-cover"
+          />
+        ))}
+      </div>
+    );
+  }
+
+  const isMosaic = collection.layout === "mosaic";
 
   return (
     <div
@@ -244,13 +261,22 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
 
             <div className="relative min-h-[24rem] overflow-hidden rounded-3xl border border-white/10 bg-[#121827] p-5 shadow-2xl shadow-fuchsia-950/30 md:p-8 lg:min-h-[38rem]">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(214,0,148,0.28),transparent_60%)]" />
-              <div className="relative grid h-full grid-cols-3 items-center gap-3 md:gap-5">
+              <div
+                className={cn(
+                  "relative grid h-full gap-3 md:gap-5",
+                  project.coverLayout === "landscape-grid"
+                    ? "grid-cols-2 content-center"
+                    : "grid-cols-3 items-center",
+                )}
+              >
                 {project.coverImages.map((image, index) => (
                   <div
                     key={image.src}
-                    className={`overflow-hidden rounded-2xl border border-white/10 shadow-2xl ${
-                      index === 1 ? "-translate-y-6" : "translate-y-6"
-                    }`}
+                    className={cn(
+                      "overflow-hidden rounded-2xl border border-white/10 shadow-2xl",
+                      project.coverLayout === "square-triptych" &&
+                        (index === 1 ? "-translate-y-6" : "translate-y-6"),
+                    )}
                   >
                     <img
                       src={image.src}
@@ -258,7 +284,12 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
                       width={image.width}
                       height={image.height}
                       loading="eager"
-                      className="aspect-square h-full w-full object-cover"
+                      className={cn(
+                        "h-full w-full object-cover",
+                        project.coverLayout === "landscape-grid"
+                          ? "aspect-video"
+                          : "aspect-square",
+                      )}
                     />
                   </div>
                 ))}
@@ -272,7 +303,7 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
             <div>
               <SectionEyebrow>Overview</SectionEyebrow>
               <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-                A social system for local film stories
+                {project.sectionCopy.overviewTitle}
               </h2>
             </div>
             <p className="text-lg leading-8 text-muted-foreground">
@@ -285,14 +316,18 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
           <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2">
             <article className="rounded-3xl border border-border bg-card p-8">
               <SectionEyebrow>Challenge</SectionEyebrow>
-              <h2 className="mt-3 text-3xl font-black">One brand, two audiences</h2>
+              <h2 className="mt-3 text-3xl font-black">
+                {project.sectionCopy.challengeTitle}
+              </h2>
               <p className="mt-5 leading-8 text-muted-foreground">
                 {project.challenge}
               </p>
             </article>
             <article className="rounded-3xl border border-fuchsia-500/25 bg-fuchsia-500/10 p-8">
               <SectionEyebrow>Creative Approach</SectionEyebrow>
-              <h2 className="mt-3 text-3xl font-black">Modular visual storytelling</h2>
+              <h2 className="mt-3 text-3xl font-black">
+                {project.sectionCopy.approachTitle}
+              </h2>
               <p className="mt-5 leading-8 text-muted-foreground">
                 {project.approach}
               </p>
@@ -305,7 +340,7 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
             <div>
               <SectionEyebrow>Deliverables</SectionEyebrow>
               <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-                Campaign content across the full funnel
+                {project.sectionCopy.deliverablesTitle}
               </h2>
               <ul className="mt-8 space-y-4">
                 {project.deliverables.map((deliverable) => (
@@ -322,7 +357,7 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
             <div>
               <SectionEyebrow>Tools and Disciplines</SectionEyebrow>
               <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-                From visual direction to final export
+                {project.sectionCopy.toolsTitle}
               </h2>
               <ul className="mt-8 flex flex-wrap gap-3" aria-label="Design tools and disciplines">
                 {project.tools.map((tool) => (
@@ -342,7 +377,7 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Visual Direction</SectionEyebrow>
             <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-              A recognizable language for every content type
+              {project.sectionCopy.visualDirectionTitle}
             </h2>
             <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {project.visualDirection.map((direction) => (
@@ -360,26 +395,25 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
           </div>
         </section>
 
-        <section className="px-6 py-16">
-          <div className="mx-auto max-w-7xl rounded-3xl border border-primary/25 bg-primary/5 p-7 md:p-10">
-            <SectionEyebrow>Original Presentation</SectionEyebrow>
-            <h2 className="mt-3 text-3xl font-black tracking-tight">
-              Restoring the intended square-feed compositions
-            </h2>
-            <p className="mt-5 max-w-4xl leading-8 text-muted-foreground">
-              The original work was designed around 1:1 posts and three-column
-              profile mosaics. This case study reconstructs those sequences
-              directly from the source exports, preserving the intended order
-              and composition without profile-grid cropping or reflow.
-            </p>
-          </div>
-        </section>
+        {project.sectionCopy.presentation ? (
+          <section className="px-6 py-16">
+            <div className="mx-auto max-w-7xl rounded-3xl border border-primary/25 bg-primary/5 p-7 md:p-10">
+              <SectionEyebrow>{project.sectionCopy.presentation.eyebrow}</SectionEyebrow>
+              <h2 className="mt-3 text-3xl font-black tracking-tight">
+                {project.sectionCopy.presentation.title}
+              </h2>
+              <p className="mt-5 max-w-4xl leading-8 text-muted-foreground">
+                {project.sectionCopy.presentation.description}
+              </p>
+            </div>
+          </section>
+        ) : null}
 
         <section className="px-6 pb-24 pt-8">
           <div className="mx-auto max-w-7xl">
             <SectionEyebrow>Selected Work</SectionEyebrow>
             <h2 className="mt-3 text-4xl font-black tracking-tight md:text-5xl">
-              Campaign gallery
+              {project.sectionCopy.galleryTitle}
             </h2>
 
             <div className="mt-16 space-y-24">
@@ -414,6 +448,7 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
       <Footer />
       <DesignLightbox
         images={allImages}
+        galleryTitle={`${project.title} design gallery`}
         activeIndex={activeImageIndex}
         onActiveIndexChange={setActiveImageIndex}
       />

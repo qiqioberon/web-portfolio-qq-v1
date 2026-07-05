@@ -10,12 +10,14 @@ import type { DesignImage } from "@/data/designProjects";
 
 interface DesignLightboxProps {
   images: DesignImage[];
+  galleryTitle: string;
   activeIndex: number | null;
   onActiveIndexChange: (index: number | null) => void;
 }
 
 const DesignLightbox = ({
   images,
+  galleryTitle,
   activeIndex,
   onActiveIndexChange,
 }: DesignLightboxProps) => {
@@ -71,7 +73,7 @@ const DesignLightbox = ({
         className="h-[calc(100vh-2rem)] w-[calc(100vw-2rem)] max-w-7xl overflow-hidden border-white/10 bg-black/95 p-0 text-white sm:rounded-2xl"
         onCloseAutoFocus={(event) => event.preventDefault()}
       >
-        <DialogTitle className="sr-only">Filin Movie design gallery</DialogTitle>
+        <DialogTitle className="sr-only">{galleryTitle}</DialogTitle>
         <DialogDescription className="sr-only">
           Use the previous and next buttons or the left and right arrow keys to
           browse the gallery. Press Escape to close.
