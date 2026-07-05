@@ -227,6 +227,115 @@ const availableBusinessThumbnails = [
     "YouTube thumbnail titled How to Rich, featuring Elon Musk, Jack Ma, and Bill Gates against a blue financial backdrop.",
     1280,
   ),
+  thumbnail(
+    "business-02-graduate-money-knowledge.jpg",
+    "YouTube thumbnail stating that 99% of graduates do not know this, featuring Robert Kiyosaki against a vivid pink and black backdrop.",
+    1280,
+  ),
+  thumbnail(
+    "business-03-passive-income.jpg",
+    "YouTube thumbnail titled Make Money Passively, showing a person surrounded by floating dollar bills in a bright green composition.",
+    1280,
+  ),
+  thumbnail(
+    "business-04-ai-income.jpg",
+    "YouTube thumbnail about earning one thousand dollars with AI, featuring a humanoid robot, money imagery, and neon green accents.",
+    1280,
+  ),
+  thumbnail(
+    "business-05-elon-twitter-worth.jpg",
+    "YouTube thumbnail asking whether Twitter is worth it, featuring Elon Musk, the Twitter logo, and stacks of cash.",
+    1280,
+  ),
+  thumbnail(
+    "business-06-how-money-works.jpg",
+    "YouTube thumbnail titled How Money Works, centered on a burning one-hundred-dollar bill with an energetic orange treatment.",
+    1280,
+  ),
+  thumbnail(
+    "business-07-shopify-dropshipping.jpg",
+    "YouTube thumbnail about growing a Shopify dropshipping business from zero to one thousand dollars, featuring the Shopify logo and a shipping box.",
+    1280,
+  ),
+  thumbnail(
+    "business-08-what-is-dropshipping.jpg",
+    "YouTube thumbnail titled What Is Dropship, featuring an open parcel, flying money, and a red financial backdrop.",
+    1280,
+  ),
+  thumbnail(
+    "business-09-money-tips-playstation.jpg",
+    "YouTube thumbnail about money tips, contrasting the cost of a PlayStation 5 with a larger potential return.",
+    1280,
+  ),
+  thumbnail(
+    "business-10-social-media-addiction.jpg",
+    "YouTube thumbnail titled Addicted, combining major social media icons with money imagery in a high-energy composition.",
+    1280,
+  ),
+];
+
+const productThumbnails = [
+  thumbnail(
+    "product-01-best-podcast-microphone.jpg",
+    "YouTube product thumbnail titled Best Microphone for Podcast, featuring a Blue Yeti microphone in a studio setting.",
+    1280,
+  ),
+  thumbnail(
+    "product-02-blue-yeti-podcast.jpg",
+    "YouTube product thumbnail positioning the Blue Yeti as the best microphone for podcasting.",
+    1280,
+  ),
+  thumbnail(
+    "product-03-blue-yeti-worth-buying.jpg",
+    "YouTube product thumbnail asking whether the Blue Yeti microphone is worth buying.",
+    1280,
+  ),
+];
+
+const gamingThumbnails = [
+  thumbnail(
+    "gaming-01-modern-warfare-2.jpg",
+    "YouTube gaming thumbnail for Call of Duty: Modern Warfare 2, featuring Ghost and two supporting characters amid sparks and smoke.",
+    1280,
+  ),
+];
+
+const educationThumbnails = [
+  thumbnail(
+    "education-01-rms-lusitania-vibration.jpg",
+    "YouTube documentary thumbnail about RMS Lusitania and why the ship cannot stop vibrating, combining a ship illustration with an engineering graph.",
+    1280,
+  ),
+  thumbnail(
+    "education-02-fisika-djancok.jpg",
+    "Goodstudent YouTube thumbnail titled Fisika Djancok, featuring a meme-style dog character, a durian, and physics formulas.",
+    1280,
+  ),
+  thumbnail(
+    "education-03-cape-student.jpg",
+    "Goodstudent YouTube thumbnail titled Cape, showing an exhausted student asleep over schoolwork.",
+    1280,
+  ),
+  thumbnail(
+    "education-04-belajar-mode-racing.jpg",
+    "Goodstudent YouTube thumbnail titled Belajar Mode Racing, using Cars characters to visualize common classroom struggles.",
+    1280,
+  ),
+  thumbnail(
+    "education-05-menggendong-beban.jpg",
+    "Goodstudent YouTube thumbnail titled Menggendong Beban, showing a dumbbell labeled Temen Beban against a dramatic landscape.",
+    1280,
+  ),
+  thumbnail(
+    "education-06-punten-absen.jpg",
+    "Goodstudent YouTube thumbnail titled Punten Absen, featuring a humorous teacher character in a classroom.",
+    1280,
+  ),
+  thumbnail(
+    "education-07-ngantuk-banyak-setan.jpg",
+    "Goodstudent YouTube thumbnail titled Ngantuk: Kemasukan Banyak Setan, featuring a yawning monkey in a dark temple setting.",
+    1280,
+  ),
 ];
 
 const scriptureThumbnails = [
@@ -438,29 +547,30 @@ export const designProjects: DesignProject[] = [
     title: "YouTube Thumbnail Design",
     shortTitle: "YouTube Thumbnails",
     summary:
-      "A cross-niche thumbnail portfolio built for instant recognition, clear visual hierarchy, and strong curiosity across business, entertainment, product, and faith-based content.",
+      "A cross-niche thumbnail portfolio built for instant recognition, clear visual hierarchy, and strong curiosity across business, product, gaming, education, and faith-based content.",
     role: "YouTube Thumbnail Designer",
     year: "2021–2025",
     status: "Thumbnail Design Portfolio",
     tags: ["YouTube Thumbnails", "Photo Compositing", "Typography", "Adobe Photoshop"],
     coverLayout: "landscape-grid",
     coverImages: [
-      availableBusinessThumbnails[0],
-      scriptureThumbnails[4],
-      scriptureThumbnails[8],
-      scriptureThumbnails[10],
+      availableBusinessThumbnails[2],
+      productThumbnails[1],
+      gamingThumbnails[0],
+      educationThumbnails[0],
     ],
     seoImage: availableBusinessThumbnails[0],
     overview:
       "This collection brings together thumbnail systems created for multiple YouTube niches. Each design turns a video premise into a single, readable visual promise that can compete for attention at feed scale while preserving the tone of its subject.",
     challenge:
-      "Business, technology, product reviews, gaming, anime, and faith-based content each rely on different audience expectations. The challenge was to keep every thumbnail immediately legible and emotionally specific without forcing unrelated topics into one repetitive visual formula.",
+      "Business, technology, product reviews, gaming, education, campus humor, and faith-based content each rely on different audience expectations. The challenge was to keep every thumbnail immediately legible and emotionally specific without forcing unrelated topics into one repetitive visual formula.",
     approach:
       "I reduced each concept to one focal subject, one concise headline, and one dominant emotional contrast. Photo compositing, controlled color grading, bold typography, lighting, depth, and directional cues were then used to create hierarchy that remains readable on small screens.",
     deliverables: [
       "Business and technology thumbnail concepts",
       "Product review and creator-focused visual hooks",
-      "Gaming and anime entertainment compositions",
+      "Gaming and entertainment compositions",
+      "Education, documentary, and campus-humor concepts",
       "A 13-thumbnail visual system for ScriptureRevived",
     ],
     tools: [
@@ -507,6 +617,30 @@ export const designProjects: DesignProject[] = [
         images: availableBusinessThumbnails,
       },
       {
+        id: "product-creator-gear",
+        title: "Product & Creator Gear",
+        description:
+          "A focused Blue Yeti series exploring product-review hooks, benefit-led headlines, and purchase-intent framing for podcast creators.",
+        layout: "landscape",
+        images: productThumbnails,
+      },
+      {
+        id: "gaming-entertainment",
+        title: "Gaming & Entertainment",
+        description:
+          "A cinematic gaming composition built around recognizable characters, dramatic lighting, sparks, and depth for immediate genre recognition.",
+        layout: "landscape",
+        images: gamingThumbnails,
+      },
+      {
+        id: "education-campus",
+        title: "Education & Campus",
+        description:
+          "Documentary storytelling and Indonesian student humor, ranging from an engineering-history explainer to meme-led Goodstudent concepts.",
+        layout: "landscape",
+        images: educationThumbnails,
+      },
+      {
         id: "scripture-revived",
         title: "ScriptureRevived",
         description:
@@ -532,7 +666,7 @@ export const designProjects: DesignProject[] = [
       },
     },
     seoDescription:
-      "YouTube thumbnail design portfolio by Aqil, featuring business, technology, entertainment, product, and ScriptureRevived visual concepts.",
+      "YouTube thumbnail design portfolio by Aqil, featuring business, technology, product, gaming, education, campus humor, and ScriptureRevived visual concepts.",
   },
 ];
 
