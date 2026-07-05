@@ -95,14 +95,17 @@ const GraphicDesign = () => {
                   className={
                     project.coverLayout === "landscape-grid"
                       ? "relative grid h-full grid-cols-2 content-center gap-3 md:gap-5"
-                      : "relative grid h-full grid-cols-3 items-center gap-3 md:gap-5"
+                      : project.coverLayout === "portrait-grid"
+                        ? "relative grid h-full grid-cols-3 content-center gap-3 md:gap-5"
+                        : "relative grid h-full grid-cols-3 items-center gap-3 md:gap-5"
                   }
                 >
                   {project.coverImages.map((image, index) => (
                     <div
                       key={image.src}
                       className={`overflow-hidden rounded-2xl border border-white/10 shadow-2xl transition-transform duration-500 group-hover:scale-[1.025] group-focus-visible:scale-[1.025] ${
-                        project.coverLayout === "square-triptych"
+                        project.coverLayout === "square-triptych" ||
+                        project.coverLayout === "portrait-grid"
                           ? index === 1
                             ? "-translate-y-5"
                             : "translate-y-5"
@@ -118,7 +121,9 @@ const GraphicDesign = () => {
                         className={
                           project.coverLayout === "landscape-grid"
                             ? "aspect-video h-full w-full object-cover"
-                            : "aspect-square h-full w-full object-cover"
+                            : project.coverLayout === "portrait-grid"
+                              ? "aspect-[2/3] h-full w-full object-cover"
+                              : "aspect-square h-full w-full object-cover"
                         }
                       />
                     </div>

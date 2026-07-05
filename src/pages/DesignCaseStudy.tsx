@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowUpRight, Instagram } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Globe2, Instagram } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import DesignLightbox from "@/components/design/DesignLightbox";
 import Footer from "@/components/sections/Footer";
@@ -152,6 +152,22 @@ const DesignCollectionGallery = ({
     );
   }
 
+  if (collection.layout === "portrait") {
+    return (
+      <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-3 md:gap-5 lg:grid-cols-4">
+        {collection.images.map((image) => (
+          <GalleryImageButton
+            key={image.src}
+            image={image}
+            index={getImageIndex(image)}
+            onOpen={onOpen}
+            className="aspect-[2/3]"
+          />
+        ))}
+      </div>
+    );
+  }
+
   if (collection.layout === "landscape") {
     return (
       <div className="mt-10 grid gap-4 md:grid-cols-2 md:gap-6">
@@ -250,7 +266,11 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
                       rel="noopener noreferrer"
                       aria-label={`Open ${link.label} for ${project.shortTitle} in a new tab`}
                     >
-                      <Instagram className="h-4 w-4" aria-hidden="true" />
+                      {link.platform === "instagram" ? (
+                        <Instagram className="h-4 w-4" aria-hidden="true" />
+                      ) : (
+                        <Globe2 className="h-4 w-4" aria-hidden="true" />
+                      )}
                       {link.label}
                       <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                     </a>
@@ -266,7 +286,9 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
                   "relative grid h-full gap-3 md:gap-5",
                   project.coverLayout === "landscape-grid"
                     ? "grid-cols-2 content-center"
-                    : "grid-cols-3 items-center",
+                    : project.coverLayout === "portrait-grid"
+                      ? "grid-cols-3 content-center"
+                      : "grid-cols-3 items-center",
                 )}
               >
                 {project.coverImages.map((image, index) => (
@@ -275,6 +297,8 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
                     className={cn(
                       "overflow-hidden rounded-2xl border border-white/10 shadow-2xl",
                       project.coverLayout === "square-triptych" &&
+                        (index === 1 ? "-translate-y-6" : "translate-y-6"),
+                      project.coverLayout === "portrait-grid" &&
                         (index === 1 ? "-translate-y-6" : "translate-y-6"),
                     )}
                   >
@@ -288,7 +312,9 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
                         "h-full w-full object-cover",
                         project.coverLayout === "landscape-grid"
                           ? "aspect-video"
-                          : "aspect-square",
+                          : project.coverLayout === "portrait-grid"
+                            ? "aspect-[2/3]"
+                            : "aspect-square",
                       )}
                     />
                   </div>

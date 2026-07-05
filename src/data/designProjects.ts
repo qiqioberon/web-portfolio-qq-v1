@@ -10,10 +10,14 @@ export type DesignCollectionLayout =
   | "grid"
   | "feature"
   | "stories"
+  | "portrait"
   | "landscape"
   | "mosaic";
 
-export type DesignCoverLayout = "square-triptych" | "landscape-grid";
+export type DesignCoverLayout =
+  | "square-triptych"
+  | "landscape-grid"
+  | "portrait-grid";
 
 export interface DesignCollection {
   id: string;
@@ -32,6 +36,7 @@ export interface DesignDirection {
 export interface DesignExternalLink {
   label: string;
   url: string;
+  platform: "instagram" | "pinterest" | "website";
 }
 
 export interface DesignSectionCopy {
@@ -393,7 +398,285 @@ const scriptureThumbnails = [
   ),
 ];
 
+const boostBasePath = "/design/boost-and-maximize";
+
+const boostPortrait = (
+  filename: string,
+  alt: string,
+  width = 1000,
+  height = 1500,
+): DesignImage => ({
+  src: `${boostBasePath}/${filename}`,
+  alt,
+  width,
+  height,
+});
+
+const boostModularTemplates = [
+  boostPortrait(
+    "modular-01-home-gains.jpg",
+    "Boost and Maximize Pinterest design titled Home Is Where the Gains Are, featuring a woman exercising at home in a modular white-grid layout.",
+  ),
+  boostPortrait(
+    "modular-02-active-healthy-home.jpg",
+    "Boost and Maximize educational Pinterest design explaining how to stay active and healthy at home with two practical steps.",
+  ),
+  boostPortrait(
+    "modular-03-transformation-start.jpg",
+    "Boost and Maximize Pinterest design titled Your Transformation Starts Here, featuring an athlete in a framed editorial composition.",
+  ),
+  boostPortrait(
+    "modular-04-body-recomposition.jpg",
+    "Boost and Maximize educational Pinterest design presenting two steps for losing fat and improving body recomposition.",
+  ),
+  boostPortrait(
+    "modular-05-fitness-journey.jpg",
+    "Boost and Maximize Pinterest design titled How to Begin Your Fitness Journey, pairing a bold headline with an exercise photograph.",
+  ),
+  boostPortrait(
+    "modular-06-beginner-workout.jpg",
+    "Boost and Maximize educational Pinterest design outlining how to start working out as a beginner.",
+  ),
+  boostPortrait(
+    "modular-07-lift-your-mood.jpg",
+    "Boost and Maximize Pinterest design titled Move Your Body, Lift Your Mood, connecting fitness with mental well-being.",
+  ),
+  boostPortrait(
+    "modular-08-emotional-balance.jpg",
+    "Boost and Maximize educational Pinterest design presenting two ways to achieve emotional balance.",
+  ),
+];
+
+const boostPerformanceWellness = [
+  boostPortrait(
+    "performance-01-family-fun-fitness.jpg",
+    "Boost and Maximize Pinterest design titled Family Fun Fitness, featuring parents and children exercising together in a vivid dark composition.",
+  ),
+  boostPortrait(
+    "performance-02-intermittent-fasting.jpg",
+    "Boost and Maximize Pinterest design explaining one-week intermittent fasting results with a bold clock-based visual hook.",
+  ),
+  boostPortrait(
+    "performance-03-no-gym-no-problem.jpg",
+    "Boost and Maximize Pinterest design titled No Gym, No Problem, promoting an energetic home-workout routine.",
+  ),
+  boostPortrait(
+    "performance-04-strengthen-core.jpg",
+    "Boost and Maximize Pinterest design titled Strengthen Your Core, featuring an athlete and a high-contrast purple visual system.",
+  ),
+  boostPortrait(
+    "performance-05-aromatherapy-focus.jpg",
+    "Boost and Maximize Pinterest design titled Elevate Your Mind with Aromatherapy, featuring essential oils and flowers.",
+  ),
+  boostPortrait(
+    "performance-06-find-balance.jpg",
+    "Boost and Maximize Pinterest design titled Find Your Balance, focused on emotional well-being and personal balance.",
+  ),
+  boostPortrait(
+    "performance-07-find-your-why.jpg",
+    "Boost and Maximize Pinterest design asking Are You Really Need Motivation and encouraging viewers to find their why.",
+  ),
+  boostPortrait(
+    "performance-08-virtual-recovery.jpg",
+    "Boost and Maximize Pinterest design titled New Ways to Relax, featuring a virtual-reality headset in a dark neon composition.",
+  ),
+];
+
+const boostNutritionRecovery = [
+  boostPortrait(
+    "nutrition-01-sleep-quality.jpg",
+    "Boost and Maximize Pinterest design explaining how to improve sleep quality with a mustard and green editorial treatment.",
+  ),
+  boostPortrait(
+    "nutrition-02-nutrient-density.jpg",
+    "Boost and Maximize Pinterest design explaining how to maximize nutrient density in every meal.",
+  ),
+  boostPortrait(
+    "nutrition-03-choose-food-wisely.jpg",
+    "Boost and Maximize Pinterest design titled Choose Your Food Wisely, featuring nutrient-rich foods in a high-energy composition.",
+  ),
+  boostPortrait(
+    "nutrition-04-milk-metabolism.jpg",
+    "Boost and Maximize Pinterest design titled Milk and Metabolism: What's the Truth, using a bold mustard editorial system.",
+  ),
+  boostPortrait(
+    "nutrition-05-plant-based-living.jpg",
+    "Boost and Maximize Pinterest design titled Plant-Based Living, featuring a colorful whole-food bowl and checkerboard pattern.",
+  ),
+  boostPortrait(
+    "nutrition-06-metabolism-hacks.jpg",
+    "Boost and Maximize Pinterest design presenting metabolism hacks for faster fat burning with a food-focused visual hook.",
+  ),
+  boostPortrait(
+    "nutrition-07-fiber-weight-loss.jpg",
+    "Boost and Maximize Pinterest design positioning fiber-rich foods as a practical tool for weight management.",
+  ),
+];
+
+const boostLifestyleTechnology = [
+  boostPortrait(
+    "lifestyle-01-find-peace-online.jpg",
+    "Boost and Maximize Pinterest design titled Find Your Peace Online, featuring a virtual-reality meditation experience.",
+    963,
+    1449,
+  ),
+  boostPortrait(
+    "lifestyle-02-fitness-supplements.jpg",
+    "Boost and Maximize Pinterest design titled Boost Your Fitness with the Right Supplements, using a product-led editorial layout.",
+  ),
+  boostPortrait(
+    "lifestyle-03-focus-through-scent.jpg",
+    "Boost and Maximize Pinterest design titled Find Focus Through Scent, pairing aromatherapy guidance with a warm lifestyle palette.",
+  ),
+  boostPortrait(
+    "lifestyle-04-yoga-gear.jpg",
+    "Boost and Maximize Pinterest design titled Find Your Flow with the Perfect Yoga Gear, featuring a beach yoga photograph.",
+  ),
+  boostPortrait(
+    "lifestyle-05-breast-cancer-awareness.jpg",
+    "Boost and Maximize breast cancer awareness Pinterest campaign design titled Join the Fight Right Now.",
+    963,
+    1449,
+  ),
+  boostPortrait(
+    "lifestyle-06-wearable-wellness.jpg",
+    "Boost and Maximize Pinterest design titled Track Your Wellness with Wearable Tech, featuring a smartwatch in a red editorial frame.",
+  ),
+  boostPortrait(
+    "lifestyle-07-digital-detox.jpg",
+    "Boost and Maximize Pinterest design titled Clear Your Mind for Fresh Ideas, illustrating a digital-detox concept.",
+  ),
+];
+
 export const designProjects: DesignProject[] = [
+  {
+    slug: "boost-and-maximize",
+    title: "Boost and Maximize — Pinterest Content System",
+    shortTitle: "Boost and Maximize",
+    summary:
+      "A native 2:3 Pinterest content system that turns fitness, nutrition, mindful wellness, and health-technology topics into bold, recognizable editorial stories.",
+    role: "Graphic & Content Designer",
+    year: "2024–2025",
+    status: "Pinterest & Wellness Content Design",
+    tags: ["Pinterest Design", "Social Media", "Content Design", "Editorial Layout"],
+    coverLayout: "portrait-grid",
+    coverImages: [
+      boostModularTemplates[0],
+      boostPerformanceWellness[1],
+      boostLifestyleTechnology[5],
+    ],
+    seoImage: boostModularTemplates[0],
+    overview:
+      "Boost and Maximize is a wellness platform built around practical guidance for healthier routines and sustainable lifestyle changes. The Pinterest system translated long-form articles into native vertical graphics that could introduce a topic quickly, establish a recognizable visual promise, and guide readers toward the full story on the website.",
+    challenge:
+      "The content library spans workouts, weight management, nutrition, mental well-being, recovery, wearable technology, and broader health education. Each pin needed to feel specific to its subject while remaining identifiable as Boost and Maximize in a dense, visually competitive Pinterest feed.",
+    approach:
+      "I designed a flexible 2:3 system around bold editorial headlines, modular information blocks, topic-led color families, framed photography, and recurring brand signatures. Educational templates make practical steps easy to scan, while higher-energy campaign graphics and softer lifestyle layouts give each content pillar an appropriate emotional tone without losing brand continuity.",
+    deliverables: [
+      "Native 1000 × 1500 Pinterest graphics",
+      "Modular educational and article-promotion templates",
+      "Fitness, nutrition, wellness, and technology content pillars",
+      "Headline, supporting copy, image, and website CTA hierarchy",
+      "Thirty selected production-ready branded pins",
+    ],
+    tools: [
+      "Content Design",
+      "Copywriting",
+      "Editorial Layout",
+      "Photo Compositing",
+      "Typography",
+      "Pinterest Creative",
+    ],
+    visualDirection: [
+      {
+        label: "Format",
+        value: "Native 2:3 storytelling",
+        description:
+          "Every composition uses Pinterest's vertical reading pattern to create a clear headline, image, supporting message, and destination flow.",
+      },
+      {
+        label: "System",
+        value: "Modular editorial templates",
+        description:
+          "Repeatable grids, cards, frames, and information blocks support high-volume production without making every post look identical.",
+      },
+      {
+        label: "Color",
+        value: "Topic-coded visual families",
+        description:
+          "Teal and coral support education, yellow and green signal nutrition, while dark neon and red systems increase energy for performance and technology.",
+      },
+      {
+        label: "Handoff",
+        value: "Pin-to-article continuity",
+        description:
+          "Prominent headlines and branded website calls to action turn each pin into a concise entry point for a longer editorial story.",
+      },
+    ],
+    collections: [
+      {
+        id: "modular-education-templates",
+        title: "Modular Education Templates",
+        description:
+          "A cohesive white-grid system alternates image-led hooks with structured two-step explainers for workouts, body recomposition, and emotional well-being.",
+        layout: "portrait",
+        images: boostModularTemplates,
+      },
+      {
+        id: "high-energy-fitness-wellness",
+        title: "High-Energy Fitness & Wellness",
+        description:
+          "Bold contrast, expressive display type, and energetic imagery create immediate hooks for performance, motivation, fasting, focus, and recovery topics.",
+        layout: "portrait",
+        images: boostPerformanceWellness,
+      },
+      {
+        id: "nutrition-metabolism-recovery",
+        title: "Nutrition, Metabolism & Recovery",
+        description:
+          "Mustard, green, and food-led compositions make practical nutrition and recovery concepts recognizable while preserving a clear editorial hierarchy.",
+        layout: "portrait",
+        images: boostNutritionRecovery,
+      },
+      {
+        id: "lifestyle-health-technology",
+        title: "Lifestyle & Health Technology",
+        description:
+          "Softer editorial layouts and campaign-focused treatments cover wearables, mindful technology, aromatherapy, fitness products, yoga, and health awareness.",
+        layout: "portrait",
+        images: boostLifestyleTechnology,
+      },
+    ],
+    externalLinks: [
+      {
+        label: "View Pinterest",
+        url: "https://id.pinterest.com/boostandmaximize/",
+        platform: "pinterest",
+      },
+      {
+        label: "Visit Website",
+        url: "https://boostandmaximize.com/",
+        platform: "website",
+      },
+    ],
+    sectionCopy: {
+      overviewTitle: "Turning wellness articles into visual entry points",
+      challengeTitle: "One brand across a broad wellness library",
+      approachTitle: "Flexible templates with topic-specific energy",
+      deliverablesTitle: "A scalable Pinterest publishing system",
+      toolsTitle: "Content and visual production disciplines",
+      visualDirectionTitle: "Designed for vertical discovery and fast scanning",
+      galleryTitle: "Pinterest content gallery",
+      presentation: {
+        eyebrow: "Curated Portfolio",
+        title: "Thirty originals selected from a larger publishing system",
+        description:
+          "This case study focuses on thirty distinct branded designs selected from the account's broader Pinterest presence. Repeated saves and third-party pins are excluded so the gallery represents the original Boost and Maximize visual system clearly.",
+      },
+    },
+    seoDescription:
+      "Boost and Maximize Pinterest content design case study by Aqil, featuring vertical wellness graphics for fitness, nutrition, mindful living, and health technology.",
+  },
   {
     slug: "filin-movie",
     title: "Filin Movie — Social Media Design",
@@ -522,6 +805,7 @@ export const designProjects: DesignProject[] = [
       {
         label: "View Instagram",
         url: "https://www.instagram.com/filinmovie/",
+        platform: "instagram",
       },
     ],
     sectionCopy: {
