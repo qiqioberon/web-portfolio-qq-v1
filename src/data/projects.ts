@@ -1,12 +1,27 @@
-export interface ProjectImage {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
+export interface ProjectMediaDetails {
   title?: string;
   description?: string;
   features?: string[];
 }
+
+export interface ProjectImage extends ProjectMediaDetails {
+  kind?: "image";
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+export interface ProjectVideo extends ProjectMediaDetails {
+  kind: "video";
+  src: string;
+  poster: string;
+  ariaLabel: string;
+  width: number;
+  height: number;
+}
+
+export type ProjectMedia = ProjectImage | ProjectVideo;
 
 export interface ArchitectureNode {
   title: string;
@@ -73,8 +88,8 @@ export interface ProjectCaseStudy {
   status: string;
   tags: string[];
   cover: ProjectImage;
-  gallery: ProjectImage[];
-  liveUrl: string;
+  gallery: ProjectMedia[];
+  liveUrl?: string;
   githubUrl?: string;
   externalLinks?: ProjectExternalLink[];
   overview: string;
@@ -269,6 +284,20 @@ export const projects: ProjectCaseStudy[] = [
           "Remote badge snapshots hydrate the local skill-tree state.",
           "Locked and unlocked nodes make prerequisite relationships visible.",
           "Badge collection provides a durable mastery signal beyond raw EXP.",
+        ],
+      },
+      {
+        src: "/projects/coding-fantasy/mobile-leaderboard.png",
+        alt: "Coding Fantasy leaderboard showing the top three players on a fantasy podium, the remaining rankings, and Level and Screen Time tabs.",
+        width: 738,
+        height: 1600,
+        title: "Level and screen-time leaderboard",
+        description:
+          "The social ranking screen turns persistent player activity into a competitive fantasy presentation, with separate views for progression level and learning screen time.",
+        features: [
+          "A podium highlights the top three players while the ranked list keeps the wider community visible.",
+          "Players can switch between Level and Screen Time rankings without leaving the screen.",
+          "Supabase-backed profile and progression data keep names, avatars, levels, and positions synchronized.",
         ],
       },
       {
@@ -493,6 +522,376 @@ export const projects: ProjectCaseStudy[] = [
       "Natural Language Processing is the currently implemented learning campaign; Computer Vision is shown as locked future content. The public privacy and deletion workflow supports Google Play account-deletion and data-safety requirements, but this case study does not claim independent legal certification. In-app purchases are processed through Google Play.",
     seoDescription:
       "Coding Fantasy is a live Flutter, Dart, Supabase, Google Play, React, TypeScript, and Vercel case study for a story-driven NLP learning game with verified purchases and public account deletion.",
+  },
+  {
+    slug: "astroid",
+    title: "Astroid Robotics Suite",
+    category: "product-engineering",
+    summary:
+      "A three-application educational robotics suite built with Flutter, combining Blockly visual programming, AI-assisted interaction, a Three.js simulator, Bluetooth Low Energy robot control, and visual path planning for physical Astroid hardware.",
+    role: "Flutter Developer",
+    year: "2025–2026",
+    status: "Completed Product Suite",
+    tags: ["Flutter", "Dart", "Bluetooth LE", "Blockly", "Three.js", "TypeScript", "AI Integration"],
+    cover: {
+      src: "/projects/astroid/code-craft-blockly-simulator.png",
+      alt: "Astroid Code Craft Blockly editor with robot command blocks, run and simulate controls, and an embedded Three.js robot viewer.",
+      width: 1600,
+      height: 738,
+    },
+    gallery: [
+      {
+        src: "/projects/astroid/code-craft-splash.png",
+        alt: "Astroid Code Craft loading screen with an astronaut mascot and space-themed visual identity.",
+        width: 1600,
+        height: 738,
+        title: "Code Craft product entry",
+        description:
+          "The visual-programming application opens in a landscape-first interface designed for children using a phone or tablet alongside an Astroid robot.",
+        features: [
+          "Dedicated branding and loading feedback prepare local web assets before the editor opens.",
+          "Landscape composition prioritizes the block workspace and robot controls.",
+          "The shared Astroid visual language connects Code Craft with Trail and Controller.",
+        ],
+      },
+      {
+        src: "/projects/astroid/code-craft-ai-chat.png",
+        alt: "Astroid Code Craft AI chatbot screen with text and microphone input and a toggle back to the 3D block editor.",
+        width: 1600,
+        height: 738,
+        title: "AI-assisted coding conversation",
+        description:
+          "Learners can move between the block editor and an AI chat surface that supports typed or spoken questions without leaving the current project context.",
+        features: [
+          "REST-based AI responses are integrated into the Flutter application.",
+          "Speech-to-text provides an additional input path for younger learners.",
+          "The shared editor navigation keeps blocks and assistance in one workflow.",
+        ],
+      },
+      {
+        src: "/projects/astroid/code-craft-blockly-simulator.png",
+        alt: "Astroid Code Craft Blockly workspace with movement blocks, project save status, run and simulation modes, and a Three.js robot preview.",
+        width: 1600,
+        height: 738,
+        title: "Blockly editor with 3D simulation",
+        description:
+          "Code Craft embeds a TypeScript Blockly workspace and a Three.js robot environment inside Flutter, letting learners test command sequences before sending them to hardware.",
+        features: [
+          "Custom categories cover movement, robot parts, appearance, sound, control, operators, and sensors.",
+          "Run and Simulate modes separate physical execution from virtual experimentation.",
+          "Project changes expose immediate save state and reusable editor controls.",
+        ],
+      },
+      {
+        src: "/projects/astroid/code-craft-3d-simulator.png",
+        alt: "Fullscreen Astroid Code Craft Three.js simulator showing the virtual robot and obstacles in a science-fiction environment.",
+        width: 1600,
+        height: 738,
+        title: "Fullscreen robot simulation",
+        description:
+          "The Three.js scene visualizes motion, turns, obstacles, and challenge state using the same generated command sequence as the block workspace.",
+        features: [
+          "Fullscreen and embedded modes support both inspection and editing.",
+          "Sequenced commands update the virtual robot before hardware execution.",
+          "Challenge metrics can track completion, elapsed time, collisions, and final distance.",
+        ],
+      },
+      {
+        src: "/projects/astroid/code-craft-block-workspace.png",
+        alt: "Astroid Code Craft motion toolbox and Blockly workspace with move, turn, stop, and wheel-speed commands.",
+        width: 1600,
+        height: 738,
+        title: "Robot-specific visual command system",
+        description:
+          "The editor translates approachable Blockly blocks into structured commands understood by both the virtual simulator and the physical robot.",
+        features: [
+          "Movement blocks expose direction, speed, and duration without requiring source-code syntax.",
+          "Undo, redo, reset, zoom, Bluetooth, and run actions remain reachable from the editor rail.",
+          "Generated commands are serialized across the Flutter–WebView bridge.",
+        ],
+      },
+      {
+        src: "/projects/astroid/code-craft-ble-connect.png",
+        alt: "Indonesian Astroid robot connection screen showing the empty Bluetooth scan state and scan button.",
+        width: 1600,
+        height: 738,
+        title: "Bluetooth robot discovery",
+        description:
+          "A shared BLE connection flow scans for Astroid hardware, communicates empty and failure states clearly, and returns the active device to the coding experience.",
+        features: [
+          "Flutter Blue Plus manages adapter state, discovery, connection, and UART characteristics.",
+          "Connection feedback covers scanning, connecting, ready, disconnected, and failed states.",
+          "Successful connections trigger robot feedback and battery-status synchronization.",
+        ],
+      },
+      {
+        src: "/projects/astroid/code-craft-challenge-mode.png",
+        alt: "Astroid Code Craft challenge selection with easy and medium robot-programming missions in Indonesian.",
+        width: 1600,
+        height: 738,
+        title: "Progressive challenge mode",
+        description:
+          "Structured missions introduce movement, turning, loops, and return paths through increasing difficulty rather than leaving every learner in an empty sandbox.",
+        features: [
+          "English and Indonesian level definitions localize titles, instructions, and feedback.",
+          "Per-level workspaces preserve attempts and challenge progress.",
+          "Completion state and star-style scoring make the learning path visible.",
+        ],
+      },
+      {
+        src: "/projects/astroid/code-craft-project-library.png",
+        alt: "Astroid Code Craft mission control screen with saved Blockly projects, thumbnails, dates, and edit and delete actions.",
+        width: 1600,
+        height: 738,
+        title: "Saved project library",
+        description:
+          "Learners can create, reopen, rename, run, and remove Blockly projects while retaining a visual thumbnail of each workspace.",
+        features: [
+          "Workspace JSON, zoom state, modification time, and thumbnails persist locally.",
+          "Recent projects are ordered for fast return to active experiments.",
+          "Project management and challenge workspaces use separate saved-state boundaries.",
+        ],
+      },
+      {
+        kind: "video",
+        src: "/projects/astroid/code-craft-physical-robot-demo.mp4",
+        poster: "/projects/astroid/code-craft-blockly-simulator.png",
+        ariaLabel: "Video demonstration of Astroid Code Craft executing Blockly programs on a physical Astroid robot.",
+        width: 478,
+        height: 850,
+        title: "Code Craft physical robot demo",
+        description:
+          "This demo shows Blockly programs being assembled on a mobile device and executed through Bluetooth on the physical Astroid robot, including movement and LED behavior.",
+        features: [
+          "The same editor can switch between simulated and physical execution.",
+          "Commands travel from the embedded Blockly runtime through Flutter to the BLE device.",
+          "The player loads metadata only until the visitor chooses to play the full demonstration.",
+        ],
+      },
+      {
+        src: "/projects/astroid/trail-splash.png",
+        alt: "Astroid Trail loading screen with an astronaut, route, finish flag, and space-themed background.",
+        width: 1600,
+        height: 738,
+        title: "Astroid Trail",
+        description:
+          "Trail provides a second programming model: learners define robot motion spatially by drawing a route instead of assembling command blocks.",
+        features: [
+          "The product reuses the Astroid design system while maintaining a distinct path-planning identity.",
+          "Landscape layout provides enough space for capture, editing, and simulation controls.",
+          "Audio and localized settings remain consistent with the rest of the suite.",
+        ],
+      },
+      {
+        src: "/projects/astroid/trail-camera-capture.png",
+        alt: "Astroid Trail Map and Draw Path screen prompting the user to capture a photo of the physical play area.",
+        width: 1600,
+        height: 738,
+        title: "Capture the physical workspace",
+        description:
+          "Learners begin by photographing or selecting the real play area, then calibrate the table before drawing a route over the captured surface.",
+        features: [
+          "Camera and image-picker input connect the digital plan to the physical environment.",
+          "Table-size validation establishes a scale for path length and waypoints.",
+          "Connection status remains visible before a route can be run on hardware.",
+        ],
+      },
+      {
+        src: "/projects/astroid/trail-drawn-path.png",
+        alt: "Astroid Trail editor showing a closed route, directional arrows, start marker, finish flag, measured path length, and save and simulate controls.",
+        width: 1600,
+        height: 738,
+        title: "Draw, validate, and save a route",
+        description:
+          "The path canvas turns a learner's strokes into a directional route with a start point, finish marker, measured length, and generated waypoints.",
+        features: [
+          "Path validation prevents disconnected markers and invalid finish placement.",
+          "Saved routes retain workspace calibration and executable path data.",
+          "Robot speed can be configured before simulation or execution.",
+        ],
+      },
+      {
+        src: "/projects/astroid/trail-path-simulation.png",
+        alt: "Astroid Trail simulation showing the robot marker moving along the drawn route with an active Stop control.",
+        width: 1600,
+        height: 738,
+        title: "Path simulation before execution",
+        description:
+          "A local simulation animates the robot marker along the generated route so learners can inspect direction and completion before sending waypoints over BLE.",
+        features: [
+          "Simulation and physical Run Path actions use the same validated path model.",
+          "Stop behavior provides immediate control during an active run.",
+          "The physical command serializes waypoints into an EXECUTE_PATH payload.",
+        ],
+      },
+      {
+        src: "/projects/astroid/controller-splash.png",
+        alt: "Astroid Controller loading screen with a game controller, robot mascot, and space-themed background.",
+        width: 1600,
+        height: 738,
+        title: "Astroid Controller",
+        description:
+          "Controller converts a mobile device into a real-time remote for direct robot movement, head position, LEDs, expressions, and sounds.",
+        features: [
+          "Joystick input maps continuously to differential wheel-speed commands.",
+          "Haptic and audio feedback reinforce interaction without hiding emergency controls.",
+          "English and Indonesian localization supports the complete connection and control flow.",
+        ],
+      },
+      {
+        kind: "video",
+        src: "/projects/astroid/controller-physical-robot-demo.mp4",
+        poster: "/projects/astroid/controller-splash.png",
+        ariaLabel: "Video demonstration of the Astroid Controller application operating a physical Astroid robot in real time.",
+        width: 848,
+        height: 478,
+        title: "Real-time controller demo",
+        description:
+          "The controller demonstration shows low-latency joystick input, head movement, LED feedback, expressions, and sound actions on the physical Astroid robot.",
+        features: [
+          "Drive commands are throttled to avoid flooding the BLE write characteristic.",
+          "The interface includes per-LED color control, head positioning, gestures, sounds, and emergency stop.",
+          "The player loads metadata only until the visitor chooses to play the full demonstration.",
+        ],
+      },
+    ],
+    overview:
+      "Astroid Robotics Suite is a coordinated set of three Flutter applications for teaching programming and computational thinking with a physical educational robot. Code Craft supports Blockly programming, AI assistance, and 3D simulation; Trail converts visual paths into robot waypoints; and Controller provides direct, real-time control over movement and expressive hardware features.",
+    problem:
+      "An educational robot needs more than a generic remote. Young learners require multiple levels of abstraction—from direct joystick control, to spatial route planning, to structured programming—while every application must handle Bluetooth discovery, command reliability, hardware feedback, localization, and a playful landscape interface.",
+    solution:
+      "The suite was implemented as three focused Flutter products sharing consistent BLE and product patterns. Code Craft embeds a Vite and TypeScript Blockly application through InAppWebView, bridges generated commands into Flutter, and previews them in Three.js. Trail validates drawn paths and serializes waypoints for execution, while Controller maps responsive controls directly to the robot's movement, head, LED, gesture, and sound commands.",
+    features: [
+      "Three focused Flutter applications covering visual programming, path planning, and direct robot control.",
+      "Bluetooth Low Energy scanning, connection lifecycle, UART characteristic discovery, battery status, and command transport.",
+      "Custom Blockly blocks for motion, mechanisms, appearance, audio, control, operators, events, and sensors.",
+      "Flutter–InAppWebView JavaScript bridge for project state, generated robot commands, editor actions, and AI navigation.",
+      "Three.js virtual robot environment with command sequencing, obstacles, collision tracking, and challenge completion.",
+      "AI coding assistant with typed and speech-to-text input.",
+      "Saved Blockly projects, workspace thumbnails, challenge progress, and local preferences.",
+      "Camera-assisted path setup, validation, measurement, waypoint generation, save/load, simulation, and BLE execution.",
+      "Real-time drive and head joysticks, LED color customization, gestures, internal sounds, battery display, and emergency stop.",
+      "Responsive landscape interfaces with English and Indonesian localization, onboarding, music, sound effects, and haptic feedback.",
+    ],
+    architecture: {
+      title: "Flutter applications to physical robot",
+      intro:
+        "Each product keeps its interaction model inside Flutter while using a shared BLE command boundary to communicate with the robot. Code Craft adds a local web runtime for visual programming and simulation, while Trail adds a calibrated path-to-waypoint pipeline.",
+      clientLabel: "Learning interfaces",
+      serviceLabel: "Application services",
+      privilegedLabel: "Hardware target",
+      boundaryTitle: "BLE command and robot-state boundary",
+      diagramDescription:
+        "Astroid architecture: Flutter Code Craft, Trail, and Controller use local state, localization, audio, WebView, path, and BLE services to produce structured commands that are written to the physical Astroid robot.",
+      client: {
+        title: "Three Flutter applications",
+        description:
+          "Code Craft, Trail, and Controller provide block-based, spatial, and direct-control learning experiences with a consistent responsive landscape UI.",
+      },
+      services: [
+        {
+          title: "Blockly + Three.js runtime",
+          description:
+            "A Vite and TypeScript application defines robot blocks, persists workspaces, generates commands, and simulates them in a 3D environment.",
+        },
+        {
+          title: "Flutter WebView bridge",
+          description:
+            "InAppWebView handlers exchange project actions, generated JSON commands, connection state, settings, and navigation events.",
+        },
+        {
+          title: "Path planning pipeline",
+          description:
+            "Trail calibrates a captured area, validates drawn geometry, measures distance, and converts the route into executable waypoints.",
+        },
+        {
+          title: "BLE connection service",
+          description:
+            "Flutter Blue Plus manages discovery, connection state, UART characteristics, throttled writes, responses, and battery updates.",
+        },
+      ],
+      privileged: {
+        title: "Physical Astroid robot",
+        description:
+          "The hardware executes structured movement, path, head, LED, gesture, and audio commands and returns connection and battery feedback.",
+      },
+    },
+    stack: [
+      "Flutter",
+      "Dart",
+      "Provider",
+      "Flutter Blue Plus",
+      "InAppWebView",
+      "SharedPreferences",
+      "audioplayers",
+      "speech_to_text",
+      "Blockly",
+      "TypeScript",
+      "Vite",
+      "Three.js",
+      "REST APIs",
+      "Android",
+    ],
+    technologyGroups: [
+      {
+        title: "Flutter applications",
+        description: "Responsive mobile interfaces, state, navigation, localization, preferences, audio, and haptics.",
+        items: ["Flutter", "Dart", "Provider", "SharedPreferences", "audioplayers", "speech_to_text"],
+      },
+      {
+        title: "Robot connectivity",
+        description: "Device discovery, UART communication, command transport, connection state, and hardware feedback.",
+        items: ["Bluetooth Low Energy", "Flutter Blue Plus", "JSON command protocol", "Android permissions"],
+      },
+      {
+        title: "Visual programming and simulation",
+        description: "Embedded block editor, local web build, command generation, project persistence, and virtual robot execution.",
+        items: ["InAppWebView", "Blockly", "TypeScript", "Vite", "Three.js"],
+      },
+      {
+        title: "Learning experience",
+        description: "Structured missions, AI assistance, bilingual content, spatial planning, onboarding, and multimodal feedback.",
+        items: ["REST AI integration", "Speech-to-text", "English/Indonesian localization", "Challenge progression"],
+      },
+    ],
+    challenges: [
+      "Keeping simulator behavior and real robot commands aligned so learners could test the same block sequence in both modes.",
+      "Bridging a complex Blockly and Three.js web runtime into Flutter without losing editor state, project persistence, or connection feedback.",
+      "Maintaining responsive BLE control while preventing continuous joystick input from overwhelming the write characteristic.",
+      "Turning freehand paths into validated, scaled waypoints that remain understandable before physical execution.",
+      "Designing dense programming and control interfaces for landscape mobile screens while preserving touch targets and feedback states.",
+      "Keeping localization, onboarding, sound, and settings behavior consistent across three separate applications.",
+    ],
+    outcome: [
+      "Delivered three coordinated Flutter applications that control and program the same physical Astroid robot through different learning models.",
+      "Connected Blockly programs to both a Three.js simulator and real BLE hardware through a reusable command pipeline.",
+      "Enabled learners to progress from direct control to drawn routes and structured visual programming within one product family.",
+      "Validated the mobile-to-robot interaction through physical Code Craft and Controller demonstrations included in this case study.",
+    ],
+    lessons: [
+      "Educational robotics benefits from multiple abstraction levels; direct control, spatial planning, and visual code serve different stages of learning.",
+      "A WebView integration needs an explicit message contract and lifecycle handling, especially when local assets, navigation, and hardware state meet.",
+      "Robot command generation should be shared conceptually between simulation and hardware even when their execution engines differ.",
+      "Continuous controls need write throttling, stop guarantees, and visible connection state before visual polish matters.",
+      "Physical-device demos expose timing and feedback issues that cannot be validated through interface screenshots alone.",
+    ],
+    sectionTitles: {
+      overview: "Three ways to learn with one educational robot",
+      problem: "Making physical programming approachable without hiding real hardware constraints",
+      solution: "Flutter applications connected through BLE, Blockly, and simulation",
+      features: "What the Astroid suite delivers",
+      architecture: "From touch interaction and visual code to physical execution",
+      gallery: "Code Craft, Trail, Controller, and physical robot demos",
+      challenges: "What made the mobile-to-robot experience difficult",
+      lessons: "What building across software and hardware clarified",
+      outcome: "A complete educational robotics application suite",
+    },
+    disclaimerLabel: "Project context",
+    disclaimerVariant: "info",
+    disclaimer:
+      "Astroid was developed for Asteria Academy. This case study presents approved application screens and physical demonstrations while keeping private source code, hardware specifications, credentials, and protocol details undisclosed.",
+    seoDescription:
+      "Astroid Robotics Suite is a Flutter, Dart, Bluetooth Low Energy, Blockly, TypeScript, and Three.js case study covering visual robot programming, path planning, direct control, simulation, and physical hardware integration.",
   },
   {
     slug: "big-five-voice-ai",

@@ -3,7 +3,12 @@ import type { ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
 import Footer from "@/components/sections/Footer";
 import { Button } from "@/components/ui/button";
-import { getProjectBySlug, type ProjectArchitecture, type ProjectCaseStudy } from "@/data/projects";
+import {
+  getProjectBySlug,
+  type ProjectArchitecture,
+  type ProjectCaseStudy,
+  type ProjectMedia,
+} from "@/data/projects";
 import { usePageMetadata } from "@/hooks/usePageMetadata";
 import NotFound from "./NotFound";
 
@@ -14,6 +19,43 @@ const SectionEyebrow = ({ children }: { children: ReactNode }) => (
 const SectionTitle = ({ children }: { children: ReactNode }) => (
   <h2 className="mt-3 text-3xl font-black tracking-tight text-foreground md:text-4xl">{children}</h2>
 );
+
+const ProjectMediaPreview = ({
+  media,
+  className,
+}: {
+  media: ProjectMedia;
+  className: string;
+}) => {
+  if (media.kind === "video") {
+    return (
+      <video
+        src={media.src}
+        poster={media.poster}
+        width={media.width}
+        height={media.height}
+        controls
+        playsInline
+        preload="metadata"
+        aria-label={media.ariaLabel}
+        className={className}
+      >
+        Your browser does not support embedded MP4 video.
+      </video>
+    );
+  }
+
+  return (
+    <img
+      src={media.src}
+      alt={media.alt}
+      width={media.width}
+      height={media.height}
+      loading="lazy"
+      className={className}
+    />
+  );
+};
 
 const ProjectHeader = () => (
   <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
@@ -137,17 +179,19 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
                 </dl>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                  <Button asChild size="lg" className="glow-sm">
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Open live demo for ${project.title} in a new tab`}
-                    >
-                      Live Demo
-                      <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                    </a>
-                  </Button>
+                  {project.liveUrl ? (
+                    <Button asChild size="lg" className="glow-sm">
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`Open live demo for ${project.title} in a new tab`}
+                      >
+                        Live Demo
+                        <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                      </a>
+                    </Button>
+                  ) : null}
                   {project.githubUrl ? (
                     <Button asChild size="lg" variant="outline">
                       <a
@@ -344,13 +388,9 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
                     className="grid overflow-hidden rounded-3xl border border-border bg-card lg:grid-cols-[1.45fr_0.85fr]"
                   >
                     <div className={index % 2 === 1 ? "lg:order-2" : undefined}>
-                      <img
-                        src={image.src}
-                        alt={image.alt}
-                        width={image.width}
-                        height={image.height}
-                        loading="lazy"
-                        className="h-auto w-full border-b border-border object-cover lg:h-full lg:border-b-0 lg:object-contain"
+                      <ProjectMediaPreview
+                        media={image}
+                        className="h-auto w-full border-b border-border bg-black object-contain lg:h-full lg:border-b-0"
                       />
                     </div>
                     <figcaption className="flex flex-col justify-center p-6 md:p-8">
@@ -379,14 +419,7 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
               <div className="mt-10 grid gap-6 lg:grid-cols-3">
                 {project.gallery.map((image) => (
                   <figure key={image.src} className="overflow-hidden rounded-3xl border border-border bg-card">
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      width={image.width}
-                      height={image.height}
-                      loading="lazy"
-                      className="h-full w-full object-cover"
-                    />
+                    <ProjectMediaPreview media={image} className="h-full w-full bg-black object-cover" />
                   </figure>
                 ))}
               </div>
