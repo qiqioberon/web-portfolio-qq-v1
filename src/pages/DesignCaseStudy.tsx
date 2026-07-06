@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
-import { ArrowLeft, ArrowUpRight, Globe2, Instagram } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Globe2, Instagram, Maximize2 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
-import DesignLightbox from "@/components/design/DesignLightbox";
+import { ImageLightbox } from "@/components/ImageLightbox";
 import Footer from "@/components/sections/Footer";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -19,11 +19,10 @@ const DesignHeader = () => (
     <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-4">
       <Link
         to="/"
-        className="inline-flex items-center gap-3 rounded-full text-sm font-semibold text-foreground outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="inline-flex rounded-full p-1 text-foreground outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         aria-label="Go to portfolio homepage"
       >
         <img src="/logo/dark.svg" alt="" className="h-8 w-8" />
-        <span>Qiqi</span>
       </Link>
       <a
         href="/#design"
@@ -58,7 +57,7 @@ const GalleryImageButton = ({
   <button
     type="button"
     onClick={() => onOpen(index)}
-    data-design-image-index={index}
+    data-lightbox-image-index={index}
     className={cn(
       "group relative overflow-hidden rounded-2xl border border-border bg-[#121827] text-left outline-none transition-colors hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
       className,
@@ -77,8 +76,8 @@ const GalleryImageButton = ({
       )}
     />
     <span className="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
-      Expand
-      <ArrowUpRight className="h-3 w-3" aria-hidden="true" />
+      View image
+      <Maximize2 className="h-3 w-3" aria-hidden="true" />
     </span>
   </button>
 );
@@ -209,10 +208,13 @@ const DesignCollectionGallery = ({
 
 const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
   const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
-  const allImages = useMemo(
-    () => project.collections.flatMap((collection) => collection.images),
-    [project],
-  );
+  const allImages = useMemo(() => {
+    const uniqueImages = new Map<string, DesignImage>();
+    [...project.coverImages, ...project.collections.flatMap((collection) => collection.images)].forEach((image) => {
+      if (!uniqueImages.has(image.src)) uniqueImages.set(image.src, image);
+    });
+    return Array.from(uniqueImages.values());
+  }, [project]);
 
   usePageMetadata({
     title: `${project.title} — Qiqi`,
@@ -292,10 +294,13 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
                 )}
               >
                 {project.coverImages.map((image, index) => (
-                  <div
+                  <button
+                    type="button"
                     key={image.src}
+                    onClick={() => setActiveImageIndex(getImageIndex(image.src))}
+                    data-lightbox-image-index={getImageIndex(image.src)}
                     className={cn(
-                      "overflow-hidden rounded-2xl border border-white/10 shadow-2xl",
+                      "group relative cursor-zoom-in overflow-hidden rounded-2xl border border-white/10 text-left shadow-2xl outline-none transition-colors hover:border-primary/50 focus-visible:ring-2 focus-visible:ring-ring",
                       project.coverLayout === "square-triptych" &&
                         (index === 1 ? "-translate-y-6" : "translate-y-6"),
                       project.coverLayout === "portrait-grid" &&
@@ -309,7 +314,7 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
                       height={image.height}
                       loading="eager"
                       className={cn(
-                        "h-full w-full object-cover",
+                        "h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015] group-focus-visible:scale-[1.015]",
                         project.coverLayout === "landscape-grid"
                           ? "aspect-video"
                           : project.coverLayout === "portrait-grid"
@@ -317,7 +322,11 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
                             : "aspect-square",
                       )}
                     />
-                  </div>
+                    <span className="pointer-events-none absolute bottom-2 right-2 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/70 px-2.5 py-1 font-mono text-[9px] uppercase tracking-wider text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                      View image
+                      <Maximize2 className="h-3 w-3" aria-hidden="true" />
+                    </span>
+                  </button>
                 ))}
               </div>
             </div>
@@ -472,7 +481,7 @@ const DesignCaseStudyContent = ({ project }: { project: DesignProject }) => {
       </main>
 
       <Footer />
-      <DesignLightbox
+      <ImageLightbox
         images={allImages}
         galleryTitle={`${project.title} design gallery`}
         activeIndex={activeImageIndex}

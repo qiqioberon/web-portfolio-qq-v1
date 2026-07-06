@@ -1,15 +1,18 @@
-import { ArrowLeft, ArrowUp, ExternalLink, Github } from "lucide-react";
-import type { ReactNode } from "react";
+import { ArrowLeft, ArrowUp, ExternalLink, Github, Maximize2 } from "lucide-react";
+import { useMemo, useState, type ReactNode } from "react";
 import { Link, useParams } from "react-router-dom";
+import { ImageLightbox } from "@/components/ImageLightbox";
 import Footer from "@/components/sections/Footer";
 import { Button } from "@/components/ui/button";
 import {
   getProjectBySlug,
   type ProjectArchitecture,
   type ProjectCaseStudy,
+  type ProjectImage,
   type ProjectMedia,
 } from "@/data/projects";
 import { usePageMetadata } from "@/hooks/usePageMetadata";
+import { cn } from "@/lib/utils";
 import NotFound from "./NotFound";
 
 const SectionEyebrow = ({ children }: { children: ReactNode }) => (
@@ -23,9 +26,13 @@ const SectionTitle = ({ children }: { children: ReactNode }) => (
 const ProjectMediaPreview = ({
   media,
   className,
+  imageIndex,
+  onImageOpen,
 }: {
   media: ProjectMedia;
   className: string;
+  imageIndex?: number;
+  onImageOpen?: (index: number) => void;
 }) => {
   if (media.kind === "video") {
     return (
@@ -45,28 +52,49 @@ const ProjectMediaPreview = ({
     );
   }
 
-  return (
+  const image = (
     <img
       src={media.src}
       alt={media.alt}
       width={media.width}
       height={media.height}
       loading="lazy"
-      className={className}
+      className={cn(className, onImageOpen && "transition-transform duration-500 group-hover:scale-[1.015] group-focus-visible:scale-[1.015]")}
     />
   );
+
+  if (onImageOpen && imageIndex !== undefined) {
+    return (
+      <button
+        type="button"
+        onClick={() => onImageOpen(imageIndex)}
+        data-lightbox-image-index={imageIndex}
+        className="group relative block h-full w-full cursor-zoom-in overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+        aria-label={`View full-size image: ${media.alt}`}
+      >
+        {image}
+        <span className="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+          View image
+          <Maximize2 className="h-3 w-3" aria-hidden="true" />
+        </span>
+      </button>
+    );
+  }
+
+  return image;
 };
+
+const isProjectImage = (media: ProjectMedia): media is ProjectImage => media.kind !== "video";
 
 const ProjectHeader = () => (
   <header className="sticky top-0 z-50 border-b border-border bg-background/85 backdrop-blur-xl">
     <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
       <Link
         to="/"
-        className="inline-flex items-center gap-3 rounded-full text-sm font-semibold text-foreground outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+        className="inline-flex rounded-full p-1 text-foreground outline-none transition-colors hover:text-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         aria-label="Go to portfolio homepage"
       >
         <img src="/logo/dark.svg" alt="" className="h-8 w-8" />
-        <span>Qiqi</span>
       </Link>
       <a
         href="/#works"
@@ -140,6 +168,15 @@ const ArchitectureDiagram = ({
 );
 
 const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => {
+  const [activeImageIndex, setActiveImageIndex] = useState<number | null>(null);
+  const projectImages = useMemo(() => {
+    const uniqueImages = new Map<string, ProjectImage>();
+    [project.cover, ...project.gallery.filter(isProjectImage)].forEach((image) => {
+      if (!uniqueImages.has(image.src)) uniqueImages.set(image.src, image);
+    });
+    return Array.from(uniqueImages.values());
+  }, [project]);
+  const getImageIndex = (src: string) => projectImages.findIndex((image) => image.src === src);
   const noticeClasses =
     project.disclaimerVariant === "info"
       ? "border-cyan-300/30 bg-cyan-300/10 text-cyan-50"
@@ -222,15 +259,27 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
               </div>
 
               <div className="overflow-hidden rounded-3xl border border-border bg-card shadow-2xl shadow-primary/10">
-                <img
-                  src={project.cover.src}
-                  alt={project.cover.alt}
-                  width={project.cover.width}
-                  height={project.cover.height}
-                  loading="eager"
-                  fetchPriority="high"
-                  className="h-full w-full object-cover"
-                />
+                <button
+                  type="button"
+                  onClick={() => setActiveImageIndex(getImageIndex(project.cover.src))}
+                  data-lightbox-image-index={getImageIndex(project.cover.src)}
+                  className="group relative block h-full w-full cursor-zoom-in overflow-hidden text-left outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring"
+                  aria-label={`View full-size image: ${project.cover.alt}`}
+                >
+                  <img
+                    src={project.cover.src}
+                    alt={project.cover.alt}
+                    width={project.cover.width}
+                    height={project.cover.height}
+                    loading="eager"
+                    fetchPriority="high"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.015] group-focus-visible:scale-[1.015]"
+                  />
+                  <span className="pointer-events-none absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-black/70 px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider text-white opacity-0 backdrop-blur transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100">
+                    View image
+                    <Maximize2 className="h-3 w-3" aria-hidden="true" />
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -390,6 +439,8 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
                     <div className={index % 2 === 1 ? "lg:order-2" : undefined}>
                       <ProjectMediaPreview
                         media={image}
+                        imageIndex={image.kind === "video" ? undefined : getImageIndex(image.src)}
+                        onImageOpen={image.kind === "video" ? undefined : setActiveImageIndex}
                         className="h-auto w-full border-b border-border bg-black object-contain lg:h-full lg:border-b-0"
                       />
                     </div>
@@ -419,7 +470,12 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
               <div className="mt-10 grid gap-6 lg:grid-cols-3">
                 {project.gallery.map((image) => (
                   <figure key={image.src} className="overflow-hidden rounded-3xl border border-border bg-card">
-                    <ProjectMediaPreview media={image} className="h-full w-full bg-black object-cover" />
+                    <ProjectMediaPreview
+                      media={image}
+                      imageIndex={image.kind === "video" ? undefined : getImageIndex(image.src)}
+                      onImageOpen={image.kind === "video" ? undefined : setActiveImageIndex}
+                      className="h-full w-full bg-black object-cover"
+                    />
                   </figure>
                 ))}
               </div>
@@ -481,6 +537,12 @@ const ProjectCaseStudyContent = ({ project }: { project: ProjectCaseStudy }) => 
         <ArrowUp className="h-5 w-5" aria-hidden="true" />
       </button>
       <Footer />
+      <ImageLightbox
+        images={projectImages}
+        galleryTitle={`${project.title} image gallery`}
+        activeIndex={activeImageIndex}
+        onActiveIndexChange={setActiveImageIndex}
+      />
     </div>
   );
 };
