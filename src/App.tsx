@@ -8,12 +8,25 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ProjectCaseStudy from "./pages/ProjectCaseStudy";
 import DesignCaseStudy from "./pages/DesignCaseStudy";
+import TargetCursor from "./components/TargetCursor";
 
 const queryClient = new QueryClient();
+const CURSOR_TARGETS = [
+  "a[href]:not([data-cursor-ignore])",
+  "button:not(:disabled):not([data-cursor-ignore])",
+  '[role="button"]:not([aria-disabled="true"]):not([data-cursor-ignore])',
+].join(", ");
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <TargetCursor
+        targetSelector={CURSOR_TARGETS}
+        spinDuration={2.4}
+        hoverDuration={0.22}
+        cursorColor="#e6faff"
+        cursorColorOnTarget="#22d3ee"
+      />
       <Toaster />
       <Sonner />
       <BrowserRouter>

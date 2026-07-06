@@ -1,7 +1,18 @@
 import { useEffect, useRef } from "react";
 import { ArrowDown } from "lucide-react";
+import BlurText from "@/components/BlurText";
+import Galaxy from "@/components/Galaxy";
+import TextType from "@/components/TextType";
 import { Button } from "@/components/ui/button";
 import { gsap } from "@/hooks/useGSAP";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
+const TYPEWRITER_PHRASES = [
+	"Playful Web",
+	"Intuitive Mobile",
+	"AI-Powered",
+	"Data-Driven",
+];
 
 const Hero = () => {
 	const sectionRef = useRef<HTMLElement>(null);
@@ -10,65 +21,12 @@ const Hero = () => {
 	const subtitleRef = useRef<HTMLParagraphElement>(null);
 	const ctaRef = useRef<HTMLDivElement>(null);
 	const scrollIndicatorRef = useRef<HTMLDivElement>(null);
+	const prefersReducedMotion = usePrefersReducedMotion();
 
 	useEffect(() => {
 		const ctx = gsap.context(() => {
-			// Timeline for hero entrance
-			const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
+			if (prefersReducedMotion) return;
 
-			// Tag animation
-			tl.fromTo(
-				tagRef.current,
-				{ opacity: 0, y: 30 },
-				{ opacity: 1, y: 0, duration: 1 },
-			);
-
-			// Split headline into lines and animate
-			if (headlineRef.current) {
-				const lines = headlineRef.current.querySelectorAll(".hero-line");
-				tl.fromTo(
-					lines,
-					{
-						opacity: 0,
-						y: 100,
-						skewY: 7,
-					},
-					{
-						opacity: 1,
-						y: 0,
-						skewY: 0,
-						duration: 1.2,
-						stagger: 0.15,
-					},
-					"-=0.5",
-				);
-			}
-
-			// Subtitle
-			tl.fromTo(
-				subtitleRef.current,
-				{ opacity: 0, y: 30 },
-				{ opacity: 1, y: 0, duration: 1 },
-				"-=0.6",
-			);
-
-			// CTA buttons
-			tl.fromTo(
-				ctaRef.current?.children || [],
-				{ opacity: 0, y: 20 },
-				{ opacity: 1, y: 0, duration: 0.8, stagger: 0.1 },
-				"-=0.4",
-			);
-
-			// Scroll indicator
-			tl.fromTo(
-				scrollIndicatorRef.current,
-				{ opacity: 0 },
-				{ opacity: 1, duration: 0.6 },
-				"-=0.2",
-			);
-
-			// Parallax on scroll
 			gsap.to(headlineRef.current, {
 				y: 90,
 				ease: "none",
@@ -81,7 +39,6 @@ const Hero = () => {
 				},
 			});
 
-			// Keep content visible longer and fade only when the section is near exit
 			gsap.to([tagRef.current, subtitleRef.current, ctaRef.current], {
 				opacity: 0.35,
 				y: -20,
@@ -97,7 +54,7 @@ const Hero = () => {
 		}, sectionRef);
 
 		return () => ctx.revert();
-	}, []);
+	}, [prefersReducedMotion]);
 
 	const scrollToWorks = () => {
 		document.getElementById("works")?.scrollIntoView({ behavior: "smooth" });
@@ -106,62 +63,90 @@ const Hero = () => {
 	return (
 		<section
 			ref={sectionRef}
-			className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden"
+			className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
 		>
-			{/* Background gradient */}
-			<div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/20" />
-
-			{/* Subtle grid pattern */}
+			<div className="absolute inset-0 bg-background" aria-hidden="true">
+				<Galaxy
+					density={0.85}
+					starSpeed={0.35}
+					hueShift={155}
+					speed={0.45}
+					glowIntensity={0.25}
+					saturation={0.35}
+					twinkleIntensity={0.22}
+					rotationSpeed={0.025}
+					repulsionStrength={0.7}
+					disableAnimation={prefersReducedMotion}
+					mouseInteraction={!prefersReducedMotion}
+				/>
+			</div>
 			<div
-				className="absolute inset-0 opacity-[0.02]"
-				style={{
-					backgroundImage: `linear-gradient(hsl(var(--foreground)) 1px, transparent 1px),
-                           linear-gradient(90deg, hsl(var(--foreground)) 1px, transparent 1px)`,
-					backgroundSize: "100px 100px",
-				}}
+				className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background)/0.18)_45%,hsl(var(--background)/0.88)_100%)]"
+				aria-hidden="true"
+			/>
+			<div
+				className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/25 via-background/10 to-background"
+				aria-hidden="true"
 			/>
 
-			{/* Glow effect */}
-			<div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
-
-			<div className="relative z-10 max-w-5xl mx-auto text-center">
-				{/* Tag */}
-				<div ref={tagRef} className="mb-8 opacity-0">
-					<span className="inline-block px-4 py-2 rounded-full border border-border bg-card/50 text-sm text-muted-foreground font-mono tracking-wider uppercase">
+			<div className="relative z-10 mx-auto max-w-5xl text-center">
+				<div ref={tagRef} className="mb-8">
+					<span className="inline-block rounded-full border border-border bg-card/70 px-4 py-2 font-mono text-sm uppercase tracking-wider text-muted-foreground backdrop-blur-sm">
 						Graphic Designer & Software Engineer
 					</span>
 				</div>
 
-				{/* Main headline */}
 				<h1
 					ref={headlineRef}
-					className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight mb-8 overflow-hidden"
+					className="mb-8 text-4xl font-black leading-[0.9] tracking-tight sm:text-6xl md:text-7xl lg:text-8xl"
+					aria-label="Crafting Bold and Playful Web Experiences"
 				>
-					<span className="hero-line block overflow-hidden">
-						<span className="inline-block">Crafting Bold &</span>
-					</span>
-					<span className="hero-line block overflow-hidden">
-						<span className="inline-block text-gradient">Playful Web</span>
-					</span>
-					<span className="hero-line block overflow-hidden">
-						<span className="inline-block">Experiences</span>
+					<span aria-hidden="true">
+						<BlurText
+							as="span"
+							text="Crafting Bold &"
+							animateBy="words"
+							direction="bottom"
+							delay={90}
+							className="justify-center"
+						/>
+						<span className="flex min-h-[1.05em] items-center justify-center overflow-hidden">
+							<TextType
+								as="span"
+								text={TYPEWRITER_PHRASES}
+								typingSpeed={68}
+								deletingSpeed={36}
+								initialDelay={900}
+								pauseDuration={1600}
+								variableSpeed={{ min: 45, max: 90 }}
+								cursorCharacter="_"
+								className="text-gradient"
+								cursorClassName="text-primary"
+							/>
+						</span>
+						<BlurText
+							as="span"
+							text="Experiences"
+							animateBy="words"
+							direction="bottom"
+							delay={90}
+							className="justify-center"
+						/>
 					</span>
 				</h1>
 
-				{/* Subtitle */}
 				<p
 					ref={subtitleRef}
-					className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-12 leading-relaxed opacity-0 font-mono"
+					className="mx-auto mb-12 max-w-2xl font-mono text-lg leading-relaxed text-muted-foreground md:text-xl"
 				>
 					I'm Aqil — a freelance Graphic Designer and Software Engineer
 					passionate about creating immersive digital experiences that captivate
 					and convert.
 				</p>
 
-				{/* CTA */}
 				<div
 					ref={ctaRef}
-					className="flex flex-col sm:flex-row items-center justify-center gap-4"
+					className="flex flex-col items-center justify-center gap-4 sm:flex-row"
 				>
 					<Button
 						onClick={scrollToWorks}
@@ -174,7 +159,7 @@ const Hero = () => {
 					<Button
 						variant="outline"
 						size="lg"
-						className="px-8 py-6 text-lg font-semibold border-border hover:bg-card hover:border-primary/50"
+						className="border-border bg-background/30 px-8 py-6 text-lg font-semibold backdrop-blur-sm hover:border-primary/50 hover:bg-card"
 						onClick={() =>
 							document
 								.getElementById("contact")
@@ -186,13 +171,12 @@ const Hero = () => {
 				</div>
 			</div>
 
-			{/* Scroll indicator */}
 			<div
 				ref={scrollIndicatorRef}
-				className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0"
+				className="absolute bottom-8 left-1/2 -translate-x-1/2"
 			>
-				<div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex justify-center pt-2">
-					<div className="w-1 h-2 bg-muted-foreground/50 rounded-full animate-bounce" />
+				<div className="flex h-10 w-6 justify-center rounded-full border-2 border-muted-foreground/30 pt-2">
+					<div className="h-2 w-1 animate-bounce rounded-full bg-muted-foreground/50 motion-reduce:animate-none" />
 				</div>
 			</div>
 		</section>
