@@ -1,11 +1,14 @@
-import { useEffect, useRef } from "react";
+import { lazy, Suspense, useEffect, useRef, useState } from "react";
 import { ArrowDown } from "lucide-react";
 import BlurText from "@/components/BlurText";
-import Galaxy from "@/components/Galaxy";
 import TextType from "@/components/TextType";
 import { Button } from "@/components/ui/button";
+import { useBootState } from "@/hooks/useBootState";
 import { gsap } from "@/hooks/useGSAP";
 import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+
+const Galaxy = lazy(() => import("@/components/Galaxy"));
+const GALAXY_START_DELAY_MS = 260;
 
 const TYPEWRITER_PHRASES = [
 	"Playful Web",
@@ -22,6 +25,22 @@ const Hero = () => {
 	const ctaRef = useRef<HTMLDivElement>(null);
 	const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 	const prefersReducedMotion = usePrefersReducedMotion();
+	const { isBooting } = useBootState();
+	const [shouldRenderGalaxy, setShouldRenderGalaxy] = useState(false);
+
+	useEffect(() => {
+		if (isBooting || prefersReducedMotion) {
+			setShouldRenderGalaxy(false);
+			return;
+		}
+
+		const timer = window.setTimeout(
+			() => setShouldRenderGalaxy(true),
+			GALAXY_START_DELAY_MS,
+		);
+
+		return () => window.clearTimeout(timer);
+	}, [isBooting, prefersReducedMotion]);
 
 	useEffect(() => {
 		const ctx = gsap.context(() => {
@@ -66,19 +85,30 @@ const Hero = () => {
 			className="relative flex min-h-screen items-center justify-center overflow-hidden px-6"
 		>
 			<div className="absolute inset-0 bg-background" aria-hidden="true">
-				<Galaxy
-					density={0.85}
-					starSpeed={0.35}
-					hueShift={155}
-					speed={0.45}
-					glowIntensity={0.25}
-					saturation={0.35}
-					twinkleIntensity={0.22}
-					rotationSpeed={0.025}
-					repulsionStrength={0.7}
-					disableAnimation={prefersReducedMotion}
-					mouseInteraction={!prefersReducedMotion}
+				<div
+					className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,hsl(var(--primary)/0.18),transparent_30%),radial-gradient(circle_at_80%_10%,rgba(168,85,247,0.14),transparent_28%),radial-gradient(circle_at_50%_75%,rgba(14,165,233,0.1),transparent_34%)]"
+					aria-hidden="true"
 				/>
+				{shouldRenderGalaxy && (
+					<Suspense fallback={null}>
+						<Galaxy
+							active
+							renderScale={0.58}
+							maxFps={30}
+							density={0.65}
+							starSpeed={0.28}
+							hueShift={155}
+							speed={0.32}
+							glowIntensity={0.2}
+							saturation={0.28}
+							twinkleIntensity={0.16}
+							rotationSpeed={0.015}
+							repulsionStrength={0.45}
+							transparent={false}
+							mouseInteraction
+						/>
+					</Suspense>
+				)}
 			</div>
 			<div
 				className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,hsl(var(--background)/0.18)_45%,hsl(var(--background)/0.88)_100%)]"
@@ -139,7 +169,7 @@ const Hero = () => {
 					ref={subtitleRef}
 					className="mx-auto mb-12 max-w-2xl font-mono text-lg leading-relaxed text-muted-foreground md:text-xl"
 				>
-					I'm Aqil — a freelance Graphic Designer and Software Engineer
+					I'm Qiqi — a freelance Graphic Designer and Software Engineer
 					passionate about creating immersive digital experiences that captivate
 					and convert.
 				</p>

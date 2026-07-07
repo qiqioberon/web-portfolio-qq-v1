@@ -9,7 +9,30 @@
 			content="Freelance Graphic Designer and Software Engineer crafting bold, playful web experiences."
 		/>
 		<meta name="author" content="Qiqi" />
+		<meta name="theme-color" content="#0c0f14" />
 		<link rel="icon" type="image/svg+xml" href="/logo/dark.svg" />
+		<style>
+			#initial-loader {
+				position: fixed;
+				inset: 0;
+				display: grid;
+				place-items: center;
+				background: #0c0f14;
+				color: #e9edf2;
+				font-family: Inter, system-ui, sans-serif;
+			}
+			#initial-loader img {
+				width: 48px;
+				height: 48px;
+				animation: initial-loader-pulse 1.2s ease-in-out infinite;
+			}
+			@keyframes initial-loader-pulse {
+				50% { opacity: 0.45; transform: scale(0.94); }
+			}
+			@media (prefers-reduced-motion: reduce) {
+				#initial-loader img { animation: none; }
+			}
+		</style>
 
 		<meta
 			property="og:title"
@@ -31,7 +54,11 @@
 	</head>
 
 	<body>
-		<div id="root"></div>
+		<div id="root">
+			<div id="initial-loader" role="status" aria-label="Loading portfolio">
+				<img src="/logo/dark.svg" alt="" />
+			</div>
+		</div>
 		<script type="module" src="/src/main.tsx"></script>
 	</body>
 </html>

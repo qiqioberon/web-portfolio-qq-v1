@@ -1,22 +1,29 @@
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import Hero from "@/components/sections/Hero";
-import Works from "@/components/sections/Works";
-import GraphicDesign from "@/components/sections/GraphicDesign";
-import Services from "@/components/sections/Services";
-import About from "@/components/sections/About";
-import Contact from "@/components/sections/Contact";
-import Footer from "@/components/sections/Footer";
 import { ScrollTrigger } from "@/hooks/useGSAP";
-import { projects } from "@/data/projects";
 import { usePageMetadata } from "@/hooks/usePageMetadata";
+
+const DeferredHomeSections = lazy(
+	() => import("@/components/DeferredHomeSections"),
+);
+
+const SectionFallback = () => (
+	<div aria-hidden="true">
+		<section id="about" className="min-h-[60vh]" />
+		<section id="works" className="min-h-screen" />
+		<section id="design" className="min-h-screen" />
+		<section id="services" className="min-h-[60vh]" />
+		<section id="contact" className="min-h-[60vh]" />
+	</div>
+);
 
 const Index = () => {
 	usePageMetadata({
 		title: "Qiqi — Web Designer & Software Engineer",
 		description:
 			"Freelance web designer and Software Engineer crafting bold, playful web experiences.",
-		image: projects[0]?.cover.src,
+		image: "/projects/coding-fantasy/website-home.webp",
 	});
 
 	useEffect(() => {
@@ -40,12 +47,9 @@ const Index = () => {
 		<main className="min-h-screen overflow-x-hidden bg-background">
 			<Navigation />
 			<Hero />
-			<About />
-			<Works />
-			<GraphicDesign />
-			<Services />
-			<Contact />
-			<Footer />
+			<Suspense fallback={<SectionFallback />}>
+				<DeferredHomeSections />
+			</Suspense>
 		</main>
 	);
 };
