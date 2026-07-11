@@ -11,7 +11,19 @@
 		<meta name="author" content="Qiqi" />
 		<meta name="theme-color" content="#0c0f14" />
 		<link rel="icon" type="image/svg+xml" href="/logo/dark.svg" />
+		<script>
+			try {
+				if (sessionStorage.getItem("qq-portfolio-boot-complete") === "true") {
+					document.documentElement.dataset.skipInitialLoader = "true";
+				}
+			} catch {
+				// Keep the fallback loader visible if session storage is unavailable.
+			}
+		</script>
 		<style>
+			html[data-skip-initial-loader="true"] #initial-loader {
+				display: none;
+			}
 			#initial-loader {
 				position: fixed;
 				inset: 0;

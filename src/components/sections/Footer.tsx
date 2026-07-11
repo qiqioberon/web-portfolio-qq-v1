@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const footerLinks = [
   { name: "Works", href: "/#works" },
   { name: "Design", href: "/#design" },
@@ -18,13 +20,13 @@ const Footer = () => {
           aria-label="Footer navigation"
         >
           {footerLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
+              to={link.href}
               className="text-sm text-muted-foreground transition-colors hover:text-foreground"
             >
               {link.name}
-            </a>
+            </Link>
           ))}
         </nav>
       </div>

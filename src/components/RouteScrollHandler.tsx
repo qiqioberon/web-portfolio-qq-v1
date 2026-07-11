@@ -2,6 +2,10 @@ import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { ScrollTrigger } from "@/hooks/useGSAP";
 
+const HASH_SCROLL_ATTEMPTS = 30;
+const HASH_SCROLL_DELAY_MS = 100;
+const HEADER_OFFSET = 96;
+
 const RouteScrollHandler = () => {
   const location = useLocation();
   const previousPathname = useRef(location.pathname);
@@ -17,81 +21,62 @@ const RouteScrollHandler = () => {
       rafs = [];
     };
 
-    const scrollToCurrentHash = () => {
-      clearScheduledScroll();
-
-      let attempts = 0;
-
-      const tryScroll = () => {
-        const currentHash = window.location.hash;
-
-        if (!currentHash) {
-          return;
-        }
-
-        const targetId = decodeURIComponent(currentHash.replace("#", ""));
-        const target = document.getElementById(targetId);
-
-        if (!target) {
-          attempts += 1;
-
-          if (attempts < 30) {
-            timeouts.push(window.setTimeout(tryScroll, 100));
-          }
-
-          return;
-        }
-
-        ScrollTrigger.refresh();
-
-        rafs.push(
-          window.requestAnimationFrame(() => {
-            rafs.push(
-              window.requestAnimationFrame(() => {
-                const headerOffset = 96;
-                const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
-                const root = document.documentElement;
-                const previousScrollBehavior = root.style.scrollBehavior;
-
-                // `behavior: "auto"` still follows the global CSS smooth-scroll
-                // setting. Temporarily disable it so ScrollTrigger refreshes cannot
-                // interrupt hash navigation before it reaches the target.
-                root.style.scrollBehavior = "auto";
-                window.scrollTo({ top: Math.max(top, 0), left: 0 });
-                root.style.scrollBehavior = previousScrollBehavior;
-                ScrollTrigger.refresh();
-                timeouts.push(window.setTimeout(() => ScrollTrigger.refresh(), 250));
-              }),
-            );
-          }),
-        );
-      };
-
-      timeouts.push(window.setTimeout(tryScroll, 100));
-    };
-
-    scrollToCurrentHash();
-    window.addEventListener("hashchange", scrollToCurrentHash);
-    window.addEventListener("load", scrollToCurrentHash);
-
-    return () => {
-      clearScheduledScroll();
-      window.removeEventListener("hashchange", scrollToCurrentHash);
-      window.removeEventListener("load", scrollToCurrentHash);
-    };
-  }, []);
-
-  useEffect(() => {
     const pathnameChanged = previousPathname.current !== location.pathname;
     previousPathname.current = location.pathname;
     const currentHash = window.location.hash || location.hash;
 
-    if (pathnameChanged && !currentHash) {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    if (!currentHash) {
+      if (pathnameChanged) {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
+
+      return clearScheduledScroll;
     }
 
-    return undefined;
-  }, [location.hash, location.pathname]);
+    let attempts = 0;
+
+    const tryScroll = () => {
+      const targetId = decodeURIComponent(currentHash.replace("#", ""));
+      const target = document.getElementById(targetId);
+
+      if (!target) {
+        attempts += 1;
+
+        if (attempts < HASH_SCROLL_ATTEMPTS) {
+          timeouts.push(window.setTimeout(tryScroll, HASH_SCROLL_DELAY_MS));
+        }
+
+        return;
+      }
+
+      ScrollTrigger.refresh();
+
+      rafs.push(
+        window.requestAnimationFrame(() => {
+          rafs.push(
+            window.requestAnimationFrame(() => {
+              const top = target.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
+              const root = document.documentElement;
+              const previousScrollBehavior = root.style.scrollBehavior;
+
+              // `behavior: "auto"` still follows the global CSS smooth-scroll
+              // setting. Temporarily disable it so ScrollTrigger refreshes cannot
+              // interrupt hash navigation before it reaches the target.
+              root.style.scrollBehavior = "auto";
+              window.scrollTo({ top: Math.max(top, 0), left: 0 });
+              root.style.scrollBehavior = previousScrollBehavior;
+              ScrollTrigger.refresh();
+              timeouts.push(window.setTimeout(() => ScrollTrigger.refresh(), 250));
+            }),
+          );
+        }),
+      );
+    };
+
+    timeouts.push(window.setTimeout(tryScroll, HASH_SCROLL_DELAY_MS));
+
+    return clearScheduledScroll;
+  }, [location.hash, location.key, location.pathname]);
 
   return null;
 };

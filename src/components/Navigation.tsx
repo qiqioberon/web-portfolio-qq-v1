@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { buttonVariants } from '@/components/ui/button';
 import { gsap } from '@/hooks/useGSAP';
 
@@ -87,33 +88,33 @@ const Navigation = () => {
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <a ref={logoRef} href="/" className="text-2xl font-black opacity-0">
+        <Link ref={logoRef} to="/" className="text-2xl font-black opacity-0">
           <img src="/logo/dark.svg" alt="Qiqi's Logo" className="w-8 h-8 inline-block mr-2" />
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav ref={linksRef} className="hidden md:flex items-center gap-7">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.name}
-              href={link.href}
+              to={link.href}
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors opacity-0"
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
             >
               {link.name}
-            </a>
+            </Link>
           ))}
         </nav>
 
         {/* CTA Button */}
-        <a
+        <Link
           ref={ctaRef}
-          href="/#contact"
+          to="/#contact"
           className={buttonVariants({ size: 'sm', className: 'hidden md:inline-flex glow-sm opacity-0' })}
         >
           Discuss a Project
-        </a>
+        </Link>
 
         {/* Mobile Menu Button */}
         <button
@@ -130,22 +131,22 @@ const Navigation = () => {
         <div className="md:hidden bg-background border-b border-border">
           <nav className="flex flex-col px-6 py-4">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.name}
-                href={link.href}
+                to={link.href}
                 className="py-3 text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
-            <a
-              href="/#contact"
+            <Link
+              to="/#contact"
               className={buttonVariants({ size: 'sm', className: 'mt-4 glow-sm' })}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Discuss a Project
-            </a>
+            </Link>
           </nav>
         </div>
       )}

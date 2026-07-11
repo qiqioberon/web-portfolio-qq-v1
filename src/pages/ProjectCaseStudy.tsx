@@ -96,13 +96,13 @@ const ProjectHeader = () => (
       >
         <img src="/logo/dark.svg" alt="" className="h-8 w-8" />
       </Link>
-      <a
-        href="/#works"
+      <Link
+        to="/#works"
         className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-2 text-sm font-medium text-muted-foreground transition-colors hover:border-primary/60 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
       >
         <ArrowLeft className="h-4 w-4" aria-hidden="true" />
         Back to Portfolio
-      </a>
+      </Link>
     </div>
   </header>
 );

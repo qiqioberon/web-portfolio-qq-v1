@@ -15,15 +15,35 @@ const ProjectCaseStudy = lazy(() => import("./pages/ProjectCaseStudy"));
 const DesignCaseStudy = lazy(() => import("./pages/DesignCaseStudy"));
 
 const queryClient = new QueryClient();
+const BOOT_SESSION_STORAGE_KEY = "qq-portfolio-boot-complete";
 const CURSOR_TARGETS = [
   "a[href]:not([data-cursor-ignore])",
   "button:not(:disabled):not([data-cursor-ignore])",
   '[role="button"]:not([aria-disabled="true"]):not([data-cursor-ignore])',
 ].join(", ");
 
+const hasCompletedBootThisSession = () => {
+  try {
+    return window.sessionStorage.getItem(BOOT_SESSION_STORAGE_KEY) === "true";
+  } catch {
+    return false;
+  }
+};
+
+const markBootCompleteForSession = () => {
+  try {
+    window.sessionStorage.setItem(BOOT_SESSION_STORAGE_KEY, "true");
+  } catch {
+    // Storage can be unavailable in private or restricted browser contexts.
+  }
+};
+
 const App = () => {
-  const [isBooting, setIsBooting] = useState(true);
-  const finishBoot = useCallback(() => setIsBooting(false), []);
+  const [isBooting, setIsBooting] = useState(() => !hasCompletedBootThisSession());
+  const finishBoot = useCallback(() => {
+    markBootCompleteForSession();
+    setIsBooting(false);
+  }, []);
   const bootState = useMemo(() => ({ isBooting }), [isBooting]);
 
   return (
